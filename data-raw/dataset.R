@@ -1,3 +1,6 @@
-## code to prepare `dataset` dataset goes here
+# data-raw/dataset.R
 
-usethis::use_data(dataset, overwrite = TRUE)
+KScams <- read.csv("data-raw/KansasCamera_data.csv")
+
+usethis::use_data(KScams, overwrite = TRUE)
+
