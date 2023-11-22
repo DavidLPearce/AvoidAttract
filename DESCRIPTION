@@ -3,8 +3,8 @@ Type: Package
 Title: Calculates Avoidance-Attraction Ratios from detection data with timestamps
 Version: 0.1.0
 Author: David L. Pearce, Ty J. Werdel, Arielle Waldstein Parsons, Christina Bland, Tavis Forrester, Megan C. Baker-Whatton, Stephanie G. Schuttler, William J. McShea, Robert Costello, Roland Kays
-Maintainer: The package maintainer <davepearce@>
-Description: Investigate the temporal avoidance or attraction of species using the time between detections of species 1 and species 2 (or speceis 2) to investigate species interactions.
+Maintainer: The package maintainer <davepearce@tamu.edu>
+Description: Investigate the temporal avoidance or attraction of species using the time between detections of species 1 and species 2 (or speceis 1) to investigate species interactions.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
