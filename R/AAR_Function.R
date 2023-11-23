@@ -1,0 +1,85 @@
+
+# Load required libraries
+library(dplyr)
+library(lubridate)
+
+
+# Data
+data("KScams")
+
+# Convert the numeric timestamps to a POSIXct object (timestamps in seconds since the epoch)
+KScams$DateTime  <- as.POSIXct(KScams$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%OS")
+
+unique(KScams$Common_name)
+
+# Define the two target species
+species_1 <- "White-Tailed Deer"
+species_2 <- "Coyote"
+
+calculate_time_differences(data = KScams, prey_species = "White-Tailed Deer", predator_species = "Coyote",
+                           timestamp_col = DateTime, site_col = Site)
+
+calculate_time_differences <- function(data, prey_species, predator_species, timestamp_col, site_col) {
+  # Subset data for the specific site
+  site_data <- data %>% filter(data[[site_col]] == unique(data[[site_col]]))
+
+  # Subset data for prey and predator species
+  preys <- site_data %>% filter(site_data[[species_col]] == prey_species)
+  predators <- site_data %>% filter(site_data[[species_col]] == predator_species)
+
+  if (nrow(preys) <= 1 || nrow(predators) <= 1) {
+    # Skip calculations if there are 1 or fewer observations
+    return(rep(NA, 6))
+  }
+
+  T1 <- as.numeric(predators[[timestamp_col]][1] - preys[[timestamp_col]])
+  T2 <- as.numeric(preys[[timestamp_col]] - predators[[timestamp_col]][length(predators[[timestamp_col]])])
+  T3 <- diff(as.numeric(preys[[timestamp_col]]))
+  T4 <- c(diff(as.numeric(predators[[timestamp_col]])), NA)
+
+  T1_average <- mean(T1, na.rm = TRUE)
+  T2_average <- mean(T2, na.rm = TRUE)
+  T3_average <- mean(T3, na.rm = TRUE)
+  T4_average <- mean(T4, na.rm = TRUE)
+  T2_over_T1 <- T2_average / T1_average
+  T4_over_T3 <- T4_average / T3_average
+
+  return(c(T1_average, T2_average, T3_average, T4_average, T2_over_T1, T4_over_T3))
+}
+
+
+
+
+
+
+# Example usage
+result <- data.frame(site = character(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric(), T2_over_T1 = numeric(), T4_over_T3 = numeric())
+
+
+camera_data<-KScams
+
+# Iterate over sites
+unique_sites <- unique(camera_data$Site)
+for (site in unique_sites) {
+  # Filter data for deer and coyote detections
+  site_data <- camera_data %>% filter(Site == site)
+
+  # Calculate time differences only if there are sufficient observations
+  if (nrow(site_data) > 0) {
+    # Calculate time differences
+    result_row <- calculate_time_differences(site_data, "deer", "coyote", "timestamp", "site")
+
+    # Store results for the site
+    result <- rbind(result, c(site, result_row))
+  }
+}
+
+# Total summary
+total_summary <- colMeans(result[, -1], na.rm = TRUE)
+total_summary <- c("Total", total_summary)
+
+# Combine results
+result <- rbind(result, total_summary)
+
+# Display the result
+print(result)
