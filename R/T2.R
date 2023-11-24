@@ -59,10 +59,10 @@ T2 <- function(data, species1, species2, species_col, datetime_col, site_col, un
           third_species_time <- year_data[[datetime_col]][row + 2]
 
           # Calculate the time difference
-          time_difference2 <- difftime(third_species_time, next_species_time, units = unitTime)
+          time_difference <- difftime(third_species_time, next_species_time, units = unitTime)
 
           # Saving that interaction
-          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T2 = time_difference2))
+          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T2 = time_difference))
         }
       }
     }
