@@ -1,8 +1,8 @@
-# Function is for calculating the time from species 2 until species 1
-# after a T1 event occured for all sites and all years within a dataframe.
-# The function will return the average of all T2 events within that year for that site,
+# Function is for calculating the time from species 1 until
+# species 1 without species 2 appearing between detections of species 1.
+# The function will return the average of all T3 events within that year for that site,
 # every time that an interaction occurred (detailed_result), the summary by year and the total summary.
-T2 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime) {
+T3 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime) {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
@@ -19,13 +19,13 @@ T2 <- function(data, species1, species2, species_col, datetime_col, site_col, un
   species_data <- species_data[order(species_data[[site_col]], species_data[[datetime_col]]), ]
 
   # Results dataframe
-  detailed_result <- data.frame(Site = character(), Year = integer(), T2 = numeric())
+  detailed_result <- data.frame(Site = character(), Year = integer(), T3 = numeric())
 
   # Iterate over all sites
   for (site in unique(species_data[[site_col]]))  {
 
     # temporary data frame for that site
-    temp_result <- data.frame(Site = character(), Year = integer(), T2 = numeric())
+    temp_result <- data.frame(Site = character(), Year = integer(), T3 = numeric())
 
     # Subsetting data by iteration
     site_data <- species_data[species_data[[site_col]] == site, ]
@@ -49,20 +49,18 @@ T2 <- function(data, species1, species2, species_col, datetime_col, site_col, un
       for (row in 1:(nrow(year_data) - 1)) {
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
-        third_species <- year_data[[species_col]][row + 2]
 
-        if (!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species == species1 && next_species == species2 && third_species == species1) {
+        if (!is.na(current_species) && !is.na(next_species) &&
+            current_species == species1 && next_species == species1 ) {
           # Species 1 detection followed by species 2 followed by species 1 detection
           current_species_time <- year_data[[datetime_col]][row]
           next_species_time <- year_data[[datetime_col]][row + 1]
-          third_species_time <- year_data[[datetime_col]][row + 2]
 
           # Calculate the time difference
-          time_difference2 <- difftime(third_species_time, next_species_time, units = unitTime)
+          time_difference3 <- difftime(next_species_time, current_species_time, units = unitTime)
 
           # Saving that interaction
-          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T2 = time_difference2))
+          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T3 = time_difference3))
         }
       }
     }
@@ -77,7 +75,7 @@ T2 <- function(data, species1, species2, species_col, datetime_col, site_col, un
   detailed_result$Year <- as.integer(detailed_result$Year)
 
   # Summarize results by taking the mean for each year at a site
-  year_result <- aggregate(T2 ~ Site + Year, data = detailed_result, FUN = mean, na.rm = TRUE)
+  year_result <- aggregate(T3 ~ Site + Year, data = detailed_result, FUN = mean, na.rm = TRUE)
 
   # Sort the year_result by ascending site number
   year_result <- year_result[order(year_result$Site), ]
@@ -94,18 +92,7 @@ T2 <- function(data, species1, species2, species_col, datetime_col, site_col, un
 
 
 # Example use
-T2_test <- T2(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
+T3_test <- T3(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
               species_col = "Common_name", datetime_col = "DateTime", site_col ="Site",
               unitTime = "hours")
-
-
-
-
-
-
-
-
-
-
-
 
