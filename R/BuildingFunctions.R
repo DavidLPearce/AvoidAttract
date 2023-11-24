@@ -19,7 +19,7 @@ KScams <- KScams[order(KScams$Site, KScams$Year, KScams$DateTime),]
 unique(KScams$Common_name)
 
 # Define the two target species
-species_1 <- "Coyote"
+species_1 <- "White-Tailed Deer"
 species_2 <- "Coyote"
 
 # Filter data for species 1 and species 2 and combine them
@@ -45,10 +45,11 @@ result_data <- data.frame(Site_Name = character(),
 
 # Loop through each site of the combined species data
 for (site in unique(KScams_sub$Site)) {
+
   # Subset the data for the current site
   site_data <- KScams_sub[which(KScams_sub$Site == site),]
 
-  # Organizing site information
+  # Organizing site information by site and time
   site_data <- site_data[order(site_data$Site, site_data$DateTime),]
 
   # Warning if 1 or fewer observations for a site are entered
@@ -57,9 +58,10 @@ for (site in unique(KScams_sub$Site)) {
     warning("At least one site only has one or fewer observations for species presented. Will not be able to report on that site.")
     next
   }
-
+  if (nrow(site_data >= 1) == TRUE){
   # Loop through the data for each site to find consecutive detections
   for (i in 1:(nrow(site_data) - 1)) {
+  }
     current_species <- site_data$Common_name[i]
     next_species <- site_data$Common_name[i + 1]
     current_year <- site_data$Year[i]
@@ -84,6 +86,8 @@ for (site in unique(KScams_sub$Site)) {
     }
   }
 }
+}
+
 
 # Print the result
 print(result_data)
@@ -93,5 +97,13 @@ spp1_spp2 <- mean(result_data$TimeBetweenDetections)
 spp1_spp2
 
 
+# T1 = Time Prey > Pred
 
+
+
+
+
+# T2 = Time Pred > Prey
+# T3 = Time Prey > Prey no pred imbetween
+# T4 = Time Prey > Pred > Prey (T1 and T2 )
 
