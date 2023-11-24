@@ -1,25 +1,6 @@
 # Function is for calculating the time from species 1 until species 2 for all sites and all years within a dataframe
 # The function will return the median of all T1 events within that year for that site,
 # every time that an interaction occurred and the total summary
-
-
-
-# Convert the numeric timestamps to a POSIXct object (timestamps in seconds since the epoch)
-data("KScams")
-KScams$DateTime  <- as.POSIXct(KScams$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%OS") # this is very important step
-
-data = KScams
-species1 ="White-Tailed Deer"
-species2 = "Coyote"
-site_col = "Site"
-datetime_col = "DateTime"
-species_col = "Common_name"
-site = 1
-year = 2018
-row = 12
-
-
-
 T1 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime) {
 
   # Check if required columns exist
@@ -68,16 +49,17 @@ T1 <- function(data, species1, species2, species_col, datetime_col, site_col, un
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
 
-        if (current_species == species1 && next_species == species2) {
+        if (!is.na(current_species) && !is.na(next_species) &&
+            current_species == species1 && next_species == species2) {
           # Species 1 detection followed by Species 2
           current_species_time <- year_data[[datetime_col]][row]
           next_species_time <- year_data[[datetime_col]][row + 1]
 
           # Calculate the time difference
-          time_difference <- difftime(next_species_time, current_species_time, units = unitTime)
+          time_difference1 <- difftime(next_species_time, current_species_time, units = unitTime)
 
           # Saving that interaction
-          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T1 = time_difference))
+          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T1 = time_difference1))
         }
       }
     }
@@ -94,6 +76,9 @@ T1 <- function(data, species1, species2, species_col, datetime_col, site_col, un
   # Summarize results by taking the mean for each year at a site
   year_result <- aggregate(T1 ~ Site + Year, data = detailed_result, FUN = mean, na.rm = TRUE)
 
+  # Sort the year_result by ascending site number
+  year_result <- year_result[order(year_result$Site), ]
+
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_result[, -c(1, 2)], na.rm = TRUE)
 
@@ -104,14 +89,10 @@ T1 <- function(data, species1, species2, species_col, datetime_col, site_col, un
 }
 
 
-# -------------
-
-
-data(KScams)
-
+# Example use
 T1_test <- T1(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
                 species_col = "Common_name", datetime_col = "DateTime", site_col ="Site",
                 unitTime = "hours")
 
-T1_test
+
 
