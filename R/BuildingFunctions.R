@@ -61,7 +61,7 @@ for (site in unique(KScams_sub$Site)) {
   if (nrow(site_data >= 1) == TRUE){
   # Loop through the data for each site to find consecutive detections
   for (i in 1:(nrow(site_data) - 1)) {
-  }
+
     current_species <- site_data$Common_name[i]
     next_species <- site_data$Common_name[i + 1]
     current_year <- site_data$Year[i]
