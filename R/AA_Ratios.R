@@ -20,7 +20,7 @@ species2 = "Coyote"
 
 
 ### -------------------------------
-AAR <- function(data, species1, species2, datetime_col, site_col, species_col) {
+AA_Ratios <- function(data, species1, species2, datetime_col, site_col, species_col) {
 
   # Results dataframe
   detailed_result <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric(), T2_over_T1 = numeric(), T4_over_T3 = numeric())
