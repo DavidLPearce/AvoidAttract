@@ -1,25 +1,4 @@
-
-
-# Data
-data("KScams")
-
-# Convert the numeric timestamps to a POSIXct object (timestamps in seconds since the epoch)
-KScams$DateTime  <- as.POSIXct(KScams$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%OS")
-
-unique(KScams$Common_name)
-
-data = KScams
-site_col = "Site"
-
-site = 1
-
-datetime_col = "DateTime"
-species_col = "Common_name"
-species1 ="White-Tailed Deer"
-species2 = "Coyote"
-
-
-### -------------------------------
+# AA_Ratios calculates the average T1, T2, T3, T4 times and T2/T1 T4/T3 ratios for every event, each year and the total summary
 AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_col) {
 
   # Results dataframe
@@ -63,33 +42,9 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
       temp_result <- data.frame(T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
 
       # Calculate T1, T2, T3, T4
-      if (length(species1_indices) > 0) {
-        i <- species1_indices[1]
-        T1 <- 0
-        T3 <- diff(as.numeric(format(year_data[[datetime_col]][species1_indices], "%H:%M:%S")))
 
-        if (length(species2_indices) > 0) {
-          # T1: Time from species 1 passage until species 2 is detected
-          T1 <- as.numeric(difftime(year_data[[datetime_col]][species2_indices[1]], year_data[[datetime_col]][i], units = "secs"))
 
-          if (length(species1_indices[species1_indices > i]) > 0) {
-            # T2: Time from species 2 passage until another species 1 is detected
-            next_species1_index <- min(species1_indices[species1_indices > i])
-            T2 <- as.numeric(difftime(year_data[[datetime_col]][next_species1_index], year_data[[datetime_col]][species2_indices[1]], units = "secs"))
 
-            # T4: Time from a detection of species 1 until the detection of species 2
-            #     and then the time from the detection of species 2 until the detection of the next species 1
-            T4 <- as.numeric(difftime(year_data[[datetime_col]][next_species1_index], year_data[[datetime_col]][i], units = "secs"))
-          } else {
-            # If there's no next species 1 detection, set T2 and T4 to NA
-            T2 <- NA
-            T4 <- NA
-          }
-        } else {
-          # If there's no species 2 detection, set T2 and T4 to NA
-          T2 <- NA
-          T4 <- NA
-        }
 
         # Store results in temporary dataframe
         temp_result <- rbind(temp_result, c(T1, T2, mean(as.numeric(T3)), mean(as.numeric(T4))))
@@ -105,7 +60,7 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
   }
 
   # Rename columns for the detailed result
-  colnames(detailed_result) <- c("Site", "Year", "T1", "T2", "T3", "T4", "T2_over_T1", "T4_over_T3")
+  colnames(detailed_result) <- c("Site", "Year", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
 
   # Total summary
   total_summary <- colMeans(detailed_result[, -c(1, 2)], na.rm = TRUE)
@@ -116,11 +71,12 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
   return(result_list)
 }
 
+
+
+
+
 # Example usage
-test_result <- AAR(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
+test_result <- AA_Ratios(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
                    species_col = "Common_name", datetime_col = "DateTime", site_col ="Site")
 
-
-
--811977
 

@@ -74,21 +74,27 @@ T3 <- function(data, species1, species2, species_col, datetime_col, site_col, un
   detailed_result$Site <- as.character(detailed_result$Site)
   detailed_result$Year <- as.integer(detailed_result$Year)
 
-  # Summarize results by taking the mean for each year at a site
-  year_result <- aggregate(T3 ~ Site + Year, data = detailed_result, FUN = mean, na.rm = TRUE)
+  # How many times an event occured
+  event_count <- sum(!is.na(detailed_result$T3))
 
-  # Sort the year_result by ascending site number
-  year_result <- year_result[order(year_result$Site), ]
+  # Summarize results by taking the mean for each site across all years
+  site_result <- aggregate(T3 ~ Site, data = detailed_result, FUN = mean, na.rm = TRUE)
+
+  # Convert Site to numeric and sort the result by ascending site number
+  site_result$Site <- as.numeric(as.character(site_result$Site))
+  site_result <- site_result[order(site_result$Site), ]
+
+  # Renumber the row names
+  row.names(site_result) <- NULL
 
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_result[, -c(1, 2)], na.rm = TRUE)
 
   # Combine results into a list
-  result_list <- list(total_summary = total_summary, year_result = year_result, detailed_result = detailed_result)
+  result_list <- list(total_summary = total_summary, event_count = event_count, site_result = site_result, detailed_result = detailed_result)
 
   return(result_list)
 }
-
 
 
 # Example use
