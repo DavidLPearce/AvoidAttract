@@ -2,7 +2,7 @@
 # species 1 without species 2 appearing between detections of species 1.
 # The function will return the average of all T3 events within that year for that site,
 # every time that an interaction occurred (detailed_result), the summary by year and the total summary.
-T3 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime) {
+T3 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {

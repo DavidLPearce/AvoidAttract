@@ -1,12 +1,15 @@
 # Function is for calculating the time from species 1 until species 2 for all sites and all years within a dataframe
 # The function will return the median of all T1 events within that year for that site,
 # every time that an interaction occurred and the total summary
-T1 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime) {
+T1 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
     stop("One or more specified columns do not exist in the dataframe.")
   }
+
+  # Results dataframe
+  detailed_result <- data.frame(Site = character(), Year = integer(), T1 = numeric())
 
   # subsetting data by species given
   species_data <- data[data[[species_col]] == species1 | data[[species_col]] == species2, ]
@@ -16,9 +19,6 @@ T1 <- function(data, species1, species2, species_col, datetime_col, site_col, un
 
   # Organizing data by site number
   species_data <- species_data[order(species_data[[site_col]], species_data[[datetime_col]]), ]
-
-  # Results dataframe
-  detailed_result <- data.frame(Site = character(), Year = integer(), T1 = numeric())
 
   # Iterate over all sites
   for (site in unique(species_data[[site_col]]))  {

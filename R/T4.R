@@ -2,7 +2,7 @@
 # species 1 with species 2 appearing between detentions of species 1.
 # The function will return the average of all T4 events within that year for that site,
 # every time that an interaction occurred (detailed_result), the summary by year and the total summary.
-T4 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime) {
+T4 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
@@ -39,7 +39,7 @@ T4 <- function(data, species1, species2, species_col, datetime_col, site_col, un
       year_data <- site_data[format(site_data[[datetime_col]], "%Y") == as.character(year), ]
       year_data <- year_data[order(year_data[[datetime_col]]), ]
 
-      # Warning if 1 or fewer observations for a site are entered
+      # Warning if 1 or fewer observations for a site are entered for that year
       if (nrow(year_data) <= 1) {
         # Skip that site and go to the next site
         next

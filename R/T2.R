@@ -2,7 +2,7 @@
 # after a T1 event occured for all sites and all years within a dataframe.
 # The function will return the average of all T2 events within that year for that site,
 # every time that an interaction occurred (detailed_result), the summary by year and the total summary.
-T2 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime) {
+T2 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
