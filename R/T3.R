@@ -1,7 +1,7 @@
 # Function is for calculating the time from species 1 until
 # species 1 without species 2 appearing between detections of species 1.
 # The function will return the average of all T3 events within that year for that site,
-# every time that an interaction occurred (detailed_result), the summary by year and the total summary.
+# every time that an interaction occurred (detailed_summary), the summary by year and the total summary.
 T3 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
@@ -19,7 +19,7 @@ T3 <- function(data, species1, species2, species_col, datetime_col, site_col, un
   species_data <- species_data[order(species_data[[site_col]], species_data[[datetime_col]]), ]
 
   # Results dataframe
-  detailed_result <- data.frame(Site = character(), Year = integer(), T3 = numeric())
+  detailed_summary <- data.frame(Site = character(), Year = integer(), T3 = numeric())
 
   # Iterate over all sites
   for (site in unique(species_data[[site_col]]))  {
@@ -65,33 +65,33 @@ T3 <- function(data, species1, species2, species_col, datetime_col, site_col, un
       }
     }
 
-    # Save temp_result to detailed_result
-    detailed_result <- rbind(detailed_result, temp_result)
+    # Save temp_result to detailed_summary
+    detailed_summary <- rbind(detailed_summary, temp_result)
 
   }
 
   # Convert character columns to their respective types
-  detailed_result$Site <- as.character(detailed_result$Site)
-  detailed_result$Year <- as.integer(detailed_result$Year)
+  detailed_summary$Site <- as.character(detailed_summary$Site)
+  detailed_summary$Year <- as.integer(detailed_summary$Year)
 
   # How many times an event occured
-  event_count <- sum(!is.na(detailed_result$T3))
+  event_count <- sum(!is.na(detailed_summary$T3))
 
   # Summarize results by taking the mean for each site across all years
-  site_result <- aggregate(T3 ~ Site, data = detailed_result, FUN = mean, na.rm = TRUE)
+  site_summary <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
   # Convert Site to numeric and sort the result by ascending site number
-  site_result$Site <- as.numeric(as.character(site_result$Site))
-  site_result <- site_result[order(site_result$Site), ]
+  site_summary$Site <- as.numeric(as.character(site_summary$Site))
+  site_summary <- site_summary[order(site_summary$Site), ]
 
   # Renumber the row names
-  row.names(site_result) <- NULL
+  row.names(site_summary) <- NULL
 
   # Calculate the total summary for the entire output
-  total_summary <- mean(detailed_result[, -c(1, 2)], na.rm = TRUE)
+  total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
   # Combine results into a list
-  result_list <- list(total_summary = total_summary, event_count = event_count, site_result = site_result, detailed_result = detailed_result)
+  result_list <- list(total_summary = total_summary, event_count = event_count, site_summary = site_summary, detailed_summary = detailed_summary)
 
   return(result_list)
 }
@@ -101,4 +101,5 @@ T3 <- function(data, species1, species2, species_col, datetime_col, site_col, un
 T3_test <- T3(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
               species_col = "Common_name", datetime_col = "DateTime", site_col ="Site",
               unitTime = "hours")
+
 
