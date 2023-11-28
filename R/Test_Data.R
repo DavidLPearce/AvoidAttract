@@ -20,8 +20,9 @@ species2 = "Coyote"
 site_col = "Site"
 datetime_col = "DateTime"
 species_col = "Common_name"
-unitTime = "mins"
+unitTime = "hours"
 
 site = 0
-year = 2018
-row = 14
+year = 2020
+row = 1
+

@@ -1,12 +1,12 @@
-# AA_Ratios calculates the average T1, T2, T3, T4 times and T2/T1 T4/T3 ratios for every event, each year and the total summary
-AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
+# AAR calculates the average T1, T2, T3, T4 times and T2/T1 T4/T3 ratios for every event, each year and the total summary
+AAR <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
     stop("One or more specified columns do not exist in the dataframe.")
   }
     # Results dataframe
-  detailed_result <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric(), T2_over_T1 = numeric(), T4_over_T3 = numeric())
+  detailed_summary <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
 
   # subsetting data by species given
   species_data <- data[data[[species_col]] == species1 | data[[species_col]] == species2, ]
@@ -21,7 +21,7 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
   for (site in unique(species_data[[site_col]])) {
 
     # Temporary dataframe to collect T1, T2, T3, T4 values
-    temp_result <- data.frame(T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
+    temp_result <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
 
     # Subsetting data by iteration
     site_data <- species_data[species_data[[site_col]] == site, ]
@@ -45,19 +45,21 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
 
       # Interactions
       for (row in 1:(nrow(year_data) - 1)) {
+        # Getting current, next and third species
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
         third_species <- year_data[[species_col]][row + 2]
 
+        # Times of current, next and third species
+        current_species_time <- year_data[[datetime_col]][row]
+        next_species_time <- year_data[[datetime_col]][row + 1]
+        third_species_time <- year_data[[datetime_col]][row + 2]
 
-        # T1 Events
+        # T1 Events: Species 1 detection followed by Species 2
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == species1 && next_species == species2)) {
-          # Species 1 detection followed by Species 2
-          current_species_time <- year_data[[datetime_col]][row]
-          next_species_time <- year_data[[datetime_col]][row + 1]
 
-          # Calculate the time difference
+                    # Calculate the time difference
           T1 <- difftime(next_species_time, current_species_time, units = unitTime)
 
         }
@@ -69,13 +71,9 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
            T1 <- NA
         }
 
-        # T2 Events
+        # T2 Events Species 1 detection followed by species 2 followed by species 1 detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
             current_species == species1 && next_species == species2 && third_species == species1)) {
-          # Species 1 detection followed by species 2 followed by species 1 detection
-          current_species_time <- year_data[[datetime_col]][row]
-          next_species_time <- year_data[[datetime_col]][row + 1]
-          third_species_time <- year_data[[datetime_col]][row + 2]
 
           # Calculate the time difference
           T2 <- difftime(third_species_time, next_species_time, units = unitTime)
@@ -88,12 +86,9 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
           T2 <- NA
         }
 
-        # T3 Events
+        # T3 Events Species 1 detection followed by species 1 detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == species1 && next_species == species1)) {
-          # Species 1 detection followed by species 1 detection
-          current_species_time <- year_data[[datetime_col]][row]
-          next_species_time <- year_data[[datetime_col]][row + 1]
 
           # Calculate the time difference
           T3 <- difftime(next_species_time, current_species_time, units = unitTime)
@@ -107,13 +102,9 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
             T3 <- NA
         }
 
-        # T4 Events
+        # T4 Events Species 1 detection followed by species 2 followed by species 1 detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
             current_species == species1 && next_species == species2 && third_species == species1)) {
-          # Species 1 detection followed by species 2 followed by species 1 detection
-          current_species_time <- year_data[[datetime_col]][row]
-          next_species_time <- year_data[[datetime_col]][row + 1]
-          third_species_time <- year_data[[datetime_col]][row + 2]
 
           # Calculate the time difference
           T4 <- difftime(third_species_time, current_species_time, units = unitTime)
@@ -130,47 +121,66 @@ AA_Ratios <- function(data, species1, species2, species_col, datetime_col, site_
 temp_result <- rbind(temp_result, c(site = site, year = year, T1 = T1, T2 = T2, T3 = T3, T4 = T4))
 
       }
-
- # Save temp_result to detailed_result
-detailed_result <- rbind(detailed_result, temp_result)
-
     }
 
+# Save temp_result to detailed_summary
+colnames(temp_result) <- c("Site", "Year", "T1", "T2", "T3", "T4")
+colnames(detailed_summary) <- c("Site", "Year", "T1", "T2", "T3", "T4")
+detailed_summary <- rbind(detailed_summary, temp_result)
 
-  }
+}
 
-  # # Calculate T2_over_T1 and T4_over_T3
-  # T2_over_T1 <- if (any(!is.na(temp_result$T1)) && any(!is.na(temp_result$T2)))
-  #   mean(temp_result$T2, na.rm = TRUE) / mean(temp_result$T1, na.rm = TRUE)
-  # else
-  #   NA
-  #
-  # T4_over_T3 <- if (any(!is.na(temp_result$T3)) && any(!is.na(temp_result$T4)))
-  #   mean(temp_result$T4, na.rm = TRUE) / mean(temp_result$T3, na.rm = TRUE)
-  # else
-  #   NA
-#
-#   # Store final results for the site and year
-#   detailed_result <- rbind(detailed_result, c(site, year, mean(temp_result$T1), mean(temp_result$T2), mean(temp_result$T3), mean(temp_result$T4), T2_over_T1, T4_over_T3))
+# Creating a dataframe for by site reporting
+all_sites <- data.frame(Site = unique(detailed_summary$Site))
 
-  # # Rename columns for the detailed result
-  # colnames(detailed_result) <- c("Site", "Year", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
+# Taking the mean of T1-T4 for each site
+site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+site_means_T3 <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
-  # Total summary
-  total_summary <- colMeans(detailed_result[, -c(1, 2)], na.rm = TRUE)
 
-  # Combine results into a list
-  result_list <- list(total_summary = total_summary, detailed_result = detailed_result)
+# Merging all means into one summary for each site
+site_summary <- merge(all_sites, site_means_T1, by = "Site", all.x = TRUE)
+site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
+site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
+site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
 
-  return(result_list)
+# Calculate T2/T1 and T4/T3 ratios by site
+site_summary$T2_over_T1 <- with(site_summary, T2 / T1)
+site_summary$T4_over_T3 <- with(site_summary, T4 / T3)
+colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
+
+
+# Total summary
+total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
+
+# Calculate ratios
+total_summary <- c(total_summary,
+                   T2_over_T1 = total_summary[2] / total_summary[1],
+                   T4_over_T3 = total_summary[4] / total_summary[3])
+
+# Change the names of the vector elements
+names(total_summary)[5] <- "T2/T1"
+names(total_summary)[6] <- "T4/T3"
+
+# Calculate the event counts
+event_count_T1 <- sum(!is.na(detailed_summary$T1))
+event_count_T2 <- sum(!is.na(detailed_summary$T2))
+event_count_T3 <- sum(!is.na(detailed_summary$T3))
+event_count_T4 <- sum(!is.na(detailed_summary$T4))
+
+# Combine into a named vector
+event_counts <- c(T1 = event_count_T1, T2 = event_count_T2, T3 = event_count_T3, T4 = event_count_T4)
+
+# Combine results into a list
+result_list <- list(total_summary = total_summary, event_count = event_counts, site_summary = site_summary)
+
+return(result_list)
 }
 
 
-
-
-
 # Example usage
-test_result <- AA_Ratios(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site")
-
+test_result <- AAR(data = KScams, species1 = "White-Tailed Deer", species2 = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
 
