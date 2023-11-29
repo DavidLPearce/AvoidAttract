@@ -2,9 +2,10 @@ Package: AvoidAttract
 Type: Package
 Title: Calculates Avoidance-Attraction Ratios from detection data with timestamps
 Version: 0.1.0
-Author: David L. Pearce, Ty J. Werdel, Arielle Waldstein Parsons, Christina Bland, Tavis Forrester, Megan C. Baker-Whatton, Stephanie G. Schuttler, William J. McShea, Robert Costello, Roland Kays
+Author: David L. Pearce, Ty J. Werdel 
 Maintainer: The package maintainer <davepearce@tamu.edu>
 Description: Investigate the temporal avoidance or attraction of species using the time between detections of species 1 and species 2 (or speceis 1) to investigate species interactions.
+References:  Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
