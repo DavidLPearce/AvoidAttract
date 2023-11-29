@@ -9,7 +9,6 @@ The T3 function analyzes camera trapping data to evaluate the temporal patterns 
 \usage{
 T3(data, speciesA, species_col, datetime_col, site_col, unitTime = "hours")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
 The camera trapping dataset containing information on species, datetime, and site.
@@ -29,8 +28,6 @@ The column name indicating the camera site.
   \item{unitTime}{
 The unit of time used for calculating the time differences, default is "hours", options = c("secs", "mins", "hours").
 }
-}
-
 }
 \value{
   A list containing:
