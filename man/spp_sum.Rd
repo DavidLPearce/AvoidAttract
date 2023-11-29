@@ -28,3 +28,4 @@ spp_sum(data, name_col)
 }
 \examples{
 spp_sum_ex <- spp_sum(KScams_dat, name_col = "Common_name")
+}
