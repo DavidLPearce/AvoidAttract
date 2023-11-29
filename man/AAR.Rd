@@ -50,7 +50,6 @@ Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W.
 \source{
 URL: \url{https://doi.org/10.1016/j.biocon.2016.09.001}
 }
-
 \seealso{
 Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage. Conservation Science and Practice 2:e271.
 
