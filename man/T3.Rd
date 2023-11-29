@@ -1,7 +1,7 @@
 \name{T3}
 \alias{T3}
 \title{
-Analyzing Temporal Patterns in Camera Trapping Data (T3 also known as AA)
+Analyzing Temporal Patterns in Camera Trapping Data (T3 or AA)
 }
 \description{
 The T3 function analyzes camera trapping data to evaluate the temporal patterns of successive detections of a specific species (speciesA) at different camera sites. The primary focus is on calculating the average time interval (T3 or AA) between consecutive detections of the target species. This metric is vital for understanding the natural behavior and activity patterns of the species, especially when no other species intervenes between successive detections.
