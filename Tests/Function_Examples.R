@@ -46,6 +46,6 @@ AAR_test <- AAR(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "C
                    species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
 
 # Example use
-??spp_sum
+?spp_sum
 
 spp_sum_test <- spp_sum(KScams_dat, name_col = "Common_name")
