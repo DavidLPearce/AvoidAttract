@@ -95,11 +95,3 @@ T3 <- function(data, species1, species2, species_col, datetime_col, site_col, un
 
   return(result_list)
 }
-
-
-# Example use
-T3_test <- T3(data = KScams, species1 ="White-Tailed Deer", species2 = "Coyote",
-              species_col = "Common_name", datetime_col = "DateTime", site_col ="Site",
-              unitTime = "hours")
-
-

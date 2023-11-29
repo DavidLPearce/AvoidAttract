@@ -178,12 +178,3 @@ result_list <- list(total_summary = total_summary, event_count = event_counts, s
 
 return(result_list)
 }
-
-unique(KScams$Common_name)
-
-# Example usage
-test_result <- AAR(data = KScams, species1 = "American badger"  , species2 = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
-
-"Eastern cottontail rabbit"
-"White-Tailed Deer"

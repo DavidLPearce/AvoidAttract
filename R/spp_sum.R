@@ -14,8 +14,3 @@ spp_sum <- function(data, name_col){
 
   return(result)
 }
-
-data(KScams)
-
-# Example use
-spp_sum(KScams, name_col = "Common_name")
