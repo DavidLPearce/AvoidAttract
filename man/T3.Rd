@@ -52,7 +52,9 @@ URL: \url{https://doi.org/10.1016/j.biocon.2016.09.001}
 }
 
 \seealso{
-Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage. Conservation Science and Practice 2:e271. URL: \url{https://doi.org/10.1111/csp2.271}
+Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage. Conservation Science and Practice 2:e271.
+
+URL: \url{https://doi.org/10.1111/csp2.271}
 
 }
 \examples{
@@ -62,6 +64,6 @@ data("KScams_dat")
 KScams_dat$DateTime  <- as.POSIXct(KScams_dat$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
 # Function Example
 T3_example <- T3(data = KScams_dat, speciesA ="White-Tailed Deer",
-                  species_col = "Common_name", datetime_col = "DateTime", site_col ="Site",
-                  unitTime = "hours")
+                  species_col = "Common_name", datetime_col = "DateTime",
+                  site_col = "Site", unitTime = "hours")
 }
