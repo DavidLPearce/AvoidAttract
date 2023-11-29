@@ -1,10 +1,10 @@
 \name{spp_sum}
 \alias{spp_sum}
 \title{
-Species Summary Table (spp\_sum)
+Species Summary Table
 }
 \description{
-The `spp\_sum` function generates a frequency table summarizing the number of observations for each unique species in a dataset.
+Function generates a frequency table summarizing the number of observations for each unique species in a dataset.
 }
 \usage{
 spp_sum(data, name_col)
@@ -13,7 +13,7 @@ spp_sum(data, name_col)
   \item{data}{
     The dataset containing information on species observations.
   }
-  \item{name\_col}{
+  \item{name_col}{
     The column name indicating the species in the dataset.
   }
 }
@@ -27,4 +27,4 @@ spp_sum(data, name_col)
   }
 }
 \examples{
-spp_sum_test <- spp_sum(KScams_dat, name_col = "Common_name")
+spp_sum_ex <- spp_sum(KScams_dat, name_col = "Common_name")
