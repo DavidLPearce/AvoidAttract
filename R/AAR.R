@@ -1,5 +1,5 @@
 # AAR calculates the average T1, T2, T3, T4 times and T2/T1 T4/T3 ratios for every event, each year and the total summary
-AAR <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
+AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
@@ -9,7 +9,7 @@ AAR <- function(data, species1, species2, species_col, datetime_col, site_col, u
   detailed_summary <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
 
   # subsetting data by species given
-  species_data <- data[data[[species_col]] == species1 | data[[species_col]] == species2, ]
+  species_data <- data[data[[species_col]] == speciesA | data[[species_col]] == speciesB, ]
 
   # Convert datetime to 24-hour clock
   species_data[[datetime_col]] <- as.POSIXct(species_data[[datetime_col]], format = "%Y-%m-%d %H:%M:%S")
@@ -57,7 +57,7 @@ AAR <- function(data, species1, species2, species_col, datetime_col, site_col, u
 
         # T1 Events: Species 1 detection followed by Species 2
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-            current_species == species1 && next_species == species2)) {
+            current_species == speciesA && next_species == speciesB)) {
 
                     # Calculate the time difference
           T1 <- difftime(next_species_time, current_species_time, units = unitTime)
@@ -66,14 +66,14 @@ AAR <- function(data, species1, species2, species_col, datetime_col, site_col, u
 
         # If T1 event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-                 current_species != species1 || next_species != species2)){
-           # Set to NA
-           T1 <- NA
+                   (current_species != speciesA || next_species != speciesB))) {
+          # Set to NA
+          T1 <- NA
         }
 
         # T2 Events Species 1 detection followed by species 2 followed by species 1 detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species == species1 && next_species == species2 && third_species == species1)) {
+            current_species == speciesA && next_species == speciesB && third_species == speciesA)) {
 
           # Calculate the time difference
           T2 <- difftime(third_species_time, next_species_time, units = unitTime)
@@ -81,14 +81,14 @@ AAR <- function(data, species1, species2, species_col, datetime_col, site_col, u
 
         # If T2 event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species != species1 || next_species != species2 || third_species != species1)){
+            current_species != speciesA || next_species != speciesB || third_species != speciesA)){
           # Set to NA
           T2 <- NA
         }
 
         # T3 Events Species 1 detection followed by species 1 detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-            current_species == species1 && next_species == species1)) {
+            current_species == speciesA && next_species == speciesA)) {
 
           # Calculate the time difference
           T3 <- difftime(next_species_time, current_species_time, units = unitTime)
@@ -97,14 +97,14 @@ AAR <- function(data, species1, species2, species_col, datetime_col, site_col, u
 
         # If T3 event condition is not met set to NA
         if (!is.na(current_species) && !is.na(next_species) &&
-            current_species != species1 || next_species != species1) {
+            current_species != speciesA || next_species != speciesA) {
             # Set to NA
             T3 <- NA
         }
 
         # T4 Events Species 1 detection followed by species 2 followed by species 1 detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species == species1 && next_species == species2 && third_species == species1)) {
+            current_species == speciesA && next_species == speciesB && third_species == speciesA)) {
 
           # Calculate the time difference
           T4 <- difftime(third_species_time, current_species_time, units = unitTime)
@@ -112,7 +112,7 @@ AAR <- function(data, species1, species2, species_col, datetime_col, site_col, u
 
         # If T4 event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species != species1 || next_species != species2 || third_species != species1)) {
+            current_species != speciesA || next_species != speciesB || third_species != speciesA)) {
           # Set to NA
           T4 <- NA
         }
