@@ -84,7 +84,7 @@ T2 <- function(data, species1, species2, species_col, datetime_col, site_col, un
 
   # Convert Site to numeric and sort the result by ascending site number
   site_summary$Site <- as.numeric(as.character(site_summary$Site))
-  site_summary <- site_result[order(site_summary$Site), ]
+  site_summary <- site_summary[order(site_summary$Site), ]
 
   # Renumber the row names
   row.names(site_summary) <- NULL
