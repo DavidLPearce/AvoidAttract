@@ -16,4 +16,3 @@ KScams$DateTime  <- as.POSIXct(KScams$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%
 # site = 0
 # year = 2020
 # row = 1
-
