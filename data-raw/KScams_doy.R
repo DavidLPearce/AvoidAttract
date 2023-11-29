@@ -1,6 +1,6 @@
-# data-raw/dataset.R
+# Day of year covariates
 
 KScams_doy <- read.csv("data-raw/KansasCamera_doy.csv")
 
-usethis::use_data(KScams_doy, overwrite = TRUE)
+usethis::use_data(KScams_doy, overwrite = TRUE, compress = "xz")
 
