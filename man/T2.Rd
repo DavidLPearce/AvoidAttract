@@ -1,10 +1,10 @@
 \name{T2}
 \alias{T2}
 \title{
-Calculating Time from Species B to Species A (T2 or BA)
+Calculating the time between detections of species B to species A
 }
 \description{
-The T2 function analyzes camera trapping data to calculate the time between successive detections of species A followed by species B and then followed by species A at different camera sites. The primary focus is on calculating the time interval (T2) for each interaction. The function returns the average of all T2 events within a year for each site, every time that an interaction occurred (detailed_summary), the summary by year, and the total summary across all sites and years.
+The T2 (BA) function analyzes camera trapping data to calculate the time between the detections of species B followed by species A given that a T1 (AB) event occured at each camera site for all years. The function returns the average of all T2 events for all sites and across all years, the number of times the event occured, a site summary across all years and a detailed summary of each time the event occured.
 }
 \usage{
 T2(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours")

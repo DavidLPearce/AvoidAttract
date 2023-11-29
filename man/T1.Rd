@@ -1,7 +1,7 @@
 \name{T1}
 \alias{T1}
 \title{
-Calculating the time of detection from species A to species B
+Calculating the time between detections of species A to species B
 }
 \description{
 The T1 (AB) function analyzes camera trapping data to calculate the time between the detections of species A followed by species B at each camera site for all years. The function returns the average of all T1 events for all sites and across all years, the number of times the event occured, a site summary across all years and a detailed summary of each time the event occured.

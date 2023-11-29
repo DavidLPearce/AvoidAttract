@@ -1,10 +1,10 @@
 \name{T3}
 \alias{T3}
 \title{
-Analyzing Temporal Patterns in Camera Trapping Data (T3 or AA)
+Calculating the time between detections of species A to species A
 }
 \description{
-The T3 function analyzes camera trapping data to evaluate the temporal patterns of successive detections of a specific species (speciesA) at different camera sites. The primary focus is on calculating the average time interval (T3 or AA) between consecutive detections of the target species. This metric is vital for understanding the natural behavior and activity patterns of the species, especially when no other species intervenes between successive detections.
+The T3 (AA) function analyzes camera trapping data to calculate the time between the detections of species A followed by species A without species B inbetween detections at each camera site for all years. The function returns the average of all T3 events for all sites and across all years, the number of times the event occured, a site summary across all years and a detailed summary of each time the event occured.
 }
 \usage{
 T3(data, speciesA, species_col, datetime_col, site_col, unitTime = "hours")
@@ -14,7 +14,10 @@ T3(data, speciesA, species_col, datetime_col, site_col, unitTime = "hours")
 The camera trapping dataset containing information on species, datetime, and site.
 }
   \item{speciesA}{
-he target species for which T3 events are analyzed.
+The target species for which T3 events are analyzed.
+}
+  \item{speciesB}{
+The target species for which T3 events are analyzed.
 }
   \item{species_col}{
 The column name indicating the species in the dataset.
@@ -59,7 +62,7 @@ URL: \url{https://doi.org/10.1111/csp2.271}
 }
 \examples{
 # Function Example. Note: DateTime column must be formated as a date time and not a character string!
-T3_example <- T3(data = KScams_dat, speciesA ="White-Tailed Deer",
+T3_example <- T3(data = KScams_dat, speciesA ="White-Tailed Deer", speceisB = "Coyote",
                   species_col = "Common_name", datetime_col = "DateTime",
                   site_col = "Site", unitTime = "hours")
 }

@@ -1,10 +1,10 @@
 \name{T4}
 \alias{T4}
 \title{
-Calculating Time from Species A to Species A with Species B Intervening (T4 or ABA)
+Calculating the time between detections of species A to species A with a detection of species B inbetween
 }
 \description{
-The T4 function analyzes camera trapping data to calculate the time between successive detections of species A, with species B appearing between the detections of species A at different camera sites. The primary focus is on calculating the time interval (T4) for each interaction. The function returns the average of all T4 events within a year for each site, every time that an interaction occurred (detailed_summary), the summary by year, and the total summary across all sites and years.
+The T4 (ABA) function analyzes camera trapping data to calculate the time between detections of species A, with a detection of species B inbetween the detections of species A at each camera site for all years. The function returns the average of all T4 events for all sites and across all years, the number of times the event occured, a site summary across all years and a detailed summary of each time the event occured.
 }
 \usage{
 T4(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours")
