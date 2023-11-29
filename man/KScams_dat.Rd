@@ -11,28 +11,28 @@ Camera trapping data for a research project in West Kansas
 \format{
   A data frame with 31226 observations on the following 17 variables.
   \describe{
-    \item{\code{General_project}}{a character vector Project name}
-    \item{\code{Class}}{a character vector Species class}
-    \item{\code{Order}}{a character vector Species order}
-    \item{\code{Family}}{a character vector Species family}
-    \item{\code{Genus}}{a character vector Species genus}
-    \item{\code{Species}}{a character vector Species specific epithet}
-    \item{\code{Binomial}}{a character vector Species Scientific name}
-    \item{\code{Common_name}}{a character vector Species common name}
-    \item{\code{Year}}{a numeric vector Year of deployment}
-    \item{\code{Site}}{a numeric vector Site ID}
-    \item{\code{DateTime}}{a character vectorDate in M/D/Y and Time in H.M.S}
-    \item{\code{Date}}{a character vector Date in M/D/Y}
-    \item{\code{Time}}{a character vector Time in H.M.S}
-    \item{\code{Timezone}}{a character vector Timezone study occured in}
-    \item{\code{Latitude}}{a numeric vector Site latitude}
-    \item{\code{Longitude}}{a numeric vector Site longitude}
-    \item{\code{SetVisitDate}}{a character vector Camera deployment date}
+    \item{\code{General_project}}{Project name (a character vector)}
+    \item{\code{Class}}{Species class (a character vector_}
+    \item{\code{Order}}{Species order (a character vector) }
+    \item{\code{Family}}{Species family (a character vector) }
+    \item{\code{Genus}}{Species genus (a character vector) }
+    \item{\code{Species}}{Species specific epithet (a character vector) }
+    \item{\code{Binomial}}{Species Scientific name (a character vector) }
+    \item{\code{Common_name}}{Species common name (a character vector) }
+    \item{\code{Year}}{Year of deployment (a numeric vector) }
+    \item{\code{Site}}{Site ID (a numeric vector) }
+    \item{\code{DateTime}}{Date in M/D/Y and Time in H.M.S (a character vector) }
+    \item{\code{Date}}{Date in M/D/Y (a character vector) }
+    \item{\code{Time}}{Time in H.M.S (a character vector) }
+    \item{\code{Timezone}}{Timezone study occured in (a character vector) }
+    \item{\code{Latitude}}{Site latitude (a numeric vector) }
+    \item{\code{Longitude}}{Site longitude (a numeric vector) }
+    \item{\code{SetVisitDate}}{Camera deployment date (a character vector)}
   }
 }
 
 \source{
-https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecy.3945~
+URL: https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecy.3945
 }
 \references{
 Palomo‐Munoz, G., T. J. Werdel, C. W. Piper, M. S. Peek, A. M. Ricketts, and A. A. Ahlers. 2023. Spatiotemporal distributions of mammals occurring in an agro‐prairie ecosystem. Ecology 104:e3945
