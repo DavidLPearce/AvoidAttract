@@ -48,13 +48,14 @@ The unit of time used for calculating the time differences, default is "hours", 
 Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88.
 }
 \source{
-URL: https://doi.org/10.1016/j.biocon.2016.09.001
+URL: \url{https://doi.org/10.1016/j.biocon.2016.09.001}
 }
 
 \seealso{
-URL: https://doi.org/10.1111/csp2.271
-
 Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage. Conservation Science and Practice 2:e271.
+
+URL: \url{https://doi.org/10.1111/csp2.271}
+
 }
 \examples{
 # Load data
