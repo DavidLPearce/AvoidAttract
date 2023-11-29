@@ -1,8 +1,8 @@
-# Function is for calculating the time from species 1 until
-# species 1 with species 2 appearing between detentions of species 1.
+# Function is for calculating the time from species A until
+# species A with species B appearing between detentions of species A.
 # The function will return the average of all T4 events within that year for that site,
 # every time that an interaction occurred (detailed_summary), the summary by year and the total summary.
-T4 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
+T4 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
@@ -10,7 +10,7 @@ T4 <- function(data, species1, species2, species_col, datetime_col, site_col, un
   }
 
   # subsetting data by species given
-  species_data <- data[data[[species_col]] == species1 | data[[species_col]] == species2, ]
+  species_data <- data[data[[species_col]] == speciesA | data[[species_col]] == speciesB, ]
 
   # Convert datetime to 24-hour clock
   species_data[[datetime_col]] <- as.POSIXct(species_data[[datetime_col]], format = "%Y-%m-%d %H:%M:%S")
@@ -52,7 +52,7 @@ T4 <- function(data, species1, species2, species_col, datetime_col, site_col, un
         third_species <- year_data[[species_col]][row + 2]
 
         if (!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species == species1 && next_species == species2 && third_species == species1) {
+            current_species == speciesA && next_species == speciesB && third_species == speciesA) {
           # Species 1 detection followed by species 2 followed by species 1 detection
           current_species_time <- year_data[[datetime_col]][row]
           next_species_time <- year_data[[datetime_col]][row + 1]

@@ -1,7 +1,7 @@
-# Function is for calculating the time from species 1 until species 2 for all sites and all years within a dataframe
+# Function is for calculating the time from species A until species B for all sites and all years within a dataframe
 # The function will return the median of all T1 events within that year for that site,
 # every time that an interaction occurred and the total summary
-T1 <- function(data, species1, species2, species_col, datetime_col, site_col, unitTime = "hours") {
+T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
@@ -12,7 +12,7 @@ T1 <- function(data, species1, species2, species_col, datetime_col, site_col, un
   detailed_result <- data.frame(Site = character(), Year = integer(), T1 = numeric())
 
   # subsetting data by species given
-  species_data <- data[data[[species_col]] == species1 | data[[species_col]] == species2, ]
+  species_data <- data[data[[species_col]] == speciesA | data[[species_col]] == speciesB, ]
 
   # Convert datetime to 24-hour clock
   species_data[[datetime_col]] <- as.POSIXct(species_data[[datetime_col]], format = "%Y-%m-%d %H:%M:%S")
@@ -50,7 +50,7 @@ T1 <- function(data, species1, species2, species_col, datetime_col, site_col, un
         next_species <- year_data[[species_col]][row + 1]
 
         if (!is.na(current_species) && !is.na(next_species) &&
-            current_species == species1 && next_species == species2) {
+            current_species == speciesA && next_species == speciesB) {
           # Species 1 detection followed by Species 2
           current_species_time <- year_data[[datetime_col]][row]
           next_species_time <- year_data[[datetime_col]][row + 1]
