@@ -20,7 +20,7 @@ Camera trapping data for a research project in West Kansas
     \item{\code{Binomial}}{Species Scientific name (a character vector) }
     \item{\code{Common_name}}{Species common name (a character vector) }
     \item{\code{Year}}{Year of deployment (a numeric vector) }
-    \item{\code{Site}}{Site ID (a numeric vector) }
+    \item{\code{Site}}{Site number (a numeric vector) }
     \item{\code{DateTime}}{Date in M/D/Y and Time in H.M.S (a character vector) }
     \item{\code{Date}}{Date in M/D/Y (a character vector) }
     \item{\code{Time}}{Time in H.M.S (a character vector) }
