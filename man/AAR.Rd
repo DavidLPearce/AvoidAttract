@@ -4,7 +4,21 @@
 Avoidance-Attraction Ratios (AAR)
 }
 \description{
-The AAR function analyzes camera trapping data to calculate the average time intervals for interactions involving species A and species B. It calculates the average time intervals T1 (AB), T2 (BA), T3 (AA), T4 (ABA), as well as the T2/T1 (BA/AB) and T4/T3 (ABA/AA) ratios for each site summarized across all years and provides the total summary across all sites and years.
+The AAR function analyzes camera trapping data to calculate the average time intervals for interactions involving species A and species B. It calculates the average time for T1, T2, T3, and T4 events as well as the T2/T1 and T4/T3 ratios for each site summarized across all years and provides the total summary across all sites and years.
+
+The T1 (AB) function analyzes camera trapping data to calculate the time between the detections of species A followed by species B.
+
+The T2 (BA) function analyzes camera trapping data to calculate the time between the detections of species B followed by species A given that a T1 (AB) event occured.
+
+The T3 (AA) function analyzes camera trapping data to calculate the time between the detections of species A followed by species A without species B inbetween detections.
+
+The T4 (ABA) function analyzes camera trapping data to calculate the time between detections of species A, with a detection of species B inbetween the detections of species A.
+
+The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of the species A and the attraction of the species B
+
+The T4/T3 (ABA/AA) ratio is influenced solely by the avoidance of the species B by the species A.
+
+Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species indicating that the species A is avoiding the area after the passage of a species B. Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
 }
 \usage{
 AAR(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours")
