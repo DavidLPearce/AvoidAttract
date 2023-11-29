@@ -1,3 +1,4 @@
+# This function gives a frequency table of the number of observations a dataset has for each unique species
 spp_sum <- function(data, name_col){
 
   # Check if the specified column exists in the dataframe
@@ -13,6 +14,8 @@ spp_sum <- function(data, name_col){
 
   return(result)
 }
+
+data(KScams)
 
 # Example use
 spp_sum(KScams, name_col = "Common_name")
