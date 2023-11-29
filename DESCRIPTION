@@ -6,8 +6,7 @@ Authors@R: c(
     person("David L.", "Pearce", , "davepearce@tamu.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2985-1020")),
     person("Ty J.", "Werdel", , "ty.werdel@ag.tamu.edu", role = c("aut"),
-           comment = c(ORCID = ""))
-)
+           comment = c(ORCID = "")))
 Maintainer: The package maintainer <davepearce@tamu.edu>
 URL: https://github.com/dpearcetamu/AvoidAttract
 BugReports: https://github.com/dparcetamu/AvoidAttract/issues
