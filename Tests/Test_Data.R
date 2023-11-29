@@ -1,7 +1,7 @@
 
 system.file(package='AvoidAttract')
 
-data("KScams")
+data("KScams_dat")
 KScams$DateTime  <- as.POSIXct(KScams$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%OS") # this is very important step
 
 
