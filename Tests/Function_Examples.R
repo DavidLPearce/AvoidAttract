@@ -13,7 +13,7 @@ T2_test <- T2(data = KScams_dat, speciesA ="White-Tailed Deer", speciesB = "Coyo
               unitTime = "hours")
 
 # Example use
-T3_test <- T3(data = KScams_dat, speciesA ="White-Tailed Deer", speciesB = "Coyote",
+T3_test <- T3(data = KScams_dat, speciesA ="White-Tailed Deer",
               species_col = "Common_name", datetime_col = "DateTime", site_col ="Site",
               unitTime = "hours")
 
