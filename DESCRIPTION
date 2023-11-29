@@ -1,12 +1,19 @@
 Package: AvoidAttract
 Type: Package
-Title: Calculates Avoidance-Attraction Ratios from detection data with timestamps
+Title: Avoidance-Attraction Ratios from a time series of detections
 Version: 0.1.0
-Author: David L. Pearce, Ty J. Werdel 
+Authors@R: c( 
+    person("David L.", "Pearce", , "davepearce@tamu.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-2985-1020"))
+    person("Ty J.", "Werdel", , "ty.werdel@ag.tamu.edu", role = c("aut"),
+           comment = c(ORCID = ""))
+            )
 Maintainer: The package maintainer <davepearce@tamu.edu>
-Description: Investigate the temporal avoidance or attraction of species using the time between detections of species 1 and species 2 (or speceis 1) to investigate species interactions.
+URL: https://github.com/dpearcetamu/AvoidAttract
+BugReports: https://github.com/dparcetamu/AvoidAttract/issues
+Description: Investigates the temporal avoidance or attraction of species using the time between detections of species A and species B.
 References:  Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88.
-License: What license is it under?
+License: use_mit_license()
 Encoding: UTF-8
 LazyData: true
 Depends: 
