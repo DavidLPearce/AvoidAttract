@@ -58,11 +58,7 @@ URL: \url{https://doi.org/10.1111/csp2.271}
 
 }
 \examples{
-# Load data
-data("KScams_dat")
-# Set DateTime column to date and time (function wont work if this step is not done)
-KScams_dat$DateTime  <- as.POSIXct(KScams_dat$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
-# Function Example
+# Function Example. Note: DateTime column must be formated as a date time and not a character string!
 T3_example <- T3(data = KScams_dat, speciesA ="White-Tailed Deer",
                   species_col = "Common_name", datetime_col = "DateTime",
                   site_col = "Site", unitTime = "hours")
