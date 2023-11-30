@@ -9,7 +9,7 @@ set.seed(123)
 subset_data <- KScams_dat[sample(nrow(KScams_dat), 1500), ]
 subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
 
-# expected result for T1 function
+# expected result for T4 function
 expected_result <- list(
   total_summary = as.difftime(423.8421, units = "hours"),
   event_count = 3
