@@ -12,7 +12,7 @@ Camera trapping data for a research project in West Kansas
   A data frame with 31226 observations on the following 17 variables.
   \describe{
     \item{\code{General_project}}{Project name (a character vector)}
-    \item{\code{Class}}{Species class (a character vector_}
+    \item{\code{Class}}{Species class (a character vector)}
     \item{\code{Order}}{Species order (a character vector) }
     \item{\code{Family}}{Species family (a character vector) }
     \item{\code{Genus}}{Species genus (a character vector) }
