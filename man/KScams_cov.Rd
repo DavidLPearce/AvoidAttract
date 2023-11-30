@@ -20,7 +20,7 @@ Habitat variables for KScams_dat
     \item{\code{ForbPct}}{Percentage of forbs at site (a numeric vector)}
     \item{\code{CropPct}}{Percentage of crops at site (a numeric vector)}
     \item{\code{OpenGroundPct}}{Percentage of open ground at site (a numeric vector)}
-    \item{\code{ShrubPct}}{Percentage of shrubs at site(a numeric vector)}
+    \item{\code{ShrubPct}}{Percentage of shrubs at site (a numeric vector)}
   }
 }
 

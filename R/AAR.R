@@ -1,4 +1,42 @@
-# AAR calculates the average T1, T2, T3, T4 times and T2/T1 T4/T3 ratios for every event, each year and the total summary
+#' Avoidance-Attraction Ratios (AAR)
+#'
+#' The AAR function analyzes camera trapping data to calculate the average time intervals for interactions involving species A and species B. It calculates the average time for T1, T2, T3, and T4 events as well as the T2/T1 and T4/T3 ratios for each site summarized across all years and provides the total summary across all sites and years.
+#'
+#' @param data The camera trapping dataset containing information on species, datetime, and site.
+#' @param speciesA The first species in the interaction sequence.
+#' @param speciesB The second species in the interaction sequence.
+#' @param species_col The column name indicating the species in the dataset.
+#' @param datetime_col The column name indicating the datetime of each detection.
+#' @param site_col The column name indicating the camera site.
+#' @param unitTime The unit of time used for calculating the time differences, default is "hours".
+#'   Options: "secs", "mins", "hours".
+#'
+#' @return A list containing:
+#'   \describe{
+#'     \item{total_summary}{A summary of the mean values for T1, T2, T3, T4, T2/T1, and T4/T3 across all sites and years.}
+#'     \item{event_count}{The total count of T1, T2, T3, and T4 events across all sites and years.}
+#'     \item{site_summary}{A summary of the mean T1, T2, T3, T4, T2/T1, and T4/T3 values for each site across all years.}
+#'   }
+#'
+#' @references
+#' Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016.
+#' The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88.
+#' URL: https://doi.org/10.1016/j.biocon.2016.09.001
+#'
+#' @source URL: https://doi.org/10.1016/j.biocon.2016.09.001
+#'
+#' @seealso
+#' Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage.
+#' Conservation Science and Practice 2:e271.
+#' URL: https://doi.org/10.1111/csp2.271
+#'
+#' @examples
+#' # Function Example. Note: DateTime column must be formatted as a date time and not a character string!
+#' AAR_example <- AAR(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "Coyote",
+#'                   species_col = "Common_name", datetime_col = "DateTime",
+#'                   site_col = "Site", unitTime = "hours")
+#'
+#' @export
 AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist

@@ -1,4 +1,20 @@
-# This function gives a frequency table of the number of observations a dataset has for each unique species
+#' Species Summary Table
+#'
+#' Function generates a frequency table summarizing the number of observations for each unique species in a dataset.
+#'
+#' @param data The dataset containing information on species observations.
+#' @param name_col The column name indicating the species in the dataset.
+#'
+#' @return A data frame containing two columns:
+#'   \describe{
+#'     \item{Name}{The unique species names.}
+#'     \item{Observations}{The number of observations for each unique species.}
+#'   }
+#'
+#' @examples
+#' spp_sum_ex <- spp_sum(KScams_dat, name_col = "Common_name")
+#'
+#' @export
 spp_sum <- function(data, name_col){
 
   # Check if the specified column exists in the dataframe
