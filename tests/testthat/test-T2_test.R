@@ -15,7 +15,7 @@ expected_result <- list(
   event_count = 3
 )
 
-# Test T1 function
+# Test T2 function
 test_that("T2 function calculates time between detections correctly", {
   result <- T2(data = subset_data, speciesA = "White-Tailed Deer", speciesB = "Coyote",
                species_col = "Common_name", datetime_col = "DateTime", site_col = "Site")
