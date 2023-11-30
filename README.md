@@ -103,3 +103,6 @@ head(AAR_example$site_summary)
 
 ```
 
+## Details
+
+For a more detailed use of this package please see [vignettes](vignettes).
