@@ -14,7 +14,172 @@ knitr::opts_chunk$set(
 )
 ```
 
+Avoidance-Attraction Ratios were first developed by Parsons et al. 2016 to investigate the effects of humans and their favorite companion, dogs, on wildlife. Since then Avoidance-Attraction Ratios have grown in popularity due to their ability to gain insights into species interactions at a fine temporal scale.
+
+This guide will implement the functions in the AvoidAttract package and perform an analysis of species interactions using Avoidance-Attraction Ratios having coyotes (*Canis latrans*) as the predator species. The data that we will use is integrated in the package and is from a camera trapping project in western Kansas, source: Palomo-Munoz et al. 2023.
+
+Lets get started.
+
 ```{r setup}
+# Install the package
+devtools::install_github("dpearcetamu/AvoidAttract", quiet = TRUE)
+
+# Load the package
 library(AvoidAttract)
 ```
+
+Now that the package is installed and loaded, let's take a look at the data.
+
+```{r data documentation}
+# Dataset R documentation, if you want to take a closer look
+# ?KScams_dat
+```
+
+Okay, now that we've seen the details on the camera trapping data, lets load it into the environment and take a closer look.
+
+```{r reading in data}
+# Reading in the data
+data("KScams_dat")
+
+# Let's take a look
+head(KScams_dat)
+```
+
+Great! We can see that the data has detection's of species at certain sites with a specific date and time for that observation. Let's see how many different species were found!
+
+``` {r looking into the data}
+# Let's see what the column names were 
+names(KScams_dat)
+
+# What were the unique species using the "Common_name" column
+unique(KScams_dat$Common_name)
+```
+
+Those are some pretty cool species! Lets see how many observations of each are in the data set using the spp_sum function from the package.
+```{r species observations}
+# spp_sum requires the data input and a name column and provides a frequency table of observations
+spp_sum(KScams_dat, name_col = "Common_name")
+
+```
+
+That's a lot of observations! Let's take a look at a few of the species that had a lot of observations and their interactions with coyotes using the AAR function.  
+```{r AAR function}
+# First we have to format the DateTime column from a character string to a date time 
+# This is a important step since the function won't know how to read the date and time
+# Make sure to modify the format if you are using a different dataset!
+KScams_dat$DateTime  <- as.POSIXct(KScams_dat$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%OS")
+
+# Let's look at some of these species!
+
+# Starting with the Black-tailed jackrabbit 
+jrabbit_AAR <- AAR(data = KScams_dat, speciesA = "Black-tailed jackrabbit", speciesB = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+
+# Saving the total summary 
+jrabbit_sum <- jrabbit_AAR$total_summary
+
+# Now the other species
+
+# Black-tailed Prarie Dog
+pdog_AAR <- AAR(data = KScams_dat, speciesA = "Black-tailed Prarie Dog", speciesB = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+
+pdog_sum <- pdog_AAR$total_summary
+
+# Eastern cottontail rabbit
+crabbit_AAR<- AAR(data = KScams_dat, speciesA = "Eastern cottontail rabbit", speciesB = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+
+crabbit_sum <- crabbit_AAR$total_summary
+
+# Mouse
+mouse_AAR <- AAR(data = KScams_dat, speciesA = "Mouse", speciesB = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+
+mouse_sum <- mouse_AAR$total_summary
+
+# Norway rat
+rat_AAR <- AAR(data = KScams_dat, speciesA = "Norway rat", speciesB = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+
+rat_sum <- rat_AAR$total_summary
+
+# White-Tailed Deer
+wtd_AAR <- AAR(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+
+wtd_sum <- wtd_AAR$total_summary
+
+```
+
+Okay, now lets combine all of the summaries into one dataframe.
+```{r combine summaries}
+# Combining data
+combined_data <- as.data.frame(rbind(Jack_rabbit = jrabbit_sum, 
+                                     Prarie_dog = pdog_sum,
+                                     cottontail_rabbit = crabbit_sum,
+                                     Mouse = mouse_sum,
+                                     Norway_rat = rat_sum,
+                                     wt_Deer = wtd_sum
+                                     ))
+
+# Take a quick look
+print(combined_data)
+
+```
+
+We know from Parsons (2016) that The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of the species A and the attraction of species B and Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species indicating that the species A is avoiding the area after the passage of species B. Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
+
+So, let's follow the analysis laid out by Parsons (2016) for just one predator and our prey species. 
+```{r analysis}
+# Perform pairwise Wilcoxon tests
+wilcox_results <- pairwise.wilcox.test(combined_data$`T2/T1`, # Log transformed T2/T1 ratio
+                                       rownames(combined_data), # species names
+                                       p.adjust.method = "bonferroni")
+
+# Print the results
+print(wilcox_results)
+
+```
+
+
+```{r plotting}
+# Let's plot with ggplot2
+library(ggplot2)
+
+ggplot(combined_data, aes(x = row.names(combined_data), 
+                          y = log(combined_data[,6]) # T4/T3
+                          )) +
+            geom_point() +
+            labs(title = "AAR Total Summary for T4/T3",
+                 x = "species",
+                 y = "T2/T1 Ratio")
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
