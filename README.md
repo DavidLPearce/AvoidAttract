@@ -85,6 +85,7 @@ data("KScams_dat")
 head(KScams_dat)
 
 # Formating DateTime column, critical for the functions to work
+# Note: if you are using a different dataset make sure to adjust the format accordingly. 
 KScams_dat$DateTime  <- as.POSIXct(KScams_dat$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%OS")
 
 # Using the AAR function to investigate white-tailed deer and coyote interactions
@@ -92,7 +93,7 @@ AAR_example <- AAR(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB =
                    species_col = "Common_name", datetime_col = "DateTime", 
                    site_col ="Site", unitTime = "hours")
                    
-# Here is the overal summary                    
+# Here is the overall summary                    
 AAR_example$total_summary
 
 # and the total event counts
