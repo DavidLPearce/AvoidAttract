@@ -7,13 +7,13 @@ subset_data <- readRDS("Tests/Test_data/test_data.rds")
 
 # expected result for T1 function
 expected_result <- list(
-  total_summary = as.difftime(177.2397, units = "hours"),
-  event_count = 13
+  total_summary = as.difftime(114.9631, units = "hours"),
+  event_count = 113
 )
 
 # Test T1 function
-test_that("T1 function calculates time between detections correctly", {
-  result <- T1(data = subset_data, speciesA = "White-Tailed Deer", speciesB = "Coyote",
+test_that("T3 function calculates time between detections correctly", {
+  result <- T3(data = subset_data, speciesA = "White-Tailed Deer", speciesB = "Coyote",
                species_col = "Common_name", datetime_col = "DateTime", site_col = "Site")
 
   # Set a tolerance value
