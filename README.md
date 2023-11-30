@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Avoidance-Attraction Ratios from a time series of detections in Program R
+Avoidance-Attraction Ratios in Program R
 
 ## Introduction
 

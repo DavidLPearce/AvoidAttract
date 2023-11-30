@@ -1,6 +1,6 @@
 Package: AvoidAttract
 Type: Package
-Title: Avoidance-Attraction Ratios from a time series of detections in Program R
+Title: Avoidance-Attraction Ratios in Program R
 Version: 0.1.0
 Authors@R: c( 
     person("David L.", "Pearce", , "davepearce@tamu.edu", role = c("aut", "cre"),
