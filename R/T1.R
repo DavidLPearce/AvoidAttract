@@ -43,6 +43,11 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
     stop("One or more specified columns do not exist in the dataframe.")
   }
 
+  # Ensure the datetime column is in the correct format
+  if (!inherits(data[[datetime_col]], "POSIXct")) {
+    stop("Datetime column must be in POSIXct format.")
+  }
+
   # Results dataframe
   detailed_result <- data.frame(Site = character(), Year = integer(), T1 = numeric())
 

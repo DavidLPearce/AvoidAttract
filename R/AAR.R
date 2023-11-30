@@ -43,6 +43,12 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
   if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
     stop("One or more specified columns do not exist in the dataframe.")
   }
+
+  # Ensure the datetime column is in the correct format
+  if (!inherits(data[[datetime_col]], "POSIXct")) {
+    stop("Datetime column must be in POSIXct format.")
+  }
+
     # Results dataframe
   detailed_summary <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
 

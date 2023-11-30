@@ -16,5 +16,3 @@ unitTime = "hours"
 site = 0
 year = 2018
 row = 12
-
-
