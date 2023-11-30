@@ -70,7 +70,10 @@ library(AvoidAttract)
 # Calling camera trapping data
 data("KScams_dat")
 
-# Quick look
+# More about the data
+?KScams_dat
+
+# Quick look at the data
 head(KScams_dat)
 
 # Formating DateTime column, critical for the functions to work
