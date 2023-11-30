@@ -2,8 +2,12 @@
 # library(testthat)
 # library(AvoidAttract)
 
-# Load the subset_data for testing
-# subset_data <- readRDS("tests/testthat/Test_data/test_data.rds")
+# Set seed for reproducibility
+set.seed(123)
+
+# Create a subset with 1500 random rows
+subset_data <- KScams_dat[sample(nrow(KScams_dat), 1500), ]
+subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
 
 # expected result for T1 function
 expected_result <- list(
