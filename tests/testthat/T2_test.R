@@ -3,7 +3,7 @@
 # library(AvoidAttract)
 
 # Load the subset_data for testing
-subset_data <- readRDS("tests/testthat/Test_data/test_data.rds")
+# subset_data <- readRDS("tests/testthat/Test_data/test_data.rds")
 
 # expected result for T1 function
 expected_result <- list(

@@ -1,9 +1,13 @@
 # Load necessary libraries
 # library(testthat)
 # library(AvoidAttract)
+#
+# # Path to test data
+# test_data_path <- system.file("testthat", "test_data.rds", package = "AvoidAttract")
+
 
 # Load the subset_data for testing
-subset_data <- readRDS("tests/testthat/Test_data/test_data.rds")
+subset_data <- readRDS(test_data_path)
 
 # expected result for T1 function
 expected_result <- list(

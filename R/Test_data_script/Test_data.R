@@ -1,4 +1,4 @@
-library(AvoidAttract)  # Make sure to replace with your actual package name
+#library(AvoidAttract)  # Make sure to replace with your actual package name
 
 # Set seed for reproducibility
 set.seed(123)
@@ -8,4 +8,4 @@ subset_data <- KScams_dat[sample(nrow(KScams_dat), 1500), ]
 subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
 
 # Save the subset_data as an RDS file
-saveRDS(subset_data, "Tests/Test_data/test_data.rds")
+saveRDS(subset_data, "tests/testthat/Test_data/test_data.rds")
