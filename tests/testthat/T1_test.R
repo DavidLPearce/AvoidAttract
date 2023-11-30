@@ -1,13 +1,13 @@
 # Load necessary libraries
 # library(testthat)
 # library(AvoidAttract)
-#
-# # Path to test data
-# test_data_path <- system.file("testthat", "test_data.rds", package = "AvoidAttract")
 
+# Set seed for reproducibility
+set.seed(123)
 
-# Load the subset_data for testing
-subset_data <- readRDS(test_data_path)
+# Create a subset with 1500 random rows
+subset_data <- KScams_dat[sample(nrow(KScams_dat), 1500), ]
+subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
 
 # expected result for T1 function
 expected_result <- list(
