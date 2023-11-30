@@ -1,18 +1,4 @@
 # AAR calculates the average T1, T2, T3, T4 times and T2/T1 T4/T3 ratios for every event, each year and the total summary
-#' Avoidance-Attraction Ratios (AAR)
-#'
-#' @param data
-#' @param speciesA
-#' @param speciesB
-#' @param species_col
-#' @param datetime_col
-#' @param site_col
-#' @param unitTime
-#'
-#' @return
-#' @export
-#'
-#' @examples
 AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours") {
 
   # Check if required columns exist
