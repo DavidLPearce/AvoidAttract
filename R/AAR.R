@@ -1,5 +1,5 @@
 # AAR calculates the average T1, T2, T3, T4 times and T2/T1 T4/T3 ratios for every event, each year and the total summary
-#' Title
+#' Avoidance-Attraction Ratios (AAR)
 #'
 #' @param data
 #' @param speciesA
