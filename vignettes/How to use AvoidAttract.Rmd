@@ -35,7 +35,7 @@ Now that the package is installed and loaded, let's take a look at the data.
 # ?KScams_dat
 ```
 
-Okay, now that we've seen the details on the camera trapping data, lets load it into the environment and take a closer look.
+Okay, now that we've seen the details of the camera trapping data, lets load it into the environment and take a closer look.
 
 ```{r reading in data}
 # Reading in the data
@@ -48,7 +48,7 @@ head(KScams_dat)
 Great! We can see that the data has detection's of species at certain sites with a specific date and time for that observation. Let's see how many different species were found!
 
 ``` {r looking into the data}
-# Let's see what the column names were 
+# Let's see what the column names are 
 names(KScams_dat)
 
 # What were the unique species using the "Common_name" column
@@ -73,7 +73,8 @@ KScams_dat$DateTime  <- as.POSIXct(KScams_dat$DateTime ,  tryFormats = "%m/%d/%Y
 
 # Starting with the Black-tailed jackrabbit 
 jrabbit_AAR <- AAR(data = KScams_dat, speciesA = "Black-tailed jackrabbit", speciesB = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+                   species_col = "Common_name", datetime_col = "DateTime", 
+                   site_col ="Site", unitTime = "hours")
 
 # Saving the total summary 
 jrabbit_sum <- jrabbit_AAR$total_summary
@@ -82,31 +83,36 @@ jrabbit_sum <- jrabbit_AAR$total_summary
 
 # Black-tailed Prarie Dog
 pdog_AAR <- AAR(data = KScams_dat, speciesA = "Black-tailed Prarie Dog", speciesB = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+                species_col = "Common_name", datetime_col = "DateTime", 
+                site_col ="Site", unitTime = "hours")
 
 pdog_sum <- pdog_AAR$total_summary
 
 # Eastern cottontail rabbit
 crabbit_AAR<- AAR(data = KScams_dat, speciesA = "Eastern cottontail rabbit", speciesB = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+                  species_col = "Common_name", datetime_col = "DateTime", 
+                  site_col ="Site", unitTime = "hours")
 
 crabbit_sum <- crabbit_AAR$total_summary
 
 # Mouse
 mouse_AAR <- AAR(data = KScams_dat, speciesA = "Mouse", speciesB = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+                 species_col = "Common_name", datetime_col = "DateTime", 
+                 site_col ="Site", unitTime = "hours")
 
 mouse_sum <- mouse_AAR$total_summary
 
 # Norway rat
 rat_AAR <- AAR(data = KScams_dat, speciesA = "Norway rat", speciesB = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+               species_col = "Common_name", datetime_col = "DateTime", 
+               site_col ="Site", unitTime = "hours")
 
 rat_sum <- rat_AAR$total_summary
 
 # White-Tailed Deer
 wtd_AAR <- AAR(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "Coyote",
-                   species_col = "Common_name", datetime_col = "DateTime", site_col ="Site", unitTime = "hours")
+               species_col = "Common_name", datetime_col = "DateTime", 
+               site_col ="Site", unitTime = "hours")
 
 wtd_sum <- wtd_AAR$total_summary
 
@@ -128,12 +134,12 @@ print(combined_data)
 
 ```
 
-We know from Parsons (2016) that The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of the species A and the attraction of species B and Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species indicating that the species A is avoiding the area after the passage of species B. Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
+We know from Parsons (2016) that The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of the species A and the attraction of species B and values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species indicating that the species A is avoiding the area after the passage of species B. Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
 
 So, let's follow the analysis laid out by Parsons (2016) for just one predator and our prey species. 
 ```{r analysis}
 # Perform pairwise Wilcoxon tests
-wilcox_results <- pairwise.wilcox.test(combined_data$`T2/T1`, # Log transformed T2/T1 ratio
+wilcox_results <- pairwise.wilcox.test(combined_data$`T2/T1`, # T2/T1 ratio
                                        rownames(combined_data), # species names
                                        p.adjust.method = "bonferroni")
 

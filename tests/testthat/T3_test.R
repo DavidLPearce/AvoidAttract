@@ -1,6 +1,6 @@
-# Load necessary libraries
-library(testthat)
-library(AvoidAttract)
+# # Load necessary libraries
+# library(testthat)
+# library(AvoidAttract)
 
 # Load the subset_data for testing
 subset_data <- readRDS("tests/testthat/Test_data/test_data.rds")
