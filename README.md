@@ -106,3 +106,7 @@ head(AAR_example$site_summary)
 ## Details
 
 For a more detailed use of this package please see [vignettes](vignettes).
+
+## Next Steps
+After the completion of STAT 600 the authors of the original paper Parsons (2016) will be contacted for collaboration on the package and the package will be submitted to CRAN.
+
