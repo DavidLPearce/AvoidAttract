@@ -25,6 +25,8 @@ Investigates the temporal avoidance or attraction of species using the time betw
 
 
 
+#### Figure
+
 From Parsons et al. 2016 Fig.2:
 
 ![](image/AAR_image.png)
