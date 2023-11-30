@@ -24,7 +24,13 @@ Investigates the temporal avoidance or attraction of species using the time betw
 * The AAR function calculates the T1, T2, T3 and T4 events as well as the T2/T1 (BA/AB) and T4/T3 (ABA/AA) ratios.
 
 
-![From Parsons et al. 2016 Fig.2](image/AAR_image.png)
+
+From Parsons et al. 2016 Fig.2:
+
+![](image/AAR_image.png)
+
+
+
 
 #### Note 
 
