@@ -26,9 +26,9 @@
 #' @source URL: https://doi.org/10.1016/j.biocon.2016.09.001
 #'
 #' @seealso
-#' Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage.
-#' Conservation Science and Practice 2:e271.
-#' URL: https://doi.org/10.1111/csp2.271
+#' Niedballa, J., A. Wilting, R. Sollmann, H. Hofer, and A. Courtiol. 2019. Assessing analytical methods for detecting spatiotemporal interactions between species from camera trapping data. M. Rowcliffe and J. Ahumada, editors. Remote Sensing in Ecology and Conservation 5:272–285.
+#'
+#' URL: https://doi.org/10.1002/rse2.107
 #'
 #' @examples
 #' # Function Example. Note: DateTime column must be formatted as a date time and not a character string!
