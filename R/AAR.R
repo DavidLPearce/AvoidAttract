@@ -39,17 +39,30 @@
 #' @export
 AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours") {
 
+#   data = data
+#   speciesA = speciesA
+#   speciesB = speciesB
+#   species_col = species_col
+#   datetime_col = datetime_col
+#   site_col = site_col
+#   unitTime = unitTime
+
   # Check if required columns exist
-  # if (!(species_col %in% names(data) && datetime_col %in% names(data) && site_col %in% names(data))) {
-  #   stop("One or more specified columns do not exist in the dataframe.")
-  # }
+  if (isTRUE(!(species_col %in% names(data) &&  datetime_col %in% names(data) && site_col %in% names(data)))) {
+    stop("One or more specified columns do not exist in the dataframe.")
+  }
 
   # Ensure the datetime column is in the correct format
-  if (!inherits(data[[datetime_col]], "POSIXct")) {
+  if (isTRUE(!inherits(data[[datetime_col]], "POSIXct"))) {
     stop("Datetime column must be in POSIXct format.")
   }
 
-    # Results dataframe
+  # Check for NAs in the datetime column
+  if (any(is.na(data[[datetime_col]]))) {
+    stop("Datetime column contains NA values. Please ensure all datetime values are present.")
+  }
+
+  # Results dataframe
   detailed_summary <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
 
   # subsetting data by species given
@@ -71,8 +84,9 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
     site_data <- species_data[species_data[[site_col]] == site, ]
 
     # Extract years for the site
-    years <- unique(as.numeric(format(site_data[[datetime_col]], "%Y")))
+    years <- unique(as.numeric(format(site_data[[datetime_col]][!is.na(site_data[[datetime_col]]), "%Y"])))
 
+    # Iterate over years
     for (year in years) {
 
       # Subset data for the current year
@@ -81,15 +95,27 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
       # Organizing data by time
       year_data <- year_data[order(year_data[[datetime_col]]), ]
 
-      # Warning if 1 or fewer observations for a site are entered for that year
-      if (nrow(year_data) <= 1) {
+      # #Check to see if either species are found in the year data subset
+      # if (isTRUE(!(speciesA %in% year_data[[species_col]] || speciesB %in%
+      #              year_data[[species_col]]))) {
+      #   # Skip that site and go to the next site
+      #   next
+      #
+      # }
+      # Check if both speciesA and speciesB are present in year_data
+      if (!(speciesA %in% year_data[[species_col]] && speciesB %in% year_data[[species_col]])) {
+        cat("Skipping site", site, "and going to the next site for year", year, "\n")
+        next
+      }
+      # If 1 or fewer observations for a site are entered for that year it will skip that year
+      if (isTRUE(nrow(year_data) <= 1)) {
         # Skip that site and go to the next site
         next
       }
 
       # Interactions
       for (row in 1:(nrow(year_data) - 1)) {
-        # Getting current, next and third species
+        # Getting current, next and third species names
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
         third_species <- year_data[[species_col]][row + 2]
@@ -177,6 +203,12 @@ detailed_summary <- rbind(detailed_summary, temp_result)
 # Creating a dataframe for by site reporting
 all_sites <- data.frame(Site = unique(detailed_summary$Site))
 
+# Convert T1, T2, T3, T4 columns to numeric
+detailed_summary$T1 <- as.numeric(detailed_summary$T1)
+detailed_summary$T2 <- as.numeric(detailed_summary$T2)
+detailed_summary$T3 <- as.numeric(detailed_summary$T3)
+detailed_summary$T4 <- as.numeric(detailed_summary$T4)
+
 # Taking the mean of T1-T4 for each site
 site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
@@ -194,7 +226,6 @@ site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
 site_summary$T2_over_T1 <- with(site_summary, T2 / T1)
 site_summary$T4_over_T3 <- with(site_summary, T4 / T3)
 colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
-
 
 # Total summary
 total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
@@ -222,3 +253,4 @@ result_list <- list(total_summary = total_summary, event_count = event_counts, s
 
 return(result_list)
 }
+
