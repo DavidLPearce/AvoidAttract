@@ -17,9 +17,9 @@ Investigates the temporal avoidance or attraction of species using the time betw
 
 * The T2 (BA) function analyzes camera trapping data to calculate the time between the detections of species B followed by species A given that a T1 (AB) event occurred.
 
-* The T3 (AA) function analyzes camera trapping data to calculate the time between the detections of species A followed by species A without species B inbetween detections.
+* The T3 (AA) function analyzes camera trapping data to calculate the time between the detections of species A followed by species A without species B in between detections.
 
-* The T4 (ABA) function analyzes camera trapping data to calculate the time between detections of species A, with a detection of species B inbetween the detections of species A.
+* The T4 (ABA) function analyzes camera trapping data to calculate the time between detections of species A, with a detection of species B in between the detections of species A.
 
 * The AAR function calculates the T1, T2, T3 and T4 events as well as the T2/T1 (BA/AB) and T4/T3 (ABA/AA) ratios.
 
@@ -52,8 +52,6 @@ For more information on Attraction-Avoidance Ratios please see references.
 Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88.
 
 Niedballa, J., A. Wilting, R. Sollmann, H. Hofer, and A. Courtiol. 2019. Assessing analytical methods for detecting spatiotemporal interactions between species from camera trapping data. M. Rowcliffe and J. Ahumada, editors. Remote Sensing in Ecology and Conservation 5:272–285.
-
-Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage. Conservation Science and Practice 2:e271.
 
 ### Installation
 
