@@ -38,11 +38,13 @@ From Parsons et al. 2016, Fig.2:
 
 From Parsons et al. 2016:
 
-The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of the species A and the attraction of species B
+The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of species A and the attraction of species B
 
-The T4/T3 (ABA/AA) ratio is influenced solely by the avoidance of the species B by species A.
+The T4/T3 (ABA/AA) ratio is influenced solely by the avoidance of species B by species A.
 
-Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species indicating that the species A is avoiding the area after the passage of species B. Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
+Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species indicating that the species A is avoiding the area after the passage of species B. 
+
+Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
 
 
 For more information on Attraction-Avoidance Ratios please see references.
