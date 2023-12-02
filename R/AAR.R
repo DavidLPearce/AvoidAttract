@@ -84,7 +84,7 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
     site_data <- species_data[species_data[[site_col]] == site, ]
 
     # Extract years for the site
-    years <- unique(as.numeric(format(site_data[[datetime_col]][!is.na(site_data[[datetime_col]]), "%Y"])))
+    years <- unique(as.numeric(format(site_data[[datetime_col]], "%Y")))
 
     # Iterate over years
     for (year in years) {
@@ -95,18 +95,14 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
       # Organizing data by time
       year_data <- year_data[order(year_data[[datetime_col]]), ]
 
-      # #Check to see if either species are found in the year data subset
-      # if (isTRUE(!(speciesA %in% year_data[[species_col]] || speciesB %in%
-      #              year_data[[species_col]]))) {
-      #   # Skip that site and go to the next site
-      #   next
-      #
-      # }
-      # Check if both speciesA and speciesB are present in year_data
-      if (!(speciesA %in% year_data[[species_col]] && speciesB %in% year_data[[species_col]])) {
-        cat("Skipping site", site, "and going to the next site for year", year, "\n")
+      #Check to see if either species are found in the year data subset
+      if (isTRUE(!(speciesA %in% year_data[[species_col]] || speciesB %in%
+                   year_data[[species_col]]))) {
+        # Skip that site and go to the next site
         next
+
       }
+
       # If 1 or fewer observations for a site are entered for that year it will skip that year
       if (isTRUE(nrow(year_data) <= 1)) {
         # Skip that site and go to the next site
@@ -194,6 +190,7 @@ temp_result <- rbind(temp_result, c(site = site, year = year, T1 = T1, T2 = T2, 
     }
 
 # Save temp_result to detailed_summary
+# Renaming temp_result columns names to ensure they match up with detailed_summary
 colnames(temp_result) <- c("Site", "Year", "T1", "T2", "T3", "T4")
 colnames(detailed_summary) <- c("Site", "Year", "T1", "T2", "T3", "T4")
 detailed_summary <- rbind(detailed_summary, temp_result)
