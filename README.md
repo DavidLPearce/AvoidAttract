@@ -46,6 +46,8 @@ Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species
 
 Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
 
+Avoidance of species A from species B would result in higher ratios of T4/T3.
+
 
 For more information on Attraction-Avoidance Ratios please see references.
 
