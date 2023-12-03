@@ -35,10 +35,10 @@ T1(
 \value{
 A list containing:
   \describe{
-    \item{total_summary}{A summary of the mean values for T1 across all sites and years.}
+    \item{total_summary}{A summary of the mean values for T1 across all sites that recorded an event and years.}
     \item{event_count}{The total count of T1 events across all sites and years.}
-    \item{site_result}{A summary of the mean T1 values for each site across all years.}
-    \item{detailed_result}{Detailed information on T1 events, including site, year, and time differences.}
+    \item{site_result}{A summary of the mean T1 values for each site that recorded an eventacross all years.}
+    \item{detailed_result}{Detailed information on recorded T1 events, including site, year and time differences.}
   }
 }
 \description{
@@ -55,7 +55,7 @@ T1_example <- T1(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "
 Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88.
 }
 \seealso{
-Naidoo, R., and A. C. Burton. 2020. Relative effects of recreational activities on a temperate terrestrial wildlife assemblage. Conservation Science and Practice 2:e271.
+Niedballa, J., A. Wilting, R. Sollmann, H. Hofer, and A. Courtiol. 2019. Assessing analytical methods for detecting spatiotemporal interactions between species from camera trapping data. M. Rowcliffe and J. Ahumada, editors. Remote Sensing in Ecology and Conservation 5:272–285.
 
-URL: \url{https://doi.org/10.1111/csp2.271}
+URL: https://doi.org/10.1002/rse2.107
 }
