@@ -12,10 +12,10 @@
 #'
 #' @return A list containing:
 #'   \describe{
-#'     \item{total_summary}{A summary of the mean values for T2 across all sites and years.}
+#'     \item{total_summary}{A summary of the mean values for T2 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T2 events across all sites and years.}
-#'     \item{site_summary}{A summary of the mean T2 values for each site across all years.}
-#'     \item{detailed_summary}{Detailed information on T2 events, including site, year, and time differences.}
+#'     \item{site_result}{A summary of the mean T2 values for each site that recorded an eventacross all years.}
+#'     \item{detailed_result}{Detailed information on recorded T2 events, including site, year and time differences.}
 #'   }
 #'
 #' @references
@@ -44,8 +44,13 @@ T2 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   }
 
   # Ensure the datetime column is in the correct format
-  if (!inherits(data[[datetime_col]], "POSIXct")) {
+  if (isTRUE(!inherits(data[[datetime_col]], "POSIXct"))) {
     stop("Datetime column must be in POSIXct format.")
+  }
+
+  # Check for NAs in the datetime column
+  if (any(is.na(data[[datetime_col]]))) {
+    stop("Datetime column contains NA values. Please ensure all datetime values are present. Issue may be with POSIXct 'format'")
   }
 
   # subsetting data by species given
@@ -90,7 +95,7 @@ T2 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
         next_species <- year_data[[species_col]][row + 1]
         third_species <- year_data[[species_col]][row + 2]
 
-        if (!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
+        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species)) &&
             current_species == speciesA && next_species == speciesB && third_species == speciesA) {
           # Species 1 detection followed by species 2 followed by species 1 detection
           current_species_time <- year_data[[datetime_col]][row]
@@ -119,14 +124,10 @@ T2 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   event_count <- sum(!is.na(detailed_summary$T2))
 
   # Summarize results by taking the mean for each site across all years
-  site_summary <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-
-  # Convert Site to numeric and sort the result by ascending site number
-  site_summary$Site <- as.numeric(as.character(site_summary$Site))
-  site_summary <- site_summary[order(site_summary$Site), ]
+  site_result <- aggregate(T2 ~ Site, data = detailed_result, FUN = mean, na.rm = TRUE)
 
   # Renumber the row names
-  row.names(site_summary) <- NULL
+  row.names(site_result) <- NULL
 
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
