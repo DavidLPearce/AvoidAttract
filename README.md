@@ -13,19 +13,19 @@ Investigates the temporal avoidance or attraction of species using the time betw
 
 ### Functions
 
-* The T1 (AB) function analyzes camera trapping data to calculate the time between the detections of species A followed by species B.
+* The T1 (AB) function analyzes camera trapping data to calculate the time between an initial detection of species A followed by a detection of species B.
 
-* The T2 (BA) function analyzes camera trapping data to calculate the time between the detections of species B followed by species A given that a T1 (AB) event occurred.
+* The T2 (BA) function analyzes camera trapping data to calculate the time between the initial detection species B followed by a detection of species A given that a T1 (AB) event occurred.
 
-* The T3 (AA) function analyzes camera trapping data to calculate the time between the detections of species A followed by species A without species B in between the detections of species A.
+* The T3 (AA) function analyzes camera trapping data to calculate the time between an initial detection of species A followed by a detection of species A without species B in between the detections of species A.
 
-* The T4 (ABA) function analyzes camera trapping data to calculate the time between detections of species A, with a detection of species B in between the detections of species A.
+* The T4 (ABA) function analyzes camera trapping data to calculate the time between an initial detection of species A, with a detection of species B in between the next detection of species A.
 
 * The AAR function calculates the T1, T2, T3 and T4 events as well as the T2/T1 (BA/AB) and T4/T3 (ABA/AA) ratios.
 
-* The spp_sum function sumarizes the number of observations by species.
+* The spp_sum function summarizes the number of observations by species.
 
-* the spp_sumYear function summarizes the number of observations by species per year.
+* The spp_sumYear function summarizes the number of observations by species per year.
 
 
 
@@ -42,15 +42,11 @@ From Parsons et al. 2016, Fig.2:
 
 From Parsons et al. 2016:
 
-The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of species A and the attraction of species B
+The T2/T1 (BA/AB) compares the time intervals after/before a passage of species B.This ratio could be influenced both by the avoidance of species A and the attraction of species B.
 
-The T4/T3 (ABA/AA) ratio is influenced solely by the avoidance of species B by species A.
+The T4/T3 (ABA/AA) compares the time intervals with/witout the passage of a predator. This ratio is influenced solely by species A avoidance of species B.
 
-Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species.
-
-Attraction of species B to species A would result in high T2/T1 ratios, but lower T4/T3 ratios.
-
-Avoidance of species A from species B would result in higher ratios of T4/T3.
+Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species. Attraction of species B to species A would result in high T2/T1 ratios, but lower T4/T3 ratios. Avoidance of species A from species B would result in higher ratios of T4/T3.
 
 For more information on Attraction-Avoidance Ratios please see references.
 
