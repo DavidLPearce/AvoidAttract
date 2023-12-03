@@ -54,7 +54,7 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   }
 
   # Results dataframe
-  detailed_result <- data.frame(Site = character(), Year = integer(), T1 = numeric())
+  detailed_summary <- data.frame(Site = character(), Year = integer(), T1 = numeric())
 
   # subsetting data by species given
   species_data <- data[data[[species_col]] == speciesA | data[[species_col]] == speciesB, ]
@@ -110,28 +110,28 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
     }
 
     # Save temp_result to detailed_result
-    detailed_result <- rbind(detailed_result, temp_result)
+    detailed_summary <- rbind(detailed_summary, temp_result)
 
     }
 
   # Convert character columns to their respective types
-  detailed_result$Site <- as.character(detailed_result$Site)
-  detailed_result$Year <- as.integer(detailed_result$Year)
+  detailed_summary$Site <- as.character(detailed_summary$Site)
+  detailed_summary$Year <- as.integer(detailed_summary$Year)
 
   # How many times an event occured
-  event_count <- sum(!is.na(detailed_result$T1))
+  event_count <- sum(!is.na(detailed_summary$T1))
 
   # Summarize results by taking the mean for each site across all years
-  site_result <- aggregate(T1 ~ Site, data = detailed_result, FUN = mean, na.rm = TRUE)
+  site_result <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
   # Renumber the row names
   row.names(site_result) <- NULL
 
   # Calculate the total summary for the entire output
-  total_summary <- mean(detailed_result[, -c(1, 2)], na.rm = TRUE)
+  total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
-    # Combine results into a list
-  result_list <- list(total_summary = total_summary, event_count = event_count, site_result = site_result, detailed_result = detailed_result)
+  # Combine results into a list
+  result_list <- list(total_summary = total_summary, event_count = event_count, site_result = site_result, detailed_summary = detailed_summary)
 
   return(result_list)
 }
