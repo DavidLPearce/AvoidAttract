@@ -15,7 +15,8 @@
 #'   \describe{
 #'     \item{total_summary}{A summary of the mean values for T1, T2, T3, T4, T2/T1, and T4/T3 across all sites and years.}
 #'     \item{event_count}{The total count of T1, T2, T3, and T4 events across all sites and years.}
-#'     \item{site_summary}{A summary of the mean T1, T2, T3, T4, T2/T1, and T4/T3 values for each site across all years.}
+#'     \item{summed_site_summary}{A summary of the mean T1, T2, T3, T4, T2/T1, and T4/T3 values for each site across all years.}
+#'     \item{detailed_summary}{A report of all of the T1, T2, T3, T4, events.}
 #'   }
 #'
 #' @references
@@ -59,7 +60,7 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
 
   # Check for NAs in the datetime column
   if (any(is.na(data[[datetime_col]]))) {
-    stop("Datetime column contains NA values. Please ensure all datetime values are present.")
+    stop("Datetime column contains NA values. Please ensure all datetime values are present. Issue may be with POSIXct format")
   }
 
   # Results dataframe
@@ -214,15 +215,15 @@ site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm
 
 
 # Merging all means into one summary for each site
-site_summary <- merge(all_sites, site_means_T1, by = "Site", all.x = TRUE)
-site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
-site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
-site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
+summed_site_summary <- merge(all_sites, site_means_T1, by = "Site", all.x = TRUE)
+summed_site_summary <- merge(summed_site_summary, site_means_T2, by = "Site", all.x = TRUE)
+summed_site_summary <- merge(summed_site_summary, site_means_T3, by = "Site", all.x = TRUE)
+summed_site_summary <- merge(summed_site_summary, site_means_T4, by = "Site", all.x = TRUE)
 
 # Calculate T2/T1 and T4/T3 ratios by site
-site_summary$T2_over_T1 <- with(site_summary, T2 / T1)
-site_summary$T4_over_T3 <- with(site_summary, T4 / T3)
-colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
+summed_site_summary$T2_over_T1 <- with(summed_site_summary, T2 / T1)
+summed_site_summary$T4_over_T3 <- with(summed_site_summary, T4 / T3)
+colnames(summed_site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
 
 # Total summary
 total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
@@ -246,7 +247,8 @@ event_count_T4 <- sum(!is.na(detailed_summary$T4))
 event_counts <- c(T1 = event_count_T1, T2 = event_count_T2, T3 = event_count_T3, T4 = event_count_T4)
 
 # Combine results into a list
-result_list <- list(total_summary = total_summary, event_count = event_counts, site_summary = site_summary)
+result_list <- list(total_summary = total_summary, event_count = event_counts,
+                    summed_site_summary = summed_site_summary, detailed_summary = detailed_summary)
 
 return(result_list)
 }
