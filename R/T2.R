@@ -124,10 +124,10 @@ T2 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   event_count <- sum(!is.na(detailed_summary$T2))
 
   # Summarize results by taking the mean for each site across all years
-  site_result <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  site_summary <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
   # Renumber the row names
-  row.names(site_result) <- NULL
+  row.names(site_summary) <- NULL
 
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)

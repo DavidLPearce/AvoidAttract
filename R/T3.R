@@ -127,7 +127,7 @@ T3 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   site_summary <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
   # Renumber the row names
-  row.names(site_result) <- NULL
+  row.names(site_summary) <- NULL
 
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
