@@ -14,8 +14,8 @@
 #'   \describe{
 #'     \item{total_summary}{A summary of the mean values for T4 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T4 events across all sites and years.}
-#'     \item{site_result}{A summary of the mean T4 values for each site that recorded an eventacross all years.}
-#'     \item{detailed_result}{Detailed information on recorded T4 events, including site, year and time differences.}
+#'     \item{site_summary}{A summary of the mean T4 values for each site that recorded an eventacross all years.}
+#'     \item{detailed_summary}{Detailed information on recorded T4 events, including site, year and time differences.}
 #'   }
 #'
 #' @references
@@ -117,17 +117,16 @@ T4 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   }
 
   # Convert character columns to their respective types
-  detailed_summary$Site <- as.numeric(as.character(detailed_summary$Site))
+  detailed_summary$Site <- as.character(detailed_summary$Site)
   detailed_summary$Year <- as.integer(detailed_summary$Year)
 
   # How many times an event occured
   event_count <- sum(!is.na(detailed_summary$T4))
 
   # Summarize results by taking the mean for each site across all years
-  site_result <- aggregate(T3 ~ Site, data = detailed_result, FUN = mean, na.rm = TRUE)
+  site_summary <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
   # Renumber the row names
-  row.names(site_result) <- NULL
   row.names(site_summary) <- NULL
 
   # Calculate the total summary for the entire output

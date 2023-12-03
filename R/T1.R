@@ -15,7 +15,7 @@
 #'     \item{total_summary}{A summary of the mean values for T1 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T1 events across all sites and years.}
 #'     \item{site_result}{A summary of the mean T1 values for each site that recorded an eventacross all years.}
-#'     \item{detailed_result}{Detailed information on recorded T1 events, including site, year and time differences.}
+#'     \item{detailed_summary}{Detailed information on recorded T1 events, including site, year and time differences.}
 #'   }
 #'
 #' @references
