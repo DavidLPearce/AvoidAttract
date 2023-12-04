@@ -139,7 +139,9 @@ T3 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
   # Combine results into a list
-  result_list <- list(total_summary = total_summary, event_count = event_count, site_summary = site_summary, detailed_summary = detailed_summary)
+  result_list <- list(total_summary = total_summary, event_count = event_count,
+                      event_summary = event_summary, site_summary = site_summary,
+                      detailed_summary = detailed_summary)
 
   return(result_list)
 }
