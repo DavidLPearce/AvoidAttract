@@ -210,17 +210,39 @@ detailed_summary$T4 <- as.numeric(detailed_summary$T4)
 
 
 # Taking the mean of T1-T4 for each site
-site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-site_means_T3 <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+# Checking to see if there are observations to aggregate
 
+# Check if there are non-NA numeric values in T1
+if (any(complete.cases(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))) {
+  # Perform aggregation only if there are non-NA numeric values
+  site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+} else {
+  warning("No T1 interaction events occured cannot calculate a mean for this event")
+}
 
-# Merging all means into one summary for each site
-site_summary <- merge(all_sites, site_means_T1, by = "Site", all.x = TRUE)
-site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
-site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
-site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
+# Check if there are non-NA numeric values in T2
+if (any(complete.cases(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric))) {
+  # Perform aggregation only if there are non-NA numeric values
+  site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+} else {
+  warning("No T2 interaction events occured cannot calculate a mean for this event")
+}
+
+# Check if there are non-NA numeric values in T3
+if (any(complete.cases(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
+  # Perform aggregation only if there are non-NA numeric values
+  site_means_T3 <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+} else {
+  warning("No T3 interaction events occured cannot calculate a mean for this event")
+}
+
+# Check if there are non-NA numeric values in T3
+if (any(complete.cases(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
+  # Perform aggregation only if there are non-NA numeric values
+  site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+} else {
+  warning("No T4 interaction events occured cannot calculate a mean for this event")
+}
 
 # Calculate T2/T1 and T4/T3 ratios by site
 site_summary$T2_over_T1 <- with(site_summary, T2 / T1)
