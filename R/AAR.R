@@ -207,6 +207,7 @@ detailed_summary$T2 <- as.numeric(detailed_summary$T2)
 detailed_summary$T3 <- as.numeric(detailed_summary$T3)
 detailed_summary$T4 <- as.numeric(detailed_summary$T4)
 
+
 # Taking the mean of T1-T4 for each site
 site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
@@ -228,7 +229,7 @@ colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
 # To not get scientific numbers in event_summery output
 options(scipen = 999)
 
-# Event summaries
+# Event summaries T1-4
 summary_T1 <- as.matrix(summary(detailed_summary$T1))
 summary_T2 <- as.matrix(summary(detailed_summary$T2))
 summary_T3 <- as.matrix(summary(detailed_summary$T3))
