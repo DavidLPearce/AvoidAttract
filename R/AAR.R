@@ -225,6 +225,9 @@ site_summary$T2_over_T1 <- with(site_summary, T2 / T1)
 site_summary$T4_over_T3 <- with(site_summary, T4 / T3)
 colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
 
+# To not get scientific numbers in event_summery output
+options(scipen = 999)
+
 # Event summaries
 summary_T1 <- as.matrix(summary(detailed_summary$T1))
 summary_T2 <- as.matrix(summary(detailed_summary$T2))
@@ -233,21 +236,14 @@ summary_T4 <- as.matrix(summary(detailed_summary$T4))
 
 # Create a data frame with columns T1, T2, T3, T4
 event_summary <- data.frame(
-  T1 = T1quartiles,
-  T2 = T2quartiles,
-  T3 = T3quartiles,
-  T4 = T4quartiles
+  T1 = summary_T1[-7], # not including NA's
+  T2 = summary_T2[-7],
+  T3 = summary_T3[-7],
+  T4 = summary_T4[-7]
 )
 
-# Calculate ratios and add columns T2/T1 and T4/T3
-event_summary$`T2/T1` <- as.matrix(summary(detailed_summary$T2)) / as.matrix(summary(detailed_summary$T1))
-event_summary$`T4/T3` <- as.matrix(summary(detailed_summary$T4)) / as.matrix(summary(detailed_summary$T3))
-
-quartile_summary$`T2/T1`[is.infinite(quartile_summary$`T2/T1`)] <- NA
-quartile_summary$`T4/T3`[is.infinite(quartile_summary$`T4/T3`)] <- NA
-
-ratio_quartiles <- quantile(quartile_summary$`T2/T1`, c(0, 0.25, 0.5, 0.75, 1))
-
+# Renaming event_summary rows
+rownames(event_summary) = c("Min", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max")
 
 # Calculate the event counts
 event_count_T1 <- sum(!is.na(detailed_summary$T1))
@@ -255,7 +251,7 @@ event_count_T2 <- sum(!is.na(detailed_summary$T2))
 event_count_T3 <- sum(!is.na(detailed_summary$T3))
 event_count_T4 <- sum(!is.na(detailed_summary$T4))
 
-# Combine into a named vector
+# Combining all event counts into a single output
 event_counts <- c(T1 = event_count_T1, T2 = event_count_T2, T3 = event_count_T3, T4 = event_count_T4)
 
 # Total summary
@@ -272,7 +268,7 @@ names(total_summary)[6] <- "T4/T3"
 
 
 # Combine results into a list
-result_list <- list(total_summary = total_summary, quartile_summary = quartile_summary ,event_count = event_counts,
+result_list <- list(total_summary = total_summary,event_count = event_counts, event_summary = event_summary,
                     site_summary = site_summary, detailed_summary = detailed_summary)
 
 return(result_list)
