@@ -14,6 +14,7 @@
 #'   \describe{
 #'     \item{total_summary}{A summary of the mean values for T1 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T1 events across all sites and years.}
+#'     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T1 events.}
 #'     \item{site_result}{A summary of the mean T1 values for each site that recorded an eventacross all years.}
 #'     \item{detailed_summary}{Detailed information on recorded T1 events, including site, year and time differences.}
 #'   }
@@ -121,6 +122,11 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   # How many times an event occured
   event_count <- sum(!is.na(detailed_summary$T1))
 
+  # Event summary
+  detailed_summary$T1 <- as.numeric(detailed_summary$T1)
+  event_summary <- as.matrix(summary(detailed_summary$T1))
+  colnames(event_summary) <- "T1"
+
   # Summarize results by taking the mean for each site across all years
   site_result <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
@@ -131,7 +137,9 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
   # Combine results into a list
-  result_list <- list(total_summary = total_summary, event_count = event_count, site_result = site_result, detailed_summary = detailed_summary)
+  result_list <- list(total_summary = total_summary, event_count = event_count,
+                      event_summary = event_summary, site_result = site_result,
+                      detailed_summary = detailed_summary)
 
   return(result_list)
 }

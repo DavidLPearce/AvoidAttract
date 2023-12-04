@@ -14,6 +14,7 @@
 #'   \describe{
 #'     \item{total_summary}{A summary of the mean values for T3 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T3 events across all sites and years.}
+#'     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T3 events.}
 #'     \item{site_summary}{A summary of the mean T3 values for each site that recorded an eventacross all years.}
 #'     \item{detailed_summary}{Detailed information on recorded T3 events, including site, year and time differences.}
 #'   }
@@ -122,6 +123,11 @@ T3 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
 
   # How many times an event occured
   event_count <- sum(!is.na(detailed_summary$T3))
+
+  # Event summary
+  detailed_summary$T3 <- as.numeric(detailed_summary$T3)
+  event_summary <- as.matrix(summary(detailed_summary$T3))
+  colnames(event_summary) <- "T3"
 
   # Summarize results by taking the mean for each site across all years
   site_summary <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
