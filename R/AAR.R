@@ -205,6 +205,9 @@ detailed_summary$T2 <- as.numeric(detailed_summary$T2)
 detailed_summary$T3 <- as.numeric(detailed_summary$T3)
 detailed_summary$T4 <- as.numeric(detailed_summary$T4)
 
+# Creating a dataframe for by site reporting
+site_summary <- data.frame(Site = unique(detailed_summary$Site))
+
 # Taking the mean of T1-T4 for each site
 # Checking to see if there are observations to aggregate
 
@@ -212,65 +215,49 @@ detailed_summary$T4 <- as.numeric(detailed_summary$T4)
 if (any(complete.cases(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))) {
   # Perform aggregation only if there are non-NA numeric values
   site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
 } else {
   warning("No T1 interaction events occured. Cannot calculate a mean for this event")
-  site_means_T1 <- NULL
 }
+
 
 # Check if there are non-NA numeric values in T2
 if (any(complete.cases(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+   # Perform aggregation only if there are non-NA numeric values
+   site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+   # Adding means to site summary
+   site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
 } else {
   warning("No T2 interaction events occured. Cannot calculate a mean for this event")
-  site_means_T2 <- NULL
 }
+
 
 # Check if there are non-NA numeric values in T3
 if (any(complete.cases(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
   # Perform aggregation only if there are non-NA numeric values
   site_means_T3 <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
 } else {
   warning("No T3 interaction events occured. Cannot calculate a mean for this event")
-  site_means_T3 <- NULL
 }
+
 
 # Check if there are non-NA numeric values in T3
 if (any(complete.cases(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
   # Perform aggregation only if there are non-NA numeric values
   site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
 } else {
   warning("No T4 interaction events occured cannot calculate a mean for this event")
-  site_means_T4 <- NULL
 }
 
-# Creating a dataframe for by site reporting
-site_summary <- data.frame(Site = unique(detailed_summary$Site))
 
-# Merging all means into one summary for each site
-# T1
-if (!is.null(site_means_T1)) {
-  site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
-}
-
-# T2
-if (!is.null(site_means_T2)) {
-  site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
-}
-
-# T3
-if (!is.null(site_means_T3)) {
-  site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
-}
-
-# T4
-if (!is.null(site_means_T4)) {
-  site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
-}
-
-# Check if there are non-NA numeric values in T1 and T3
+# Calculating Avoidance-Attraction Ratios only if there are T1 & T2 events or T3 & T4 events
 if (any(complete.cases(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric)) &&
-    any(complete.cases(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)) &&
+    any(complete.cases(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)) ||
     any(complete.cases(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric)) &&
     any(complete.cases(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
 
@@ -281,7 +268,7 @@ if (any(complete.cases(detailed_summary$T1)) && any(sapply(detailed_summary$T1, 
   colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
 
 } else {
-  warning("Unable to calculate Avoidance-Attraction Ratios due to lack of event occurances")
+  warning("Unable to calculate site summary Avoidance-Attraction Ratios due to lack of event occurances")
 }
 
 
@@ -320,17 +307,27 @@ event_counts <- c(T1 = event_count_T1, T2 = event_count_T2, T3 = event_count_T3,
 # Total summary
 total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
-# Calculate ratios
-total_summary <- c(total_summary,
-                   T2_over_T1 = total_summary[2] / total_summary[1],
-                   T4_over_T3 = total_summary[4] / total_summary[3])
+# Total summary ratios
+# will only calculate ratios if
+if (any(complete.cases(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) &&
+    any(complete.cases(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
+    any(complete.cases(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) &&
+    any(complete.cases(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
 
-# Change the names of the vector elements
-names(total_summary)[5] <- "T2/T1"
-names(total_summary)[6] <- "T4/T3"
+  # Calculate T2/T1 and T4/T3 ratios from total means
+  total_summary <- c(total_summary,
+                     T2_over_T1 = total_summary[2] / total_summary[1],
+                     T4_over_T3 = total_summary[4] / total_summary[3])
 
-# Replace NaN with NA
-total_summary <- replace(total_summary, is.nan(total_summary), NA)
+  # Renaming ratio columns
+  names(total_summary)[5] <- "T2/T1"
+  names(total_summary)[6] <- "T4/T3"
+
+} else {
+  warning("Unable to calculate total summary Avoidance-Attraction Ratios due to lack of event occurances")
+  # Replace NaN with NA
+  total_summary <- replace(total_summary, is.nan(total_summary), NA)
+}
 
 
 # Combine results into a list
