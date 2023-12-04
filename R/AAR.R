@@ -217,7 +217,8 @@ if (any(complete.cases(detailed_summary$T1)) && any(sapply(detailed_summary$T1, 
   site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
   site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
-} else {
+}
+if (!any(complete.cases(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))) {
   warning("No T1 interaction events occured. Cannot calculate a mean for this event")
 }
 
@@ -228,7 +229,8 @@ if (any(complete.cases(detailed_summary$T2)) && any(sapply(detailed_summary$T2, 
    site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
    # Adding means to site summary
    site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
-} else {
+}
+if (!any(complete.cases(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric))) {
   warning("No T2 interaction events occured. Cannot calculate a mean for this event")
 }
 
@@ -239,7 +241,8 @@ if (any(complete.cases(detailed_summary$T3)) && any(sapply(detailed_summary$T3, 
   site_means_T3 <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
   site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
-} else {
+}
+if (!any(complete.cases(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
   warning("No T3 interaction events occured. Cannot calculate a mean for this event")
 }
 
@@ -250,7 +253,8 @@ if (any(complete.cases(detailed_summary$T4)) && any(sapply(detailed_summary$T4, 
   site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
   site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
-} else {
+}
+if (!any(complete.cases(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
   warning("No T4 interaction events occured cannot calculate a mean for this event")
 }
 
