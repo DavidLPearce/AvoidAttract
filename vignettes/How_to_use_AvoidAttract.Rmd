@@ -31,7 +31,7 @@ library(AvoidAttract)
 Now that the package is installed and loaded, let's take a look at the data.
 
 ```{r data documentation}
-# Dataset R documentation, if you want to take a closer look
+# If you want to take a closer look use this code to read the dataset documentation, 
 # ?KScams_dat
 ```
 
@@ -45,7 +45,7 @@ data("KScams_dat")
 head(KScams_dat)
 ```
 
-Great! We can see that the data has detection's of species at certain sites with a specific date and time for that observation. Let's see how many different species were found!
+Great! We can see that the data has detection's of species at certain sites with a specific date and time for that observation. Let's see how many different species were found.
 
 ``` {r looking into the data}
 # Let's see what the column names are 
@@ -55,7 +55,7 @@ names(KScams_dat)
 unique(KScams_dat$Common_name)
 ```
 
-Those are some pretty cool species! Lets see how many observations of each are in the data set using the spp_sum function from the package.
+Looking to see how many observations of each species there are in the data set using the spp_sum function from the package.
 ```{r species observations}
 # spp_sum requires the data input and a name column and provides a frequency table of observations
 spp_sum(KScams_dat, name_col = "Common_name")
@@ -65,8 +65,8 @@ spp_sum(KScams_dat, name_col = "Common_name")
 That's a lot of observations! Let's take a look at a few of the species that had a lot of observations and their interactions with coyotes using the AAR function.  
 ```{r AAR function}
 # First we have to format the DateTime column from a character string to a date time 
-# This is a important step since the function won't know how to read the date and time
-# Make sure to modify the format if you are using a different dataset!
+# This is an important step since the function won't know how to read the date and time
+# Make sure to modify the format if you are using a different dataset!!!
 KScams_dat$DateTime  <- as.POSIXct(KScams_dat$DateTime ,  tryFormats = "%m/%d/%Y %H:%M:%OS")
 
 # Let's look at some of these species!
@@ -76,8 +76,19 @@ jrabbit_AAR <- AAR(data = KScams_dat, speciesA = "Black-tailed jackrabbit", spec
                    species_col = "Common_name", datetime_col = "DateTime", 
                    site_col ="Site", unitTime = "hours")
 
-# Saving the total summary 
-jrabbit_sum <- jrabbit_AAR$total_summary
+# The AAR function outputs several results. Let's take a look at just the total summary.
+print(jrabbit_AAR$total_summary)
+
+# Okay we can see that this outputs the mean values for all interaction events and the interaction ratios
+
+# The AAR function also returns a list of how many times those interactions occurred.
+print(jrabbit_AAR$event_count)
+
+# That's quite a few counts for each interaction.
+# Lets save just the ratios to use later on.
+
+# Saving only the T2/T1 and T4/T3 ratios 
+jrabbit_ratios <- jrabbit_AAR$total_summary[c(5,6)]
 
 # Now the other species
 
@@ -86,86 +97,110 @@ pdog_AAR <- AAR(data = KScams_dat, speciesA = "Black-tailed Prarie Dog", species
                 species_col = "Common_name", datetime_col = "DateTime", 
                 site_col ="Site", unitTime = "hours")
 
-pdog_sum <- pdog_AAR$total_summary
+pdog_ratios <- pdog_AAR$total_summary[c(5,6)]
 
 # Eastern cottontail rabbit
 crabbit_AAR<- AAR(data = KScams_dat, speciesA = "Eastern cottontail rabbit", speciesB = "Coyote",
                   species_col = "Common_name", datetime_col = "DateTime", 
                   site_col ="Site", unitTime = "hours")
 
-crabbit_sum <- crabbit_AAR$total_summary
+crabbit_ratios <- crabbit_AAR$total_summary[c(5,6)]
+
 
 # Mouse
 mouse_AAR <- AAR(data = KScams_dat, speciesA = "Mouse", speciesB = "Coyote",
                  species_col = "Common_name", datetime_col = "DateTime", 
                  site_col ="Site", unitTime = "hours")
 
-mouse_sum <- mouse_AAR$total_summary
+mouse_ratios <- mouse_AAR$total_summary[c(5,6)]
 
 # Norway rat
 rat_AAR <- AAR(data = KScams_dat, speciesA = "Norway rat", speciesB = "Coyote",
                species_col = "Common_name", datetime_col = "DateTime", 
                site_col ="Site", unitTime = "hours")
 
-rat_sum <- rat_AAR$total_summary
+rat_ratios <- rat_AAR$total_summary[c(5,6)]
 
-# White-Tailed Deer
+# White-tailed Deer
 wtd_AAR <- AAR(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "Coyote",
                species_col = "Common_name", datetime_col = "DateTime", 
                site_col ="Site", unitTime = "hours")
 
-wtd_sum <- wtd_AAR$total_summary
+
+wtd_ratios <- wtd_AAR$total_summary[c(5,6)]
 
 ```
 
 Okay, now lets combine all of the summaries into one dataframe.
 ```{r combine summaries}
-# Combining data
-combined_data <- as.data.frame(rbind(Jack_rabbit = jrabbit_sum, 
-                                     Prarie_dog = pdog_sum,
-                                     cottontail_rabbit = crabbit_sum,
-                                     Mouse = mouse_sum,
-                                     Norway_rat = rat_sum,
-                                     wt_Deer = wtd_sum
-                                     ))
+# Combining ratio data
+combined_ratios <- as.data.frame(rbind(Jack_rabbit = jrabbit_ratios, 
+                                     Prarie_dog = pdog_ratios,
+                                     cottontail_rabbit = crabbit_ratios,
+                                     Mouse = mouse_ratios,
+                                     Norway_rat = rat_ratios,
+                                     wt_Deer = wtd_ratios))
 
+# Adding a column for species names
+combined_ratios$Species  <- c("Jack rabbit", "Prarie dog", 
+                              "Cottontail rabbit", "Mouse", "Norway rat", "wt Deer")
+
+# Future steps require that the data be in a long format. 
+# Let's convert the data from a wide format to long format.
+combined_ratios_long <- tidyr::gather(combined_ratios, key = "Ratio", 
+                                      value = "Value", -Species)
 # Take a quick look
-print(combined_data)
-
+print(combined_ratios)
 ```
 
-We know from Parsons (2016) that The T2/T1 (BA/AB) ratio could be influenced both by the avoidance of the species A and the attraction of species B and values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species indicating that the species A is avoiding the area after the passage of species B. Attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3.
+Let's plot both of the ratios and take a look.
 
-So, let's follow the analysis laid out by Parsons (2016) for just one predator and our prey species. 
-```{r analysis}
-# Perform pairwise Wilcoxon tests
-wilcox_results <- pairwise.wilcox.test(combined_data$`T2/T1`, # T2/T1 ratio
-                                       rownames(combined_data), # species names
-                                       p.adjust.method = "bonferroni")
-
-# Print the results
-print(wilcox_results)
-
-```
-
-
-```{r plotting}
-# Let's plot with ggplot2
+```{r fig.width=8, fig.height=6}
+# Let's plot the ratios with ggplot2
 library(ggplot2)
 
-ggplot(combined_data, aes(x = row.names(combined_data), 
-                          y = log(combined_data[,6]) # T4/T3
-                          )) +
-            geom_point() +
-            labs(title = "AAR Total Summary for T4/T3",
-                 x = "species",
-                 y = "T2/T1 Ratio")
+# Plotting
+ggplot(combined_ratios_long, aes(x = Species, y = Value, fill = Ratio)) +
+  geom_col(position = position_dodge(0.8), width = 0.7) +
+  geom_text(aes(label = round(Value, 2)), position = position_dodge(0.8), vjust = -0.5) +
+  scale_fill_manual(values = c("black", "grey"), name = "Ratio") +  
+  labs(x = "Species", y = "Avoidance-Attraction Ratios", 
+       title = "Prey Avoidance and Coyote Attraction") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.background = element_rect(fill = "white"))
+
 
 
 ```
 
 
+From Parsons (2016) we know that the T2/T1 (BA/AB) ratio could be influenced both by the avoidance of the species A and the attraction of species B and the T4/T3 ratio describes the avoidance of species A from species B. We also know that values >1 for T2/T1 or T4/T3 suggest nonrandom movement between the two species and attraction of species B to species A could also result in high T2/T1 ratios, but would result in lower ratios of T4/T3. We also know that lower T2/T1 ratios but higher T4/T3 ratios would suggest that species B isn't attracted to species A but species A is avoiding species B. 
 
+So, let's follow the analysis laid out by Parsons (2016) for coyote and our prey species. 
+
+```{r analysis}
+# Perform pairwise Wilcoxon tests
+wilcox_test_result <- pairwise.wilcox.test(
+  combined_ratios_long$Value,
+  combined_ratios_long$Species,
+  p.adjust.method = "bonferroni"  # Adjust p-values for multiple comparisons
+)
+
+ 
+# Print the results
+print(wilcox_test_result)
+
+```
+
+The results of the Wilcox test show that the ratios were not statistically significant. But that doesn't mean that there isn't a response in attraction or avoidance, only that it wasn't statistically significant and we know that values >1 suggest nonrandom movement between the two species. 
+
+This vignette shows how to implement the main functions in AvoidAttract to investigate species interactions using camera trapping data.
+
+
+## References:
+
+Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016.
+The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88. URL: https://doi.org/10.1016/j.biocon.2016.09.001
 
 
 
