@@ -46,6 +46,16 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
     stop("One or more specified columns do not exist in the dataframe.")
   }
 
+  # Check if speciesA is in the data
+  if (!(speciesA %in% unique(data[[species_col]]))) {
+    stop(paste("Error: Species", speciesA, "not found in the", species_col, "column of the data."))
+
+  }
+  # Check if speciesB is in the data
+  if (!(speciesB %in% unique(data[[species_col]]))) {
+    stop(paste("Error: Species", speciesB, "not found in the", species_col, "column of the data."))
+  }
+
   # Ensure the datetime column is in the correct format
   if (isTRUE(!inherits(data[[datetime_col]], "POSIXct"))) {
     stop("Datetime column must be in POSIXct format.")
