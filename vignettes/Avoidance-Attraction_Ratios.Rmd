@@ -20,7 +20,8 @@ This guide will implement the functions in the AvoidAttract package and perform 
 
 Lets get started.
 
-#### Package Install
+### Package Install
+
 
 ```{r setup}
 # Install the package
@@ -458,7 +459,7 @@ ggplot(wtd_ratios, aes(x = Interaction, y = Value, fill = Ratio)) +
 
 ```
 
-We can see from the plots that none of the T2/T1 values are >1. This suggests that none of the predator species are actively seeking out the prey species. But all of the T4/T3 values were >1 which suggests that the prey are avoiding the area after one of the predators was detected. 
+We can see from the plots that none of the T2/T1 values are >1. This suggests that none of the predator species are actively seeking out the prey species. But all of the T4/T3 values were >1 which suggests that the prey are avoiding the predator. 
 
 
 ### References:
