@@ -41,14 +41,6 @@
 #' @export
 AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, unitTime = "hours") {
 
-#   data = data
-#   speciesA = speciesA
-#   speciesB = speciesB
-#   species_col = species_col
-#   datetime_col = datetime_col
-#   site_col = site_col
-#   unitTime = unitTime
-
   # Check if required columns exist
   if (isTRUE(!(species_col %in% names(data) &&  datetime_col %in% names(data) && site_col %in% names(data)))) {
     stop("One or more specified columns do not exist in the dataframe.")
@@ -279,9 +271,9 @@ if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numer
 }
 
 # Error message for when there is no mean for T1 & T2 or T3 & T4
-if (!any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric)) &&
+if (!any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric)) ||
     !any(!is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)) ||
-    !any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric)) &&
+    !any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric)) ||
     !any(!is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
 
   # Warning message
@@ -346,9 +338,9 @@ if (any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) &
 }
 
 # Error message for when there is no mean for T1 & T2 or T3 & T4
-if (!any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) &&
+if (!any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) ||
       !any(!is.na(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
-      !any(!is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) &&
+      !any(!is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) ||
       !any(!is.na(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
 
   # Warning message
