@@ -107,6 +107,12 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
           # Saving that interaction
           temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T1 = time_difference))
         }
+        # If T1 event condition is not met set to NA
+        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
+                   (current_species != speciesA || next_species != speciesB))) {
+          # Set to NA
+          T1 <- NA
+        }
       }
     }
 
@@ -119,6 +125,21 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   detailed_summary$Site <- as.character(detailed_summary$Site)
   detailed_summary$Year <- as.integer(detailed_summary$Year)
 
+
+  # Check if there are non-NA numeric values in T1
+  if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))) {
+    # Perform aggregation only if there are non-NA numeric values
+    site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+    # Adding means to site summary
+    site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
+    # Renumber the row names
+    row.names(site_summary) <- NULL
+  }
+  # Warning if there are NAs
+  if (!any(is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))){
+    stop("No T1 interaction events occurred. Cannot calculate a mean for this event.")
+  }
+
   # How many times an event occured
   event_count <- sum(!is.na(detailed_summary$T1))
 
@@ -127,11 +148,7 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   event_summary <- as.matrix(summary(detailed_summary$T1))
   colnames(event_summary) <- "T1"
 
-  # Summarize results by taking the mean for each site across all years
-  site_result <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
-  # Renumber the row names
-  row.names(site_result) <- NULL
 
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
