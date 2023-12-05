@@ -219,7 +219,7 @@ if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numer
   site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
 }
 # Warning if there are NAs
-if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))){
+if (any(is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))){
   warning("No T1 interaction events occurred. Cannot calculate a mean for this event.")
 }
 
