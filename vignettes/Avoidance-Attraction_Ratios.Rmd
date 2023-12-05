@@ -412,7 +412,7 @@ Let's plot both of the ratios and take a look.
 
 
 
-```{r plotting fig.width=8, fig.height=8}
+```{r fig.width=8, fig.height=8}
 # Let's plot the ratios with ggplot2
 # If needed install.packages("ggplot2")
 library(ggplot2)
