@@ -24,6 +24,7 @@ Lets get started.
 
 ```{r setup}
 # Install the package
+# If needed install.package("devtools")
 devtools::install_github("dpearcetamu/AvoidAttract", quiet = TRUE)
 
 # Load the package
