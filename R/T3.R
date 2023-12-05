@@ -15,8 +15,8 @@
 #'     \item{total_summary}{A summary of the mean values for T3 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T3 events across all sites and years.}
 #'     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T3 events.}
-#'     \item{site_summary}{A summary of the mean T3 values for each site that recorded an eventacross all years.}
-#'     \item{detailed_summary}{Detailed information on recorded T3 events, including site, year and time differences.}
+#'     \item{site_summary}{A summary of the mean T3 values for each site that recorded an event across all years.}
+#'     \item{detailed_summary}{Detailed information on recorded T3 events, "including site, year and time" differences.}
 #'   }
 #'
 #' @references
