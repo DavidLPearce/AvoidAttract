@@ -1,0 +1,465 @@
+---
+title: "Avoidance-Attraction Ratios in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Avoidance-Attraction Ratios in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Avoidance-Attraction Ratios were first developed by Parsons et al. 2016 to investigate the effects of humans and their favorite companion, dogs, on wildlife. Since then Avoidance-Attraction Ratios have grown in popularity due to their ability to gain insights into species interactions at a fine temporal scale.
+
+This guide will implement the functions in the AvoidAttract package and perform an analysis of species interactions using Avoidance-Attraction Ratios having bobcat (*Lynx rufus*), coyotes (*Canis latrans*), and swift fox (*Vulpes velox*) as the predator species. The data that we will use is integrated in the package and is from a camera trapping project in western Kansas, source: Palomo-Munoz et al. 2023.
+
+Lets get started.
+
+#### Package Install
+
+```{r setup}
+# Install the package
+devtools::install_github("dpearcetamu/AvoidAttract", quiet = TRUE)
+
+# Load the package
+library(AvoidAttract)
+```
+
+Now that the package is installed and loaded, let's take a look at the data.
+
+### Exploring the Data
+
+```{r data documentation}
+# If you want to take a closer look use this code to read the dataset documentation, 
+# ?KScams_dat
+```
+
+Okay, now that we've seen the details of the camera trapping data, lets load it into the environment and take a closer look.
+
+```{r reading in data}
+# Reading in the data
+data("KScams_dat")
+
+# Let's take a look
+head(KScams_dat)
+```
+
+Great! We can see that the data has detection's of species at certain sites with a specific date and time for that observation. Let's see how many different species were found.
+
+```{r looking into the data}
+# Let's see what the column names are 
+names(KScams_dat)
+
+# What were the unique species using the "Common_name" column
+unique(KScams_dat$Common_name)
+```
+
+Looking to see how many observations of each species there are in the data set using the spp_sum function from the package.
+
+```{r species observations}
+# spp_sum requires the data input and a name column and provides a frequency table of observations
+spp_sum(KScams_dat, name_col = "Common_name")
+
+```
+
+That's a lot of observations! Let's take a look at a few of the species that had a lot of observations and their interactions with coyotes using the AAR function.
+
+### Avoidance-Attraction Ratios
+
+```{r AAR function}
+# First we have to format the DateTime column from a character string to a date time 
+# This is an important step since the function won't know how to read the date and time
+# Make sure to modify the format if you are using a different dataset!!!
+KScams_dat$DateTime  <- as.POSIXct(KScams_dat$DateTime ,  
+                                   tryFormats = "%m/%d/%Y %H:%M:%OS")
+
+# Let's look at some of these species!
+
+# ----------------------------------------
+#
+#       Bobcats as predators
+#
+# ----------------------------------------
+
+# Starting with the Black-tailed jackrabbit 
+jrabbit_bobcat <- AAR(data = KScams_dat, 
+                   speciesA = "Black-tailed jackrabbit", speciesB = "Bobcat",
+                   species_col = "Common_name", datetime_col = "DateTime", 
+                   site_col ="Site", unitTime = "hours")
+
+# The AAR function outputs several results. Let's take a look at just the total summary.
+print(jrabbit_bobcat$total_summary)
+
+# Okay we can see that this outputs the mean values 
+# for all interaction events and the interaction ratios
+
+# The AAR function also returns a list of how many times those interactions occurred.
+print(jrabbit_bobcat$event_count)
+
+# That's quite a few counts for each interaction.
+# Lets save just the ratios to use later on.
+
+# Saving only the T2/T1 and T4/T3 ratios 
+jrabbit_bobcat_ratios <- jrabbit_bobcat$total_summary[c(5,6)]
+
+# Now the other species
+
+# Black-tailed Prarie Dog
+pdog_bobcat <- AAR(data = KScams_dat, 
+                speciesA = "Black-tailed Prarie Dog", speciesB = "Bobcat",
+                species_col = "Common_name", datetime_col = "DateTime", 
+                site_col ="Site", unitTime = "hours")
+
+# Okay there weren't enough time events to calculate ratios.
+# Let's take a closer look.
+print(pdog_bobcat$event_count)
+
+# There were no T2 or T4 events and only one T1 event for the prarie dog 
+# and bobcat interaction. Since we are trying to compare differences between
+# predator species we won't look into prairie dog's interactions with 
+# coyote and swift fox.
+
+# Eastern cottontail rabbit
+crabbit_bobcat <- AAR(data = KScams_dat, 
+                  speciesA = "Eastern cottontail rabbit", speciesB = "Bobcat",
+                  species_col = "Common_name", datetime_col = "DateTime", 
+                  site_col ="Site", unitTime = "hours")
+
+crabbit_bobcat_ratios <- crabbit_bobcat$total_summary[c(5,6)]
+
+
+# White-tailed Deer
+wtd_bobcat <- AAR(data = KScams_dat, 
+               speciesA = "White-Tailed Deer", speciesB = "Bobcat",
+               species_col = "Common_name", datetime_col = "DateTime", 
+               site_col ="Site", unitTime = "hours")
+
+
+wtd_bobcat_ratios <- wtd_bobcat$total_summary[c(5,6)]
+
+
+# ----------------------------------------
+#
+#       Coyote as predators
+#
+# ----------------------------------------
+
+# Starting with the Black-tailed jackrabbit 
+jrabbit_coyote <- AAR(data = KScams_dat, 
+                   speciesA = "Black-tailed jackrabbit", speciesB = "Coyote",
+                   species_col = "Common_name", datetime_col = "DateTime", 
+                   site_col ="Site", unitTime = "hours")
+
+# Saving only the T2/T1 and T4/T3 ratios 
+jrabbit_coyote_ratios <- jrabbit_coyote$total_summary[c(5,6)]
+
+# Eastern cottontail rabbit
+crabbit_coyote  <- AAR(data = KScams_dat, 
+                  speciesA = "Eastern cottontail rabbit", speciesB = "Coyote",
+                  species_col = "Common_name", datetime_col = "DateTime", 
+                  site_col ="Site", unitTime = "hours")
+
+crabbit_coyote_ratios <- crabbit_coyote$total_summary[c(5,6)]
+
+
+# White-tailed Deer
+wtd_coyote <- AAR(data = KScams_dat, 
+               speciesA = "White-Tailed Deer", speciesB = "Coyote",
+               species_col = "Common_name", datetime_col = "DateTime", 
+               site_col ="Site", unitTime = "hours")
+
+
+wtd_coyote_ratios <- wtd_coyote$total_summary[c(5,6)]
+
+
+# ----------------------------------------
+#
+#       Swift fox as predators
+#
+# ----------------------------------------
+
+# Starting with the Black-tailed jackrabbit 
+jrabbit_fox <- AAR(data = KScams_dat, 
+                   speciesA = "Black-tailed jackrabbit", speciesB = "Swift Fox",
+                   species_col = "Common_name", datetime_col = "DateTime", 
+                   site_col ="Site", unitTime = "hours")
+
+# Saving only the T2/T1 and T4/T3 ratios 
+jrabbit_fox_ratios <- jrabbit_fox$total_summary[c(5,6)]
+
+# Eastern cottontail rabbit
+crabbit_fox  <- AAR(data = KScams_dat, 
+                  speciesA = "Eastern cottontail rabbit", speciesB = "Swift Fox",
+                  species_col = "Common_name", datetime_col = "DateTime", 
+                  site_col ="Site", unitTime = "hours")
+
+crabbit_fox_ratios <- crabbit_fox$total_summary[c(5,6)]
+
+
+# White-tailed Deer
+wtd_fox <- AAR(data = KScams_dat, 
+               speciesA = "White-Tailed Deer", speciesB = "Swift Fox",
+               species_col = "Common_name", datetime_col = "DateTime", 
+               site_col ="Site", unitTime = "hours")
+
+
+wtd_fox_ratios <- wtd_fox$total_summary[c(5,6)]
+
+
+```
+
+### Data Wrangling
+
+Okay, we need to organize the ratios for each prey species into one dataframe for analysis.
+
+```{r combine summaries}
+# Load libraries
+# If needed install.packages("tidyverse")
+library(tidyverse)
+
+# Combining jack rabbit ratio data 
+jrabbit_ratios <- t(data.frame(
+                    # T2/T1 ratios
+                    bobcat_T2_T1 = jrabbit_bobcat_ratios["T2/T1"], 
+                    coyote_T2_T1 = jrabbit_coyote_ratios["T2/T1"],
+                    fox_T2_T1 = jrabbit_fox_ratios["T2/T1"],
+                    
+                    # T4/T3 ratios
+                    bobcat_T4_T3 = jrabbit_bobcat_ratios["T4/T3"],
+                    coyote_T4_T3 = jrabbit_coyote_ratios["T4/T3"],
+                    fox_T4_T3 = jrabbit_fox_ratios["T4/T3"]))
+
+
+# Convert the matrix to a data frame
+jrabbit_ratios <- as.data.frame(jrabbit_ratios)
+
+# Change row names to a new column
+jrabbit_ratios <- tibble::rownames_to_column(jrabbit_ratios, var = "RowName")
+
+# We have to rename the columns to match the values correctly
+colnames(jrabbit_ratios) <- c("Interaction", "Value")
+
+# Adding a ratio column
+jrabbit_ratios$Ratio <- c("T2/T1", "T2/T1", "T2/T1",
+                          "T4/T3", "T4/T3", "T4/T3")
+
+# Checking to make sure the Ratios are named correctly with current interaction
+# names
+print(jrabbit_ratios)
+
+# Naming interactions by predator
+jrabbit_ratios$Interaction <- c("Bobcat", "Coyote","Swift Fox",
+                                "Bobcat", "Coyote", "Swift Fox")
+
+# Checking to see if it looks correct
+print(jrabbit_ratios)
+
+# It does, let's do the other prey species.
+
+# Reshape data to long format #################
+jrabbit_ratios_long <- tidyr::gather(jrabbit_ratios, key = "Interaction", value = "Value")
+
+
+
+# Combining cottontail rabbit             
+crabbit_ratios <- t(data.frame(
+                  # T2/T1 ratios
+                  bobcate_T2_T1 = crabbit_bobcat_ratios["T2/T1"], 
+                  coyote_T2_T1 = crabbit_coyote_ratios["T2/T1"],
+                  fox_T2_T1 = crabbit_fox_ratios["T2/T1"],
+                  
+                  # Column for T4/T3 ratios
+                  bobcate_T4_T3 = crabbit_bobcat_ratios["T4/T3"],
+                  coyote_T4_T3 = crabbit_coyote_ratios["T4/T3"],
+                  fox_T4_T3 = crabbit_fox_ratios["T4/T3"])) 
+
+
+# Convert the matrix to a data frame
+crabbit_ratios <- as.data.frame(crabbit_ratios)
+
+# Change row names to a new column
+crabbit_ratios <- tibble::rownames_to_column(crabbit_ratios, var = "RowName")
+
+# We have to rename the columns to match the values correctly
+colnames(crabbit_ratios) <- c("Interaction", "Value")
+
+# Adding a ratio column
+crabbit_ratios$Ratio <- c("T2/T1", "T2/T1", "T2/T1",
+                         "T4/T3", "T4/T3", "T4/T3")
+# Naming interactions by predator
+crabbit_ratios$Interaction <- c("Bobcat", "Coyote","Swift Fox",
+                                "Bobcat", "Coyote", "Swift Fox")
+
+
+# Combining cottontail rabbit             
+wtd_ratios <- t(data.frame(
+                # T2/T1 ratios
+                bobcate_T2_T1 = wtd_bobcat_ratios ["T2/T1"], 
+                coyote_T2_T1 = wtd_coyote_ratios["T2/T1"],
+                fox_T2_T1 = wtd_fox_ratios["T2/T1"],
+                
+                # Column for T4/T3 ratios
+                bobcate_T4_T3 = wtd_bobcat_ratios ["T4/T3"],
+                coyote_T4_T3 = wtd_coyote_ratios["T4/T3"],
+                fox_T4_T3 = wtd_fox_ratios["T4/T3"]))
+
+# Convert the matrix to a data frame
+wtd_ratios <- as.data.frame(wtd_ratios)
+
+# Change row names to a new column
+wtd_ratios <- tibble::rownames_to_column(wtd_ratios, var = "RowName")
+
+# We have to rename the columns to match the values correctly
+colnames(wtd_ratios) <- c("Interaction", "Value")
+
+# Adding a ratio column
+wtd_ratios$Ratio <- c("T2/T1", "T2/T1", "T2/T1",
+                      "T4/T3", "T4/T3", "T4/T3")
+
+# Naming interactions by predator
+wtd_ratios$Interaction <- c("Bobcat", "Coyote","Swift Fox",
+                            "Bobcat", "Coyote", "Swift Fox")
+
+
+```
+
+### Statistical Analysis
+
+Let's followthe analysis laid out by Parsons (2016) using a Wilcoxon test for each of our prey species and their interactions with the predator species and our prey species.
+
+```{r analysis}
+# Jack rabbit
+# Separate the data into two data frames for T2/T1 and T4/T3
+jrabbit_t2t1 <- subset(jrabbit_ratios, Ratio == "T2/T1")
+jrabbit_t4t3 <- subset(jrabbit_ratios, Ratio == "T4/T3")
+
+# Run Wilcoxon pairwise tests for T2/T1
+jrabbit_wilcox_t2t1 <- pairwise.wilcox.test(jrabbit_t2t1$Value, 
+                                            jrabbit_t2t1$Interaction, 
+                                            p.adjust.method = "bonferroni")
+
+# Run Wilcoxon pairwise tests for T4/T3
+jrabbit_wilcox_t4t3 <- pairwise.wilcox.test(jrabbit_t4t3$Value, 
+                                            jrabbit_t4t3$Interaction, 
+                                            p.adjust.method = "bonferroni")
+
+# Print the results
+print("Jack rabbit Wilcoxon Pairwise Test Results for T2/T1:")
+print(jrabbit_wilcox_t2t1)
+
+print("Jack rabbit Wilcoxon Pairwise Test Results for T4/T3:")
+print(jrabbit_wilcox_t4t3)
+
+# Cottontail rabbit
+
+# Separate the data into two data frames for T2/T1 and T4/T3
+crabbit_t2t1 <- subset(crabbit_ratios, Ratio == "T2/T1")
+crabbit_t4t3 <- subset(crabbit_ratios, Ratio == "T4/T3")
+
+# Run Wilcoxon pairwise tests for T2/T1
+crabbit_wilcox_t2t1 <- pairwise.wilcox.test(crabbit_t2t1$Value,
+                                    crabbit_t2t1$Interaction, 
+                                    p.adjust.method = "bonferroni")
+
+# Run Wilcoxon pairwise tests for T4/T3
+crabbit_wilcox_t4t3 <- pairwise.wilcox.test(crabbit_t4t3$Value, 
+                                    crabbit_t4t3$Interaction, 
+                                    p.adjust.method = "bonferroni")
+
+# Print the results
+print("Cottontail rabbit Wilcoxon Pairwise Test Results for T2/T1:")
+print(crabbit_wilcox_t2t1)
+
+print("Cottontail rabbit Wilcoxon Pairwise Test Results for T4/T3:")
+print(crabbit_wilcox_t4t3)
+
+# White-tailed Deer
+
+# Separate the data into two data frames for T2/T1 and T4/T3
+wtd_t2t1 <- subset(wtd_ratios, Ratio == "T2/T1")
+wtd_t4t3 <- subset(wtd_ratios, Ratio == "T4/T3")
+
+# Run Wilcoxon pairwise tests for T2/T1
+wilcox_t2t1 <- pairwise.wilcox.test(wtd_t2t1$Value,
+                                    wtd_t2t1$Interaction, 
+                                    p.adjust.method = "bonferroni")
+
+# Run Wilcoxon pairwise tests for T4/T3
+wilcox_t4t3 <- pairwise.wilcox.test(wtd_t4t3$Value, 
+                                    wtd_t4t3$Interaction, 
+                                    p.adjust.method = "bonferroni")
+
+# Print the results
+print("White-tailed Deer Wilcoxon Pairwise Test Results for T2/T1:")
+print(wilcox_t2t1)
+
+print("White-tailed Deer Wilcoxon Pairwise Test Results for T4/T3:")
+print(wilcox_t4t3)
+
+```
+
+The results of the Wilcoxon test show that none of the ratios were statistically significant. But that doesn't mean that there isn't a response in attraction or avoidance, only that it wasn't statistically significant. We know that values >1 suggest nonrandom movement between the two species which suggests that there is an interaction. We also know that attraction of species B to species A would result in high T2/T1 ratios, but lower T4/T3 ratios. Avoidance of species A from species B would result in higher ratios of T4/T3.
+
+
+### Plotting
+
+Let's plot both of the ratios and take a look.
+
+
+
+```{r fig.width=8, fig.height=8}
+# Let's plot the ratios with ggplot2
+# If needed install.packages("ggplot2")
+library(ggplot2)
+
+# Plotting Jack rabbit interactions
+ggplot(jrabbit_ratios, aes(x = Interaction, y = Value, fill = Ratio)) +
+                      geom_col(position = position_dodge(0.8), width = 0.7) +
+                      geom_text(aes(label = round(Value, 2)), 
+                                position = position_dodge(0.8), vjust = -0.5, size = 4) +
+                      scale_fill_manual(values = c("black", "grey"), name = "Ratio") +  
+                      labs(x = "Species", y = "Avoidance-Attraction Ratios", 
+                           title = "Jack Rabbit Avoidance and Predator Attraction") +
+                      theme(axis.text.x = element_text(angle = 45, hjust = 1),
+                            panel.background = element_rect(fill = "white"),
+                          plot.title = element_text(size = 16)) 
+
+# Plotting Cottontail rabbit interactions
+ggplot(crabbit_ratios, aes(x = Interaction, y = Value, fill = Ratio)) +
+                      geom_col(position = position_dodge(0.8), width = 0.7) +
+                      geom_text(aes(label = round(Value, 2)), 
+                                position = position_dodge(0.8), vjust = -0.5, size = 4) +
+                      scale_fill_manual(values = c("black", "grey"), name = "Ratio") +  
+                      labs(x = "Species", y = "Avoidance-Attraction Ratios", 
+                           title = "Cottontail Rabbit Avoidance and Predator Attraction") +
+                      theme(axis.text.x = element_text(angle = 45, hjust = 1),
+                            panel.background = element_rect(fill = "white"),
+                          plot.title = element_text(size = 16))
+
+
+
+# Plotting White-tailed Deer interactions
+ggplot(wtd_ratios, aes(x = Interaction, y = Value, fill = Ratio)) +
+                    geom_col(position = position_dodge(0.8), width = 0.7) +
+                    geom_text(aes(label = round(Value, 2)), 
+                              position = position_dodge(0.8), vjust = -0.5, size = 4) +
+                    scale_fill_manual(values = c("black", "grey"), name = "Ratio") +  
+                    labs(x = "Species", y = "Avoidance-Attraction Ratios", 
+                         title = "White-tailed Deer Avoidance and Predator Attraction") +
+                    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+                          panel.background = element_rect(fill = "white"),
+                          plot.title = element_text(size = 16)) 
+
+```
+
+We can see from the plots that none of the T2/T1 values are >1. This suggests that none of the predator species are actively seeking out the prey species. But all of the T4/T3 values were >1 which suggests that the prey are avoiding the area after one of the predators was detected. 
+
+
+### References:
+
+Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75--88. URL: <https://doi.org/10.1016/j.biocon.2016.09.001>
