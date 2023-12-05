@@ -459,3 +459,6 @@ We can see from the plots that none of the T2/T1 values are >1. This suggests th
 ### References:
 
 Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75--88. URL: <https://doi.org/10.1016/j.biocon.2016.09.001>
+
+Palomo‐Munoz, G., T. J. Werdel, C. W. Piper, M. S. Peek, A. M. Ricketts, and A. A. Ahlers. 2023. Spatiotemporal distributions of mammals occurring in an agro‐prairie ecosystem. Ecology 104:e3945 URL: https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecy.3945
+
