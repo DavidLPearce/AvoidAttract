@@ -217,8 +217,10 @@ if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numer
   site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
   site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
-} else {
-  warning("No T1 interaction events occurred. Cannot calculate a mean for this event")
+}
+# Warning if there are NAs
+if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))){
+  warning("No T1 interaction events occurred. Cannot calculate a mean for this event.")
 }
 
 # Check if there are non-NA numeric values in T2
@@ -227,8 +229,10 @@ if (any(!is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numer
   site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
   site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
-} else {
-  warning("No T2 interaction events occurred. Cannot calculate a mean for this event")
+}
+# Warning if there are NAs
+if (any(is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)))  {
+  warning("No T2 interaction events occurred. Cannot calculate a mean for this event.")
 }
 
 # Check if there are non-NA numeric values in T3
@@ -237,8 +241,11 @@ if (any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numer
   site_means_T3 <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
   site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
-} else {
-  warning("No T3 interaction events occurred. Cannot calculate a mean for this event")
+}
+
+# Warning if there are NAs
+(any(is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
+  warning("No T3 interaction events occurred. Cannot calculate a mean for this event.")
 }
 
 
@@ -248,13 +255,16 @@ if (any(!is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numer
   site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
   site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
-} else {
-  warning("No T4 interaction events occurred. Cannot calculate a mean for this event")
+}
+
+# Warning if there are NAs
+if (any(is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))){
+  warning("No T4 interaction events occurred. Cannot calculate a mean for this event.")
 }
 
 
-
-# Calculating Avoidance-Attraction Ratios only if there are T1 & T2 events or T3 & T4 events
+# Site summary ratios
+# Will only calculate ratios if there is a mean for T1 & T2 or T3 & T4
 if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric)) &&
     any(!is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)) ||
     any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric)) &&
@@ -266,8 +276,16 @@ if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numer
 
   colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
 
-} else {
-  warning("Unable to calculate site summary Avoidance-Attraction Ratios due to lack of event occurances")
+}
+
+# Error message for when there is no mean for T1 & T2 or T3 & T4
+if (any(is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric)) &&
+    any(is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)) ||
+    any(is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric)) &&
+    any(is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
+
+  # Warning message
+  warning("Unable to calculate site summary Avoidance-Attraction Ratios due to lack of event occurances.")
 }
 
 
@@ -307,11 +325,11 @@ event_counts <- c(T1 = event_count_T1, T2 = event_count_T2, T3 = event_count_T3,
 total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
 # Total summary ratios
-# will only calculate ratios if
-if (any(complete.cases(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) &&
-    any(complete.cases(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
-    any(complete.cases(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) &&
-    any(complete.cases(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
+# Will only calculate ratios if there is a mean for T1 & T2 or T3 & T4
+if (any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) &&
+    any(!is.na(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
+    any(!is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) &&
+    any(!is.na(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
 
   # Calculate T2/T1 and T4/T3 ratios from total means
   total_summary <- c(total_summary,
@@ -322,8 +340,20 @@ if (any(complete.cases(total_summary[1])) && any(sapply(total_summary[1], is.num
   names(total_summary)[5] <- "T2/T1"
   names(total_summary)[6] <- "T4/T3"
 
-} else {
-  warning("Unable to calculate total summary Avoidance-Attraction Ratios due to lack of event occurances")
+  # Replace NaN with NA
+  total_summary <- replace(total_summary, is.nan(total_summary), NA)
+
+}
+
+# Error message for when there is no mean for T1 & T2 or T3 & T4
+if (any(is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) &&
+      any(is.na(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
+      any(is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) &&
+      any(is.na(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
+
+  # Warning message
+  warning("Unable to calculate total summary Avoidance-Attraction Ratios due to lack of event occurances.")
+
   # Replace NaN with NA
   total_summary <- replace(total_summary, is.nan(total_summary), NA)
 }
