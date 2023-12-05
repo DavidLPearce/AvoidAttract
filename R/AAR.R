@@ -244,7 +244,7 @@ if (any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numer
 }
 
 # Warning if there are NAs
-(any(is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
+if (any(is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
   warning("No T3 interaction events occurred. Cannot calculate a mean for this event.")
 }
 
