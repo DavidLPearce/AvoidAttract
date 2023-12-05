@@ -262,13 +262,6 @@ jrabbit_ratios$Interaction <- c("Bobcat", "Coyote","Swift Fox",
 # Checking to see if it looks correct
 print(jrabbit_ratios)
 
-# It does, let's do the other prey species.
-
-# Reshape data to long format #################
-jrabbit_ratios_long <- tidyr::gather(jrabbit_ratios, key = "Interaction", value = "Value")
-
-
-
 # Combining cottontail rabbit             
 crabbit_ratios <- t(data.frame(
                   # T2/T1 ratios
