@@ -222,7 +222,7 @@ Okay, we need to organize the ratios for each prey species into one dataframe fo
 ```{r combine summaries}
 # Load libraries
 # If needed install.packages("tidyverse")
-library(tidyverse)
+library(tidyverse, quiet = TRUE)
 
 # Combining jack rabbit ratio data 
 jrabbit_ratios <- t(data.frame(
@@ -417,7 +417,7 @@ Let's plot both of the ratios and take a look.
 ```{r fig.width=8, fig.height=8}
 # Let's plot the ratios with ggplot2
 # If needed install.packages("ggplot2")
-library(ggplot2)
+library(ggplot2, quiet = TRUE)
 
 # Plotting Jack rabbit interactions
 ggplot(jrabbit_ratios, aes(x = Interaction, y = Value, fill = Ratio)) +
