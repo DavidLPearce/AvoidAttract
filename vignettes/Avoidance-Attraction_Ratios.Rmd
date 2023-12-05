@@ -222,7 +222,8 @@ Okay, we need to organize the ratios for each prey species into one dataframe fo
 ```{r combine summaries}
 # Load libraries
 # If needed install.packages("tidyverse")
-library(tidyverse, quiet = TRUE)
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
 
 # Combining jack rabbit ratio data 
 jrabbit_ratios <- t(data.frame(
