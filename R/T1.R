@@ -110,8 +110,8 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
         # If T1 event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
                    (current_species != speciesA || next_species != speciesB))) {
-          # Set to NA
-          T1 <- NA
+                      # Set to NA
+                      T1 <- NA
         }
       }
     }
@@ -119,26 +119,25 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
     # Save temp_result to detailed_result
     detailed_summary <- rbind(detailed_summary, temp_result)
 
-    }
+  }
+
+    # Warning if there were no events
+    if (!any(!is.na(detailed_summary$T1))){
+    stop("No T1 interaction events occurred. Cannot calculate a mean for this event.")
+  }
 
   # Convert character columns to their respective types
   detailed_summary$Site <- as.character(detailed_summary$Site)
   detailed_summary$Year <- as.integer(detailed_summary$Year)
 
+  # Creating a dataframe for by site reporting
+  site_summary <- data.frame(Site = unique(detailed_summary$Site))
 
-  # Check if there are non-NA numeric values in T1
-  if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))) {
-    # Perform aggregation only if there are non-NA numeric values
-    site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-    # Adding means to site summary
-    site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
-    # Renumber the row names
-    row.names(site_summary) <- NULL
-  }
-  # Warning if there are NAs
-  if (!any(is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))){
-    stop("No T1 interaction events occurred. Cannot calculate a mean for this event.")
-  }
+  site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
+  # Renumber the row names
+  row.names(site_summary) <- NULL
 
   # How many times an event occured
   event_count <- sum(!is.na(detailed_summary$T1))
@@ -148,14 +147,12 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   event_summary <- as.matrix(summary(detailed_summary$T1))
   colnames(event_summary) <- "T1"
 
-
-
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
   # Combine results into a list
   result_list <- list(total_summary = total_summary, event_count = event_count,
-                      event_summary = event_summary, site_result = site_result,
+                      event_summary = event_summary, site_summary = site_summary,
                       detailed_summary = detailed_summary)
 
   return(result_list)
