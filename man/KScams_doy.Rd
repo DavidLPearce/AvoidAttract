@@ -19,34 +19,34 @@ Days since 1 Jan of deployment year for KScams_dat
     \item{\code{Setup_date}}{Date of deployment (a character vector)}
     \item{\code{Retrieval_date}}{Date of retrieval (a character vector)}
     \item{\code{DaysActive}}{How many days camera was functioning (a numeric vector)}
-    \item{\code{DOY_1}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_2}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_3}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_4}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_5}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_6}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_7}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_8}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_9}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_10}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_11}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_12}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_13}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_14}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_15}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_16}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_17}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_18}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_19}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_20}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_21}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_22}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_23}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_24}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_25}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_26}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_27}}{Day since 1 Jan of deployment year (a numeric vector)}
-    \item{\code{DOY_28}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_1}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_2}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_3}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_4}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_5}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_6}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_7}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_8}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_9}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_10}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_11}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_12}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_13}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_14}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_15}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_16}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_17}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_18}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_19}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_20}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_21}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_22}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_23}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_24}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_25}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_26}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_27}}{Ordinal day (a numeric vector)}
+    \item{\code{DOY_28}}{Ordinal day (a numeric vector)}
   }
 }
 \source{
