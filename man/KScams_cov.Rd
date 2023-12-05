@@ -5,17 +5,17 @@
 KScams_cov
 }
 \description{
-Habitat variables for KScams_dat
+Vegetation cover covariates for KScams_dat
 }
 \usage{data("KScams_cov")}
 \format{
-  A data frame with 1149 observations on the following 10 variables.
+  A data frame with 1149 observations including the following 10 variables.
   \describe{
     \item{\code{SurveyYear}}{Year of survey (a numeric vector)}
     \item{\code{Site}}{Site number (a numeric vector)}
-    \item{\code{Latitude}}{Site latitude (a numeric vector)}
-    \item{\code{Longitude}}{Site longitude (a numeric vector)}
-    \item{\code{VegHeight}}{Height of vegetation at site(a numeric vector)}
+    \item{\code{Latitude}}{Site latitude in decimal degrees (a numeric vector)}
+    \item{\code{Longitude}}{Site longitude in decimal degrees (a numeric vector)}
+    \item{\code{VegHeight}}{Height of vegetation at site (cm) (a numeric vector)}
     \item{\code{GrassPct}}{Percentage of grass at site (a numeric vector)}
     \item{\code{ForbPct}}{Percentage of forbs at site (a numeric vector)}
     \item{\code{CropPct}}{Percentage of crops at site (a numeric vector)}

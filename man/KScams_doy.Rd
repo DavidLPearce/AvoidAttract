@@ -5,48 +5,48 @@
 KScams_doy
 }
 \description{
-Dates of deployment (julian) for KScams_dat
+Days since 1 Jan of deployment year for KScams_dat
 }
 \usage{data("KScams_doy")}
 \format{
-  A data frame with 1149 observations on the following 36 variables.
+  A data frame with 1149 observations including the following 36 variables.
   \describe{
     \item{\code{General_project}}{Project name (a character vector)}
     \item{\code{Year}}{Year of deployment (a numeric vector)}
     \item{\code{Site}}{Site number (a numeric vector)}
-    \item{\code{Latitude}}{Site latitude (a numeric vector)}
-    \item{\code{Longitude}}{Site longitude (a numeric vector)}
+    \item{\code{Latitude}}{Site latitude in decimal degrees (a numeric vector)}
+    \item{\code{Longitude}}{Site longitude in decimal degrees (a numeric vector)}
     \item{\code{Setup_date}}{Date of deployment (a character vector)}
     \item{\code{Retrieval_date}}{Date of retrieval (a character vector)}
     \item{\code{DaysActive}}{How many days camera was functioning (a numeric vector)}
-    \item{\code{DOY_1}}{Julian day 1 (a numeric vector)}
-    \item{\code{DOY_2}}{Julian day 2 (a numeric vector)}
-    \item{\code{DOY_3}}{Julian day 3 (a numeric vector)}
-    \item{\code{DOY_4}}{Julian day 4 (a numeric vector)}
-    \item{\code{DOY_5}}{Julian day 5 (a numeric vector)}
-    \item{\code{DOY_6}}{Julian day 6 (a numeric vector)}
-    \item{\code{DOY_7}}{Julian day 7 (a numeric vector)}
-    \item{\code{DOY_8}}{Julian day 8 (a numeric vector)}
-    \item{\code{DOY_9}}{Julian day 9 (a numeric vector)}
-    \item{\code{DOY_10}}{Julian day 10 (a numeric vector)}
-    \item{\code{DOY_11}}{Julian day 11 (a numeric vector)}
-    \item{\code{DOY_12}}{Julian day 12 (a numeric vector)}
-    \item{\code{DOY_13}}{Julian day 13 (a numeric vector)}
-    \item{\code{DOY_14}}{Julian day 14 (a numeric vector)}
-    \item{\code{DOY_15}}{Julian day 15 (a numeric vector)}
-    \item{\code{DOY_16}}{Julian day 16 (a numeric vector)}
-    \item{\code{DOY_17}}{Julian day 17 (a numeric vector)}
-    \item{\code{DOY_18}}{Julian day 18 (a numeric vector)}
-    \item{\code{DOY_19}}{Julian day 19 (a numeric vector)}
-    \item{\code{DOY_20}}{Julian day 20 (a numeric vector)}
-    \item{\code{DOY_21}}{Julian day 21 (a numeric vector)}
-    \item{\code{DOY_22}}{Julian day 22 (a numeric vector)}
-    \item{\code{DOY_23}}{Julian day 23 (a numeric vector)}
-    \item{\code{DOY_24}}{Julian day 24 (a numeric vector)}
-    \item{\code{DOY_25}}{Julian day 25 (a numeric vector)}
-    \item{\code{DOY_26}}{Julian day 26 (a numeric vector)}
-    \item{\code{DOY_27}}{Julian day 27 (a numeric vector)}
-    \item{\code{DOY_28}}{Julian day 28 (a numeric vector)}
+    \item{\code{DOY_1}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_2}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_3}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_4}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_5}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_6}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_7}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_8}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_9}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_10}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_11}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_12}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_13}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_14}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_15}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_16}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_17}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_18}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_19}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_20}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_21}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_22}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_23}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_24}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_25}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_26}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_27}}{Day since 1 Jan of deployment year (a numeric vector)}
+    \item{\code{DOY_28}}{Day since 1 Jan of deployment year (a numeric vector)}
   }
 }
 \source{
