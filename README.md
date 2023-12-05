@@ -42,9 +42,9 @@ From Parsons et al. 2016, Fig.2:
 
 From Parsons et al. 2016:
 
-The T2/T1 (BA/AB) compares the time intervals after/before a passage of species B.This ratio could be influenced both by the avoidance of species A and the attraction of species B.
+The T2/T1 (BA/AB) compares the time intervals after/before a passage of species B. This ratio could be influenced both by the avoidance of species A and the attraction of species B.
 
-The T4/T3 (ABA/AA) compares the time intervals with/witout the passage of a predator. This ratio is influenced solely by species A avoidance of species B.
+The T4/T3 (ABA/AA) compares the time intervals with/without the passage of a predator. This ratio is influenced solely by species A avoidance of species B.
 
 Values >1 for T2/T1 or T4/ T3 suggest nonrandom movement between the two species. Attraction of species B to species A would result in high T2/T1 ratios, but lower T4/T3 ratios. Avoidance of species A from species B would result in higher ratios of T4/T3.
 
