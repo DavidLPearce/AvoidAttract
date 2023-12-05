@@ -117,9 +117,23 @@ T3 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
 
   }
 
+  # Warning if there were no events
+  if (!any(!is.na(detailed_summary$T1))){
+    stop("No T1 interaction events occurred. Cannot calculate a mean for this event.")
+  }
+
   # Convert character columns to their respective types
   detailed_summary$Site <- as.character(detailed_summary$Site)
   detailed_summary$Year <- as.integer(detailed_summary$Year)
+
+  # Creating a dataframe for by site reporting
+  site_summary <- data.frame(Site = unique(detailed_summary$Site))
+
+  # Summarize results by taking the mean for each site across all years
+  site_summary <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
 
   # How many times an event occured
   event_count <- sum(!is.na(detailed_summary$T3))
@@ -128,12 +142,6 @@ T3 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   detailed_summary$T3 <- as.numeric(detailed_summary$T3)
   event_summary <- as.matrix(summary(detailed_summary$T3))
   colnames(event_summary) <- "T3"
-
-  # Summarize results by taking the mean for each site across all years
-  site_summary <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-
-  # Renumber the row names
-  row.names(site_summary) <- NULL
 
   # Calculate the total summary for the entire output
   total_summary <- mean(detailed_summary[, -c(1, 2)], na.rm = TRUE)

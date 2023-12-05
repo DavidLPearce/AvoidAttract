@@ -133,9 +133,12 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   # Creating a dataframe for by site reporting
   site_summary <- data.frame(Site = unique(detailed_summary$Site))
 
-  site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Summarize results by taking the mean for each site across all years
+  site_mean <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+
   # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
+  site_summary <- merge(site_summary, site_mean, by = "Site", all.x = TRUE)
+
   # Renumber the row names
   row.names(site_summary) <- NULL
 
