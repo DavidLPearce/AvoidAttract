@@ -38,12 +38,12 @@ A list containing:
     \item{total_summary}{A summary of the mean values for T2 across all sites that recorded an event and years.}
     \item{event_count}{The total count of T2 events across all sites and years.}
     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T2 events.}
-    \item{site_summary}{A summary of the mean T2 values for each site that recorded an eventacross all years.}
-    \item{detailed_summary}{Detailed information on recorded T2 events, including site, year and time differences.}
+    \item{site_summary}{A summary of the mean T2 for each site across all years, if no event is recorded NA will be reported.}
+    \item{detailed_summary}{Detailed information on recorded T2 events, "including site, year and time" differences.}
   }
 }
 \description{
-The T2 (BA) function analyzes camera trapping data to calculate the time between the detections of species B followed by species A given that a T1 (AB) event occurred at each camera site for all years. The function returns the average of all T2 events for all sites and across all years, the number of times the event occurred, a site summary across all years, and a detailed summary of each time the event occurred.
+The T2 (BA) function analyzes camera trapping data to calculate the time between the detection of species B and species A.. The function returns the average of all T2 events for all sites and across all years, the number of times the event occurred, a site summary across all years, and a detailed summary of each time the event occurred.
 }
 \examples{
 # Function Example. Note: DateTime column must be formatted as a date-time and not a character string!

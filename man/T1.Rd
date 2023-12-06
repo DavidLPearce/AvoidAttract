@@ -38,8 +38,8 @@ A list containing:
     \item{total_summary}{A summary of the mean values for T1 across all sites that recorded an event and years.}
     \item{event_count}{The total count of T1 events across all sites and years.}
     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T1 events.}
-    \item{site_result}{A summary of the mean T1 values for each site that recorded an eventacross all years.}
-    \item{detailed_summary}{Detailed information on recorded T1 events, including site, year and time differences.}
+    \item{site_result}{A summary of the mean T1 for each site across all years, if no event is recorded NA will be reported.}
+    \item{detailed_summary}{Detailed information on recorded T1 events, "including site, year and time" differences.}
   }
 }
 \description{

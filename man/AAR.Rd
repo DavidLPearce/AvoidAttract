@@ -38,9 +38,9 @@ A list containing:
   \describe{
     \item{total_summary}{A summary of the mean values for T1, T2, T3, T4, T2/T1, and T4/T3 across all sites that recorded an event and years.}
     \item{event_count}{The total count of T1, T2, T3, and T4 events across all sites and years.}
-    \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for all events.}
-    \item{site_summary}{A summary of the mean T1, T2, T3, T4, T2/T1, and T4/T3 values for each site that recorded an event across all years.}
-    \item{detailed_summary}{Detailed information on recorded time events, including site, year and time differences.}
+    \item{event_summary}{The min, 1st quartile, median, mean, 3rd quartile, max for all events.}
+    \item{site_summary}{A summary of the mean T1, T2, T3, T4, T2/T1, and T4/T3 values for each site across all years.}
+    \item{detailed_summary}{Detailed information on recorded time events, "including site, year and time" differences.}
   }
 }
 \description{
