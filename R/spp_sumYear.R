@@ -24,7 +24,7 @@ spp_sumYear <- function(data, name_col, year_col){
   }
 
   # Get unique years in the dataset
-  unique_years <- unique(data[[year_col]])
+  unique_years <- sort(unique(data[[year_col]]))
 
   # Initialize a list to store results for each year
   result_list <- list()
