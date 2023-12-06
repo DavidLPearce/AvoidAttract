@@ -18,19 +18,20 @@ T1(
 )
 }
 \arguments{
-\item{data}{The camera trapping dataset containing information on species, datetime, and site.}
+\item{data}{The camera trapping dataset containing information on species, datetime, and site (dataframe).}
 
-\item{speciesA}{The first species in the interaction sequence.}
+\item{speciesA}{The first species in the interaction sequence (character).}
 
-\item{speciesB}{The second species in the interaction sequence.}
+\item{speciesB}{The second species in the interaction sequence (character).}
 
-\item{species_col}{The column name indicating the species in the dataset.}
+\item{species_col}{The column name indicating the species in the dataset (character).}
 
-\item{datetime_col}{The column name indicating the datetime of each detection.}
+\item{datetime_col}{The column name indicating the datetime of each detection (character).}
 
-\item{site_col}{The column name indicating the camera site.}
+\item{site_col}{The column name indicating the camera site (character).}
 
-\item{unitTime}{The unit of time used for calculating the time differences, default is "hours", options = c("secs", "mins", "hours").}
+\item{unitTime}{The unit of time used for calculating the time differences, default is "hours".
+Options: "secs", "mins", "hours" (character).}
 }
 \value{
 A list containing:
@@ -38,7 +39,7 @@ A list containing:
     \item{total_summary}{A summary of the mean values for T1 across all sites that recorded an event and years.}
     \item{event_count}{The total count of T1 events across all sites and years.}
     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T1 events.}
-    \item{site_result}{A summary of the mean T1 for each site across all years, if no event is recorded NA will be reported.}
+    \item{site_summary}{A summary of the mean T1 for each site across all years, if no event is recorded NA will be reported.}
     \item{detailed_summary}{Detailed information on recorded T1 events, "including site, year and time" differences.}
   }
 }

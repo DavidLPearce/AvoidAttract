@@ -7,9 +7,9 @@
 spp_sum(data, name_col)
 }
 \arguments{
-\item{data}{The dataset containing information on species observations.}
+\item{data}{The dataset containing information on species observations (dataframe).}
 
-\item{name_col}{The column name indicating the species in the dataset.}
+\item{name_col}{The column name indicating the species in the dataset (character).}
 }
 \value{
 A data frame containing two columns:

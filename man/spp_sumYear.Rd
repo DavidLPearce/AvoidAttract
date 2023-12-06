@@ -7,11 +7,11 @@
 spp_sumYear(data, name_col, year_col)
 }
 \arguments{
-\item{data}{The dataset containing information on species observations.}
+\item{data}{The dataset containing information on species observations (dataframe).}
 
-\item{name_col}{The column name indicating the species in the dataset.}
+\item{name_col}{The column name indicating the species in the dataset (character).}
 
-\item{year_col}{The column name indicating the year in the dataset.}
+\item{year_col}{The column name indicating the year in the dataset (character).}
 }
 \value{
 A list where each element corresponds to a unique year and contains a data frame with three columns:

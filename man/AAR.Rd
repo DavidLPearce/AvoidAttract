@@ -18,20 +18,20 @@ AAR(
 )
 }
 \arguments{
-\item{data}{The camera trapping dataset containing information on species, datetime, and site.}
+\item{data}{The camera trapping dataset containing information on species, datetime, and site (dataframe).}
 
-\item{speciesA}{The first species in the interaction sequence.}
+\item{speciesA}{The first species in the interaction sequence (character).}
 
-\item{speciesB}{The second species in the interaction sequence.}
+\item{speciesB}{The second species in the interaction sequence (character).}
 
-\item{species_col}{The column name indicating the species in the dataset.}
+\item{species_col}{The column name indicating the species in the dataset (character).}
 
-\item{datetime_col}{The column name indicating the datetime of each detection.}
+\item{datetime_col}{The column name indicating the datetime of each detection (character).}
 
-\item{site_col}{The column name indicating the camera site.}
+\item{site_col}{The column name indicating the camera site (character).}
 
 \item{unitTime}{The unit of time used for calculating the time differences, default is "hours".
-Options: "secs", "mins", "hours".}
+Options: "secs", "mins", "hours" (character).}
 }
 \value{
 A list containing:
