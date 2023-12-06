@@ -15,7 +15,7 @@
 #'     \item{total_summary}{A summary of the mean values for T2 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T2 events across all sites and years.}
 #'     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T2 events.}
-#'     \item{site_summary}{A summary of the mean T2 values for each site that recorded an event across all years.}
+#'     \item{site_summary}{A summary of the mean T2 for each site across all years, if no event is recorded NA will be reported.}
 #'     \item{detailed_summary}{Detailed information on recorded T2 events, "including site, year and time" differences.}
 #'   }
 #'
@@ -137,13 +137,13 @@ T2 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   detailed_summary$Year <- as.integer(detailed_summary$Year)
 
   # Creating a dataframe for by site reporting
-  site_summary <- data.frame(Site = unique(detailed_summary$Site))
+  all_sites <- data.frame(Site = unique(data[[site_col]]))
 
   # Summarize results by taking the mean for each site across all years
   site_mean <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
 
   # Adding means to site summary
-  site_summary <- merge(site_summary, site_mean, by = "Site", all.x = TRUE)
+  site_summary <- merge(all_sites, site_mean, by = "Site", all.x = TRUE)
 
   # Renumber the row names
   row.names(site_summary) <- NULL
