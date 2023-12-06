@@ -6,7 +6,7 @@
 #' @param name_col The column name indicating the species in the dataset (character).
 #' @param year_col The column name indicating the year in the dataset (character).
 #'
-#' @return A list where each element corresponds to a unique year and contains a data frame with three columns:
+#' @return A list of dataframes where each element corresponds to a unique year and contains a data frame with three columns:
 #'   \describe{
 #'     \item{Name}{The unique species names.}
 #'     \item{Observations}{The number of observations for each unique species in that year.}
