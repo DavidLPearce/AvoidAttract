@@ -1,6 +1,6 @@
 #' Calculating the time between detections of species B to species A
 #'
-#' The T2 (BA) function analyzes camera trapping data to calculate the time between the detections of species B followed by species A given that a T1 (AB) event occurred at each camera site for all years. The function returns the average of all T2 events for all sites and across all years, the number of times the event occurred, a site summary across all years, and a detailed summary of each time the event occurred.
+#' The T2 (BA) function analyzes camera trapping data to calculate the time between the detection of species B and species A.. The function returns the average of all T2 events for all sites and across all years, the number of times the event occurred, a site summary across all years, and a detailed summary of each time the event occurred.
 #'
 #' @param data The camera trapping dataset containing information on species, datetime, and site.
 #' @param speciesA The first species in the interaction sequence.
