@@ -14,7 +14,7 @@ spp_sumYear(data, name_col, year_col)
 \item{year_col}{The column name indicating the year in the dataset (character).}
 }
 \value{
-A list where each element corresponds to a unique year and contains a data frame with three columns:
+A list of dataframes where each element corresponds to a unique year and contains a data frame with three columns:
   \describe{
     \item{Name}{The unique species names.}
     \item{Observations}{The number of observations for each unique species in that year.}

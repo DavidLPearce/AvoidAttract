@@ -36,11 +36,11 @@ Options: "secs", "mins", "hours" (character).}
 \value{
 A list containing:
   \describe{
-    \item{total_summary}{A summary of the mean values for T4 across all sites that recorded an event and years.}
-    \item{event_count}{The total count of T4 events across all sites and years.}
-    \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T4 events.}
-    \item{site_summary}{A summary of the mean T4 for each site across all years, if no event is recorded NA will be reported.}
-    \item{detailed_summary}{Detailed information on recorded T4 events, "including site, year and time" differences.}
+    \item{total_summary}{A summary of the mean values for T4 across all sites that recorded an event and years (named number).}
+    \item{event_count}{The total count of T4 events across all sites and years (named integer).}
+    \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T4 events (dataframe).}
+    \item{site_summary}{A summary of the mean T4 for each site across all years, if no event is recorded NA will be reported (dataframe).}
+    \item{detailed_summary}{Detailed information on recorded T4 events, "including site, year and time" differences (dataframe).}
   }
 }
 \description{
