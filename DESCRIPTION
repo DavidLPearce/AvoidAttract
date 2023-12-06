@@ -12,7 +12,7 @@ URL: https://github.com/dpearcetamu/AvoidAttract
 BugReports: https://github.com/dparcetamu/AvoidAttract/issues
 Description: Investigates the temporal avoidance or attraction of species using the time between detections of species A and species B. The list of implemented metrics is summarized in Parsons (2016)
 References: Parsons, A. W., C. Bland, T. Forrester, M. C. Baker-Whatton, S. G. Schuttler, W. J. McShea, R. Costello, and R. Kays. 2016. The ecological impact of humans and dogs on wildlife in protected areas in eastern North America. Biological Conservation 203:75–88.
-License: use_mit_license()
+License: use_gpl_license()
 Encoding: UTF-8
 LazyData: true
 Depends: 
