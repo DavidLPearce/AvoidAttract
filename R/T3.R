@@ -107,9 +107,10 @@ T3 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
 
+        # Species A detection followed by species A
         if (isTRUE(!is.na(current_species) && !is.na(next_species)) &&
             current_species == speciesA && next_species == speciesA) {
-          # Species 1 detection followed by species 2 followed by species 1 detection
+
           current_species_time <- year_data[[datetime_col]][row]
           next_species_time <- year_data[[datetime_col]][row + 1]
 

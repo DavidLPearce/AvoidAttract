@@ -104,20 +104,35 @@ T2 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
       for (row in 1:(nrow(year_data) - 1)) {
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
-        third_species <- year_data[[species_col]][row + 2]
 
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species)) &&
-            current_species == speciesA && next_species == speciesB && third_species == speciesA) {
-          # Species 1 detection followed by species 2 followed by species 1 detection
-          current_species_time <- year_data[[datetime_col]][row]
-          next_species_time <- year_data[[datetime_col]][row + 1]
-          third_species_time <- year_data[[datetime_col]][row + 2]
+        # T2 Events Species B detection followed by species A
+        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
+                   current_species == speciesB && next_species == speciesA)) {
 
-          # Calculate the time difference
-          time_difference <- difftime(third_species_time, next_species_time, units = unitTime)
+            current_species_time <- year_data[[datetime_col]][row]
+            next_species_time <- year_data[[datetime_col]][row + 1]
 
-          # Saving that interaction
-          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T2 = time_difference))
+            # Calculate the time difference
+            time_difference <- difftime(next_species_time, current_species_time, units = unitTime)
+
+            # Saving that interaction
+            temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T2 = time_difference))
+
+          # T2 Events Species B detection followed by species A
+          if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
+                     current_species == speciesB && next_species == speciesA)) {
+
+            # Calculate the time difference
+            T2 <- difftime(next_species_time, current_species_time, units = unitTime)
+          }
+
+          # If T2 event condition is not met set to NA
+          if (isTRUE(!is.na(current_species) && !is.na(next_species)  &&
+                     current_species != speciesB || next_species != speciesA)){
+            # Set to NA
+            T2 <- NA
+          }
+
         }
       }
     }

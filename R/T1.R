@@ -106,17 +106,18 @@ T1 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
 
+        # Species A detection followed by Species B
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == speciesA && next_species == speciesB)) {
-          # Species 1 detection followed by Species 2
-          current_species_time <- year_data[[datetime_col]][row]
-          next_species_time <- year_data[[datetime_col]][row + 1]
 
-          # Calculate the time difference
-          time_difference <- difftime(next_species_time, current_species_time, units = unitTime)
+            current_species_time <- year_data[[datetime_col]][row]
+            next_species_time <- year_data[[datetime_col]][row + 1]
 
-          # Saving that interaction
-          temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T1 = time_difference))
+            # Calculate the time difference
+            time_difference <- difftime(next_species_time, current_species_time, units = unitTime)
+
+            # Saving that interaction
+            temp_result <- rbind(temp_result, data.frame(Site = site, Year = year, T1 = time_difference))
         }
         # If T1 event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&

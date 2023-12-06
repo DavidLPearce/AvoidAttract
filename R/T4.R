@@ -106,9 +106,10 @@ T4 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
         next_species <- year_data[[species_col]][row + 1]
         third_species <- year_data[[species_col]][row + 2]
 
+        # Species 1 detection followed by species 2 followed by species 1 detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species)) &&
             current_species == speciesA && next_species == speciesB && third_species == speciesA) {
-          # Species 1 detection followed by species 2 followed by species 1 detection
+
           current_species_time <- year_data[[datetime_col]][row]
           next_species_time <- year_data[[datetime_col]][row + 1]
           third_species_time <- year_data[[datetime_col]][row + 2]

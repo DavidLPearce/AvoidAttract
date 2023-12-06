@@ -125,7 +125,7 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
         next_species_time <- year_data[[datetime_col]][row + 1]
         third_species_time <- year_data[[datetime_col]][row + 2]
 
-        # T1 Events: Species 1 detection followed by Species 2
+        # T1 Events: Species A detection followed by Species B
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == speciesA && next_species == speciesB)) {
 
@@ -141,12 +141,12 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
           T1 <- NA
         }
 
-        # T2 Events Species 1 detection followed by species 2 followed by species 1 detection
+        # T2 Events Species B detection followed by species A
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == speciesB && next_species == speciesA)) {
 
           # Calculate the time difference
-          T2 <- difftime(next_species, ccurrent_species, units = unitTime)
+          T2 <- difftime(next_species_time, current_species_time, units = unitTime)
         }
 
         # If T2 event condition is not met set to NA
@@ -156,7 +156,7 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
           T2 <- NA
         }
 
-        # T3 Events Species 1 detection followed by species 1 detection
+        # T3 Events Species A detection followed by species A detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == speciesA && next_species == speciesA)) {
 
@@ -172,7 +172,7 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
             T3 <- NA
         }
 
-        # T4 Events Species 1 detection followed by species 2 followed by species 1 detection
+        # T4 Events Species A detection followed by species B followed by species A detection
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
             current_species == speciesA && next_species == speciesB && third_species == speciesA)) {
 
