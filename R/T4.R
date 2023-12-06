@@ -2,13 +2,14 @@
 #'
 #' The T4 (ABA) function analyzes camera trapping data to calculate the time between detections of species A, with a detection of species B in between the detections of species A at each camera site for all years. The function returns the average of all T4 events for all sites and across all years, the number of times the event occurred, a site summary across all years, and a detailed summary of each time the event occurred.
 #'
-#' @param data The camera trapping dataset containing information on species, datetime, and site.
-#' @param speciesA The first species in the interaction sequence (preceding and succeeding species).
-#' @param speciesB The second species in the interaction sequence (intervening species).
-#' @param species_col The column name indicating the species in the dataset.
-#' @param datetime_col The column name indicating the datetime of each detection.
-#' @param site_col The column name indicating the camera site.
-#' @param unitTime The unit of time used for calculating the time differences, default is "hours", options = c("secs", "mins", "hours").
+#' @param data The camera trapping dataset containing information on species, datetime, and site (dataframe).
+#' @param speciesA The first species in the interaction sequence (character).
+#' @param speciesB The second species in the interaction sequence (character).
+#' @param species_col The column name indicating the species in the dataset (character).
+#' @param datetime_col The column name indicating the datetime of each detection (character).
+#' @param site_col The column name indicating the camera site (character).
+#' @param unitTime The unit of time used for calculating the time differences, default is "hours".
+#' Options: "secs", "mins", "hours" (character).
 #'
 #' @return A list containing:
 #'   \describe{

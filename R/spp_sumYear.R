@@ -2,9 +2,9 @@
 #'
 #' Function generates a list summarizing the number of observations for each unique species in a dataset by year.
 #'
-#' @param data The dataset containing information on species observations.
-#' @param name_col The column name indicating the species in the dataset.
-#' @param year_col The column name indicating the year in the dataset.
+#' @param data The dataset containing information on species observations (dataframe).
+#' @param name_col The column name indicating the species in the dataset (character).
+#' @param year_col The column name indicating the year in the dataset (character).
 #'
 #' @return A list where each element corresponds to a unique year and contains a data frame with three columns:
 #'   \describe{

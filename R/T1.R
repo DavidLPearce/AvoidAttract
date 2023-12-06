@@ -2,20 +2,21 @@
 #'
 #' The T1 (AB) function analyzes camera trapping data to calculate the time between the detections of species A followed by species B at each camera site for all years. The function returns the average of all T1 events for all sites and across all years, the number of times the event occurred, a site summary across all years, and a detailed summary of each time the event occurred.
 #'
-#' @param data The camera trapping dataset containing information on species, datetime, and site.
-#' @param speciesA The first species in the interaction sequence.
-#' @param speciesB The second species in the interaction sequence.
-#' @param species_col The column name indicating the species in the dataset.
-#' @param datetime_col The column name indicating the datetime of each detection.
-#' @param site_col The column name indicating the camera site.
-#' @param unitTime The unit of time used for calculating the time differences, default is "hours", options = c("secs", "mins", "hours").
+#' @param data The camera trapping dataset containing information on species, datetime, and site (dataframe).
+#' @param speciesA The first species in the interaction sequence (character).
+#' @param speciesB The second species in the interaction sequence (character).
+#' @param species_col The column name indicating the species in the dataset (character).
+#' @param datetime_col The column name indicating the datetime of each detection (character).
+#' @param site_col The column name indicating the camera site (character).
+#' @param unitTime The unit of time used for calculating the time differences, default is "hours".
+#' Options: "secs", "mins", "hours" (character).
 #'
 #' @return A list containing:
 #'   \describe{
 #'     \item{total_summary}{A summary of the mean values for T1 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T1 events across all sites and years.}
 #'     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for T1 events.}
-#'     \item{site_result}{A summary of the mean T1 for each site across all years, if no event is recorded NA will be reported.}
+#'     \item{site_summary}{A summary of the mean T1 for each site across all years, if no event is recorded NA will be reported.}
 #'     \item{detailed_summary}{Detailed information on recorded T1 events, "including site, year and time" differences.}
 #'   }
 #'

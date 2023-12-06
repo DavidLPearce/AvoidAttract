@@ -2,14 +2,14 @@
 #'
 #' The AAR function analyzes camera trapping data to calculate the average time intervals for interactions involving species A and species B. It calculates the average time for T1, T2, T3, and T4 events as well as the T2/T1 and T4/T3 ratios for each site summarized across all years and provides the total summary across all sites and years.
 #'
-#' @param data The camera trapping dataset containing information on species, datetime, and site.
-#' @param speciesA The first species in the interaction sequence.
-#' @param speciesB The second species in the interaction sequence.
-#' @param species_col The column name indicating the species in the dataset.
-#' @param datetime_col The column name indicating the datetime of each detection.
-#' @param site_col The column name indicating the camera site.
+#' @param data The camera trapping dataset containing information on species, datetime, and site (dataframe).
+#' @param speciesA The first species in the interaction sequence (character).
+#' @param speciesB The second species in the interaction sequence (character).
+#' @param species_col The column name indicating the species in the dataset (character).
+#' @param datetime_col The column name indicating the datetime of each detection (character).
+#' @param site_col The column name indicating the camera site (character).
 #' @param unitTime The unit of time used for calculating the time differences, default is "hours".
-#'   Options: "secs", "mins", "hours".
+#'   Options: "secs", "mins", "hours" (character).
 #'
 #' @return A list containing:
 #'   \describe{

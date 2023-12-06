@@ -2,13 +2,14 @@
 #'
 #' The T3 (AA) function analyzes camera trapping data to calculate the time between the detections of species A followed by species A without species B in between detections at each camera site for all years. The function returns the average of all T3 events for all sites and across all years, the number of times the event occurred, a site summary across all years and a detailed summary of each time the event occurred.
 #'
-#' @param data The camera trapping dataset containing information on species, datetime, and site.
-#' @param speciesA The first species in the interaction sequence.
-#' @param speciesB The second species in the interaction sequence.
-#' @param species_col The column name indicating the species in the dataset.
-#' @param datetime_col The column name indicating the datetime of each detection.
-#' @param site_col The column name indicating the camera site.
-#' @param unitTime The unit of time used for calculating the time differences, default is "hours", options = c("secs", "mins", "hours").
+#' @param data The camera trapping dataset containing information on species, datetime, and site (dataframe).
+#' @param speciesA The first species in the interaction sequence (character).
+#' @param speciesB The second species in the interaction sequence (character).
+#' @param species_col The column name indicating the species in the dataset (character).
+#' @param datetime_col The column name indicating the datetime of each detection (character).
+#' @param site_col The column name indicating the camera site (character).
+#' @param unitTime The unit of time used for calculating the time differences, default is "hours".
+#' Options: "secs", "mins", "hours" (character).
 #'
 #' @return A list containing:
 #'   \describe{
