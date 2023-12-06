@@ -15,8 +15,8 @@
 #'   \describe{
 #'     \item{total_summary}{A summary of the mean values for T1, T2, T3, T4, T2/T1, and T4/T3 across all sites that recorded an event and years.}
 #'     \item{event_count}{The total count of T1, T2, T3, and T4 events across all sites and years.}
-#'     \item{event_summary}{The min1st & 3rd quartiles, median, mean, max for all events.}
-#'     \item{site_summary}{A summary of the mean T1, T2, T3, T4, T2/T1, and T4/T3 values for each site that recorded an event across all years.}
+#'     \item{event_summary}{The min, 1st quartile, median, mean, 3rd quartile, max for all events.}
+#'     \item{site_summary}{A summary of the mean T1, T2, T3, T4, T2/T1, and T4/T3 values for each site across all years.}
 #'     \item{detailed_summary}{Detailed information on recorded time events, "including site, year and time" differences.}
 #'   }
 #'
@@ -208,7 +208,7 @@ detailed_summary$T3 <- as.numeric(detailed_summary$T3)
 detailed_summary$T4 <- as.numeric(detailed_summary$T4)
 
 # Creating a dataframe for by site reporting
-site_summary <- data.frame(Site = unique(detailed_summary$Site))
+all_sites <- data.frame(Site = unique(data[[site_col]]))
 
 # Taking the mean of T1-T4 for each site
 # Checking to see if there are observations to aggregate
@@ -218,7 +218,7 @@ if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numer
   # Perform aggregation only if there are non-NA numeric values
   site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_T1, by = "Site", all.x = TRUE)
+  site_summary <- merge(all_sites, site_means_T1, by = "Site", all.x = TRUE)
 }
 # Warning if there are NAs
 if (!any(is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))){
