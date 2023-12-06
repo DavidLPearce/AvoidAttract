@@ -15,7 +15,7 @@ Investigates the temporal avoidance or attraction of species using the time betw
 
 * The T1 (AB) function analyzes camera trapping data to calculate the time between an initial detection of species A followed by a detection of species B.
 
-* The T2 (BA) function analyzes camera trapping data to calculate the time between the initial detection species B followed by a detection of species A given that a T1 (AB) event occurred.
+* The T2 (BA) function analyzes camera trapping data to calculate the time between the initial detection species B followed by a detection of species A.
 
 * The T3 (AA) function analyzes camera trapping data to calculate the time between an initial detection of species A followed by a detection of species A without species B in between the detections of species A.
 
