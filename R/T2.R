@@ -128,7 +128,7 @@ T2 <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, un
   }
 
   # Warning if there were no events
-  if (!any(!is.na(detailed_summary$T1))){
+  if (!any(!is.na(detailed_summary$T2))){
     stop("No T2 interaction events occurred. Cannot calculate a mean for this event.")
   }
 
