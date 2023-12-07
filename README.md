@@ -15,9 +15,9 @@ Investigates the temporal avoidance or attraction of species using the time betw
 
 * The T1 (AB) function analyzes camera trapping data to calculate the time between an initial detection of species A followed by a detection of species B.
 
-* The T2 (BA) function analyzes camera trapping data to calculate the time between the initial detection species B followed by a detection of species A.
+* The T2 (BA) function analyzes camera trapping data to calculate the time between an initial detection of species B followed by a detection of species A.
 
-* The T3 (AA) function analyzes camera trapping data to calculate the time between an initial detection of species A followed by a detection of species A without species B in between the detections of species A.
+* The T3 (AA) function analyzes camera trapping data to calculate the time between an initial detection of species A followed by a detection of species A without species B in between detections.
 
 * The T4 (ABA) function analyzes camera trapping data to calculate the time between an initial detection of species A, with a detection of species B in between the next detection of species A.
 
@@ -100,7 +100,7 @@ AAR_example$total_summary
 # and the total event counts
 AAR_example$event_count
 
-# Here is what everything looks like broken down by site
+# and site summary
 head(AAR_example$site_summary)
 
 ```
