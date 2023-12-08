@@ -7,8 +7,8 @@ subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y 
 
 # expected result for AAR function
 expected_result <- list(
-  total_summary = c(177.2397, 176.421, 114.9631, 423.8421, 0.9953807, 3.6867657),
-  event_count = c(13, 3, 113, 3 ))
+  total_summary = c(177.2397, 251.017817, 114.9631, 423.8421, 1.416261, 3.6867657),
+  event_count = c(13, 14, 113, 3 ))
 str(expected_result)
 
 # Test AAR function

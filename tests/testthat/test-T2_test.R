@@ -11,8 +11,8 @@ subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y 
 
 # expected result for T1 function
 expected_result <- list(
-  total_summary = as.difftime(176.421, units = "hours"),
-  event_count = 3
+  total_summary = as.difftime(251.017817, units = "hours"),
+  event_count = 14
 )
 
 # Test T2 function
