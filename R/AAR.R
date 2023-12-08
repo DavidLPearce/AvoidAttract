@@ -200,6 +200,10 @@ colnames(detailed_summary) <- c("Site", "Year", "T1", "T2", "T3", "T4")
 detailed_summary <- rbind(detailed_summary, temp_result)
 
 }
+if (length(detailed_summary > 1)){
+  stop(paste("Error: No time interactions occured between",speciesA ,"and", speciesB))
+}
+
 
 # Convert T1, T2, T3, T4 columns to numeric
 detailed_summary$T1 <- as.numeric(detailed_summary$T1)
