@@ -200,7 +200,7 @@ colnames(detailed_summary) <- c("Site", "Year", "T1", "T2", "T3", "T4")
 detailed_summary <- rbind(detailed_summary, temp_result)
 
 }
-if (length(detailed_summary > 1)){
+if (isTRUE(NROW(detailed_summary) == 0)){
   stop(paste("Error: No time interactions occured between",speciesA ,"and", speciesB))
 }
 
