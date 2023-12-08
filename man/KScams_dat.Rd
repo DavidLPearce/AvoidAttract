@@ -5,7 +5,7 @@
 KScams_dat
 }
 \description{
-Camera trapping data for a research project in Western Kansas
+Camera trapping data for a research project in western Kansas
 }
 \usage{data("KScams_dat")}
 \format{
