@@ -2,23 +2,27 @@
 # library(testthat)
 # library(AvoidAttract)
 
-# Set seed for reproducibility
-set.seed(123)
 
-# Create a subset with 1500 random rows
-subset_data <- KScams_dat[sample(nrow(KScams_dat), 1500), ]
-subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
+# Setting DateTime
+KScams_dat$DateTime <- as.POSIXct(KScams_dat$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
 
 # expected result for T4 function
 expected_result <- list(
-  total_summary = as.difftime(423.8421, units = "hours"),
-  event_count = 3
+  total_summary = as.difftime(94.676352, units = "hours"),
+  event_count = 180
 )
+
+expected_result$total_summary <- as.numeric(expected_result$total_summary)
+expected_result$event_count <- as.numeric(expected_result$event_count)
+
 
 # Test T4 function
 test_that("T4 function calculates time between detections correctly", {
-  result <- T4(data = subset_data, speciesA = "White-Tailed Deer", speciesB = "Coyote",
+  result <- T4(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "Coyote",
                species_col = "Common_name", datetime_col = "DateTime", site_col = "Site")
+
+  result$total_summary <- as.numeric(result$total_summary)
+  result$event_count <- as.numeric(result$event_count)
 
   # Set a tolerance value
   tolerance <- 0.001

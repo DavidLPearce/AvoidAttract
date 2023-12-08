@@ -1,23 +1,23 @@
-# Set seed for reproducibility
-set.seed(123)
 
-# Create a subset with 1500 random rows
-subset_data <- KScams_dat[sample(nrow(KScams_dat), 1500), ]
-subset_data$DateTime <- as.POSIXct(subset_data$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
+# Setting DateTime
+KScams_dat$DateTime <- as.POSIXct(KScams_dat$DateTime, tryFormats = "%m/%d/%Y %H:%M:%OS")
 
 # expected result for AAR function
 expected_result <- list(
-  total_summary = c(177.2397, 251.017817, 114.9631, 423.8421, 1.416261, 3.6867657),
-  event_count = c(13, 14, 113, 3 ))
-str(expected_result)
+  total_summary = c(58.798163, 63.252642, 17.188464, 94.676352 , 1.075759 , 5.508133),
+  event_count = c(515, 478, 5038, 180))
+
+expected_result$total_summary <- as.numeric(expected_result$total_summary)
+expected_result$event_count <- as.numeric(expected_result$event_count)
+
 
 # Test AAR function
-test_that("AAR function calculates time between detections correctly for T1", {
-  result <- AAR(data = subset_data, speciesA = "White-Tailed Deer", speciesB = "Coyote",
+test_that("AAR function calculates time between detections correctly for total summary of all T events and ratios", {
+  result <- AAR(data = KScams_dat, speciesA = "White-Tailed Deer", speciesB = "Coyote",
                 species_col = "Common_name", datetime_col = "DateTime", site_col = "Site")
 
   result$total_summary <- as.numeric(result$total_summary)
-  result$event_count <- as.numeric(expected_result$event_count)
+  result$event_count <- as.numeric(result$event_count)
 
   # Set a tolerance value
   tolerance <- 0.001
