@@ -196,8 +196,8 @@ temp_result <- rbind(temp_result, c(site = site, year = year, AB = AB, BA = BA,
                                                               AA = AA, BB = BB,
                                                               ABA = ABA, BAB = BAB))
 
-      }
     }
+}
 
 # Save temp_result to detailed_summary
 # Renaming temp_result columns names to ensure they match up with detailed_summary
@@ -207,6 +207,7 @@ detailed_summary <- rbind(detailed_summary, temp_result)
 
 }
 
+# Error message if no interaction events occured
 if (isTRUE(NROW(detailed_summary) == 0)){
   stop(paste("Error: No time interactions occured between",speciesA ,"and", speciesB))
 }
