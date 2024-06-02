@@ -67,13 +67,9 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
   }
 
   # Results dataframe
-  detailed_summary <- data.frame(Site = character(), Year = integer(),
-                                                                       AB = numeric(), # Dominant - Subdominant
-                                                                       BA = numeric(), # Subdominant - Dominant
-                                                                       AA = numeric(), # Dominant - Dominant
-                                                                       BB = numeric(), # Subdominant - Subdominant
-                                                                       ABA = numeric(), # Dominant - Subdominant - Dominant
-                                                                       BAB = numeric()) # Subdominant - Dominant - Subdominant
+  detailed_summary <- data.frame(Site = character(), Year = integer(), AB = numeric(), BA = numeric(),
+                                                                       AA = numeric(), BB = numeric(),
+                                                                       ABA = numeric(), BAB = numeric())
 
   # subsetting data by species given
   species_data <- data[data[[species_col]] == speciesA | data[[species_col]] == speciesB, ]
@@ -88,13 +84,9 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
   for (site in unique(species_data[[site_col]])) {
 
     # Temporary dataframe to collect interaction values
-    temp_result <- data.frame(Site = character(), Year = integer(),
-                              AB = numeric(), # Dominant - Subdominant
-                              BA = numeric(), # Subdominant - Dominant
-                              AA = numeric(), # Dominant - Dominant
-                              BB = numeric(), # Subdominant - Subdominant
-                              ABA = numeric(), # Dominant - Subdominant - Dominant
-                              BAB = numeric()) # Subdominant - Dominant - Subdominant
+    temp_result <- data.frame(Site = character(), Year = integer(), AB = numeric(), BA = numeric(),
+                                                                    AA = numeric(), BB = numeric(),
+                                                                    ABA = numeric(), BAB = numeric())
 
     # Subsetting data by iteration
     site_data <- species_data[species_data[[site_col]] == site, ]
@@ -200,13 +192,9 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
         }
 
 # Saving interactions
-temp_result <- rbind(temp_result, c(site = site, year = year,
-                                                              AB = AB, # Dominant - Subdominant
-                                                              BA = BA, # Subdominant - Dominant
-                                                              AA = AA, # Dominant - Dominant
-                                                              BB = BB, # Subdominant - Subdominant
-                                                              ABA = ABA, # Dominant - Subdominant - Dominant
-                                                              BAB = BAB)) # Subdominant - Dominant - Subdominant
+temp_result <- rbind(temp_result, c(site = site, year = year, AB = AB, BA = BA,
+                                                              AA = AA, BB = BB,
+                                                              ABA = ABA, BAB = BAB))
 
       }
     }
@@ -218,6 +206,7 @@ colnames(detailed_summary) <- c("Site", "Year", "AB", "BA", "AA", "BB", "ABA", "
 detailed_summary <- rbind(detailed_summary, temp_result)
 
 }
+
 if (isTRUE(NROW(detailed_summary) == 0)){
   stop(paste("Error: No time interactions occured between",speciesA ,"and", speciesB))
 }
@@ -236,86 +225,35 @@ detailed_summary$BAB <- as.numeric(detailed_summary$BAB)
 all_sites <- data.frame(Site = unique(data[[site_col]]))
 
 # Taking the mean of events for each site
-# Checking to see if there are observations to aggregate
+site_summary <- all_sites
 
-# Check if there are non-NA numeric values in AB
-if (any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_AB <- aggregate(AB ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-  # Adding means to site summary
-  site_summary <- merge(all_sites, site_means_AB, by = "Site", all.x = TRUE)
-}
-# Warning if there are NAs
-if (!any(is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric))){
-  warning("No AB interaction events occurred. Cannot calculate a mean for this event.")
-}
+event_columns <- c("AB", "BA", "AA", "BB", "ABA", "BAB")
 
-# Check if there are non-NA numeric values in BA
-if (any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_BA <- aggregate(BA ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-  # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_BA, by = "Site", all.x = TRUE)
-}
-# Warning if there are NAs
-if (!any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)))  {
-  warning("No BA interaction events occurred. Cannot calculate a mean for this event.")
-}
-
-# Check if there are non-NA numeric values in AA
-if (any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_AA <- aggregate(AA ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-  # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_AA, by = "Site", all.x = TRUE)
-}
-
-# Warning if there are NAs
-if (!any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric))) {
-  warning("No AA interaction events occurred. Cannot calculate a mean for this event.")
-}
-
-
-# Check if there are non-NA numeric values in BB
-if (any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_BB <- aggregate(BB ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-  # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_BB, by = "Site", all.x = TRUE)
-}
-
-# Warning if there are NAs
-if (!any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric))){
-  warning("No BB interaction events occurred. Cannot calculate a mean for this event.")
-}
-
-# Check if there are non-NA numeric values in ABA
-if (any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_ABA <- aggregate(ABA ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-  # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_ABA, by = "Site", all.x = TRUE)
-}
-
-# Warning if there are NAs
-if (!any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric))){
-  warning("No ABA interaction events occurred. Cannot calculate a mean for this event.")
-}
-
-# Check if there are non-NA numeric values in BAB
-if (any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_BAB <- aggregate(BAB ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-  # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_BAB, by = "Site", all.x = TRUE)
-}
-
-# Warning if there are NAs
-if (!any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric))){
-  warning("No BAB interaction events occurred. Cannot calculate a mean for this event.")
+for (event in event_columns) {
+  if (any(!is.na(detailed_summary[[event]]))) {
+    site_means <- aggregate(detailed_summary[[event]] ~ detailed_summary$Site, FUN = mean, na.rm = TRUE)
+    colnames(site_means) <- c("Site", event)
+    site_summary <- merge(site_summary, site_means, by = "Site", all.x = TRUE)
+  } else {
+    warning(paste("No", event, "interaction events occurred. Cannot calculate a mean for this event."))
+  }
 }
 
 # Site summary ratios
+
+# Error message for when there is no mean for AB, BA, AA, BB, ABA, BAB
+if (!any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) ||
+    !any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
+    !any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric)) ||
+    !any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric)) ||
+    !any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric)) ||
+    !any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric))) {
+
+  # Warning message
+  warning("Unable to calculate site summary for some or all Avoidance-Attraction Ratios due to lack of event occurances.")
+}
+
+
 # Will only calculate ratios if there is a mean for AB, BA, AA, BB, ABA, BAB
 if (
     any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) &&
@@ -339,44 +277,20 @@ if (
 
 }
 
-# Error message for when there is no mean for AB, BA, AA, BB, ABA, BAB
-if (!any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) ||
-    !any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
-    !any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric)) ||
-    !any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric)) ||
-    !any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric)) ||
-    !any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric))) {
-
-  # Warning message
-  warning("Unable to calculate site summary for some or all Avoidance-Attraction Ratios due to lack of event occurances.")
-}
 
 
 # To not get scientific numbers in event_summery output
 options(scipen = 999)
 
 # Event summaries AB, BA, AA, BB, ABA, BAB
-summary_AB <- as.matrix(summary(detailed_summary$AB))
-summary_BA <- as.matrix(summary(detailed_summary$BA))
-summary_AA <- as.matrix(summary(detailed_summary$AA))
-summary_BB <- as.matrix(summary(detailed_summary$BB))
-summary_ABA <- as.matrix(summary(detailed_summary$ABA))
-summary_BAB <- as.matrix(summary(detailed_summary$BAB))
+event_summary <- do.call(cbind, lapply(event_columns, function(event) {
+  summary_data <- summary(detailed_summary[[event]])
+  summary_data <- as.matrix(summary_data[-7]) # exclude NA's
+  summary_data
+}))
+colnames(event_summary) <- event_columns
+rownames(event_summary) <- c("Min", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max")
 
-# Create a data frame with columns AB, BA, AA, BB, ABA, BAB
-event_summary <- data.frame(
-  AB = summary_AB[-7], # not including NA's
-  BA = summary_BA[-7],
-  AA = summary_AA[-7],
-  BB = summary_BB[-7],
-  ABA = summary_ABA[-7],
-  BAB = summary_BAB[-7])
-
-# Replace NaN with NA in each column
-event_summary[] <- lapply(event_summary, function(x) replace(x, is.nan(x), NA))
-
-# Renaming event_summary rows
-rownames(event_summary) = c("Min", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max")
 
 # Calculate the event counts
 event_count_AB <- sum(!is.na(detailed_summary$AB))
@@ -387,13 +301,28 @@ event_count_ABA <- sum(!is.na(detailed_summary$ABA))
 event_count_BAB <- sum(!is.na(detailed_summary$BAB))
 
 # Combining all event counts into a single output
-event_counts <- c(AB = event_count_AB, BA = event_count_BA, AA = event_count_AA, BB = event_count_BB,
+event_counts <- c(AB = event_count_AB, BA = event_count_BA,
+                  AA = event_count_AA, BB = event_count_BB,
                   ABA = event_count_ABA, BAB = event_count_BAB)
 
 # Total summary
 total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
 # Total summary ratios
+
+# Error message for when there is no mean for AB, BA, AA, BB, ABA, BAB
+if (!any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) ||
+      !any(!is.na(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
+      !any(!is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) ||
+      !any(!is.na(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
+
+  # Warning message
+  warning("Unable to calculate total summary for some or all Avoidance-Attraction Ratios due to lack of event occurances.")
+
+  # Replace NaN with NA
+  total_summary <- replace(total_summary, is.nan(total_summary), NA)
+}
+
 # Will only calculate ratios if there is a mean for AB, BA, AA, BB, ABA, BAB
 if (
   any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) &&
@@ -426,18 +355,7 @@ if (
 
 }
 
-# Error message for when there is no mean for AB, BA, AA, BB, ABA, BAB
-if (!any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) ||
-      !any(!is.na(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
-      !any(!is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) ||
-      !any(!is.na(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
 
-  # Warning message
-  warning("Unable to calculate total summary for some or all Avoidance-Attraction Ratios due to lack of event occurances.")
-
-  # Replace NaN with NA
-  total_summary <- replace(total_summary, is.nan(total_summary), NA)
-}
 
 
 # Combine results into a list
