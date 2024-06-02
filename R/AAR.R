@@ -476,5 +476,6 @@ result_list <- list(total_summary = total_summary,event_count = event_counts, ev
                     site_summary = site_summary, detailed_summary = detailed_summary)
 
 return(result_list)
+
 }
 
