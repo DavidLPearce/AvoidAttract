@@ -67,7 +67,13 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
   }
 
   # Results dataframe
-  detailed_summary <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
+  detailed_summary <- data.frame(Site = character(), Year = integer(),
+                                                                       AB = numeric(), # Dominant - Subdominant
+                                                                       BA = numeric(), # Subdominant - Dominant
+                                                                       AA = numeric(), # Dominant - Dominant
+                                                                       BB = numeric(), # Subdominant - Subdominant
+                                                                       ABA = numeric(), # Dominant - Subdominant - Dominant
+                                                                       BAB = numeric()) # Subdominant - Dominant - Subdominant
 
   # subsetting data by species given
   species_data <- data[data[[species_col]] == speciesA | data[[species_col]] == speciesB, ]
