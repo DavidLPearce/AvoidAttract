@@ -316,7 +316,7 @@ if (!any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.nu
 }
 
 # Site summary ratios
-# Will only calculate ratios if there is a mean for "AB", "BA", "AA", "BB", "ABA", "BAB"
+# Will only calculate ratios if there is a mean for AB, BA, AA, BB, ABA, BAB
 if (
     any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) &&
     any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
@@ -339,7 +339,7 @@ if (
 
 }
 
-# Error message for when there is no mean for "AB", "BA", "AA", "BB", "ABA", "BAB"
+# Error message for when there is no mean for AB, BA, AA, BB, ABA, BAB
 if (!any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) ||
     !any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
     !any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric)) ||
@@ -355,7 +355,7 @@ if (!any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.nume
 # To not get scientific numbers in event_summery output
 options(scipen = 999)
 
-# Event summaries "AB", "BA", "AA", "BB", "ABA", "BAB"
+# Event summaries AB, BA, AA, BB, ABA, BAB
 summary_AB <- as.matrix(summary(detailed_summary$AB))
 summary_BA <- as.matrix(summary(detailed_summary$BA))
 summary_AA <- as.matrix(summary(detailed_summary$AA))
@@ -363,7 +363,7 @@ summary_BB <- as.matrix(summary(detailed_summary$BB))
 summary_ABA <- as.matrix(summary(detailed_summary$ABA))
 summary_BAB <- as.matrix(summary(detailed_summary$BAB))
 
-# Create a data frame with columns "AB", "BA", "AA", "BB", "ABA", "BAB"
+# Create a data frame with columns AB, BA, AA, BB, ABA, BAB
 event_summary <- data.frame(
   AB = summary_AB[-7], # not including NA's
   BA = summary_BA[-7],
@@ -394,7 +394,7 @@ event_counts <- c(AB = event_count_AB, BA = event_count_BA, AA = event_count_AA,
 total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
 # Total summary ratios
-# Will only calculate ratios if there is a mean for "AB", "BA", "AA", "BB", "ABA", "BAB"
+# Will only calculate ratios if there is a mean for AB, BA, AA, BB, ABA, BAB
 if (
   any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) &&
   any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
@@ -426,7 +426,7 @@ if (
 
 }
 
-# Error message for when there is no mean for T1 & T2 or T3 & T4
+# Error message for when there is no mean for AB, BA, AA, BB, ABA, BAB
 if (!any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) ||
       !any(!is.na(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
       !any(!is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) ||
