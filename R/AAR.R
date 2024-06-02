@@ -87,8 +87,14 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
   # Iterate over all sites
   for (site in unique(species_data[[site_col]])) {
 
-    # Temporary dataframe to collect T1, T2, T3, T4 values
-    temp_result <- data.frame(Site = character(), Year = integer(), T1 = numeric(), T2 = numeric(), T3 = numeric(), T4 = numeric())
+    # Temporary dataframe to collect interaction values
+    temp_result <- data.frame(Site = character(), Year = integer(),
+                              AB = numeric(), # Dominant - Subdominant
+                              BA = numeric(), # Subdominant - Dominant
+                              AA = numeric(), # Dominant - Dominant
+                              BB = numeric(), # Subdominant - Subdominant
+                              ABA = numeric(), # Dominant - Subdominant - Dominant
+                              BAB = numeric()) # Subdominant - Dominant - Subdominant
 
     # Subsetting data by iteration
     site_data <- species_data[species_data[[site_col]] == site, ]
@@ -105,8 +111,8 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
       # Organizing data by time
       year_data <- year_data[order(year_data[[datetime_col]]), ]
 
-      #Check to see if either species are found in the year data subset
-      if (isTRUE(!(speciesA %in% year_data[[species_col]] || speciesB %in%
+      # Check to see if either species are found in the year data subset if neither are found - next
+      if (isTRUE(!(speciesA %in% year_data[[species_col]] | speciesB %in%
                    year_data[[species_col]]))) {
         # Skip that site and go to the next site
         next
@@ -131,78 +137,115 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
         next_species_time <- year_data[[datetime_col]][row + 1]
         third_species_time <- year_data[[datetime_col]][row + 2]
 
-        # T1 Events: Species A detection followed by Species B
+        ### AB Events: Species A detection followed by Species B ###
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == speciesA && next_species == speciesB)) {
 
                     # Calculate the time difference
-          T1 <- difftime(next_species_time, current_species_time, units = unitTime)
+          AB <- difftime(next_species_time, current_species_time, units = unitTime)
 
         }
 
-        # If T1 event condition is not met set to NA
+        # If AB event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
                    (current_species != speciesA || next_species != speciesB))) {
           # Set to NA
-          T1 <- NA
+          AB <- NA
         }
 
-        # T2 Events Species B detection followed by species A
+        ### BA Events Species B detection followed by species A ###
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == speciesB && next_species == speciesA)) {
 
           # Calculate the time difference
-          T2 <- difftime(next_species_time, current_species_time, units = unitTime)
+          BA <- difftime(next_species_time, current_species_time, units = unitTime)
         }
 
-        # If T2 event condition is not met set to NA
+        # If BA event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species)  &&
             current_species != speciesB || next_species != speciesA)){
           # Set to NA
-          T2 <- NA
+          BA <- NA
         }
 
-        # T3 Events Species A detection followed by species A detection
+        ### AA Events Species A detection followed by species A detection ###
         if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
             current_species == speciesA && next_species == speciesA)) {
 
           # Calculate the time difference
-          T3 <- difftime(next_species_time, current_species_time, units = unitTime)
+          AA <- difftime(next_species_time, current_species_time, units = unitTime)
 
         }
 
-        # If T3 event condition is not met set to NA
+        # If AA event condition is not met set to NA
         if (!is.na(current_species) && !is.na(next_species) &&
             current_species != speciesA || next_species != speciesA) {
             # Set to NA
-            T3 <- NA
+            AA <- NA
         }
 
-        # T4 Events Species A detection followed by species B followed by species A detection
+        ### BB Events Species B detection followed by species B detection ###
+        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
+                   current_species == speciesB && next_species == speciesB)) {
+
+          # Calculate the time difference
+          BB <- difftime(next_species_time, current_species_time, units = unitTime)
+
+        }
+
+        # If BB event condition is not met set to NA
+        if (!is.na(current_species) && !is.na(next_species) &&
+            current_species != speciesB || next_species != speciesB) {
+          # Set to NA
+          BB <- NA
+        }
+
+        ### ABA Events Species A detection followed by species B followed by species A detection ###
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
             current_species == speciesA && next_species == speciesB && third_species == speciesA)) {
 
           # Calculate the time difference
-          T4 <- difftime(third_species_time, current_species_time, units = unitTime)
+          ABA <- difftime(third_species_time, current_species_time, units = unitTime)
         }
 
-        # If T4 event condition is not met set to NA
+        # If ABA event condition is not met set to NA
         if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
             current_species != speciesA || next_species != speciesB || third_species != speciesA)) {
           # Set to NA
-          T4 <- NA
+          ABA <- NA
+        }
+
+        ### BAB Events Species B detection followed by species A followed by species B detection ###
+        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
+                   current_species == speciesB && next_species == speciesA && third_species == speciesB)) {
+
+          # Calculate the time difference
+          BAB <- difftime(third_species_time, current_species_time, units = unitTime)
+        }
+
+        # If BAB event condition is not met set to NA
+        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
+                   current_species == speciesB && next_species == speciesA && third_species == speciesB)) {
+          # Set to NA
+          BAB <- NA
         }
 
 # Saving interactions
-temp_result <- rbind(temp_result, c(site = site, year = year, T1 = T1, T2 = T2, T3 = T3, T4 = T4))
+temp_result <- rbind(temp_result, c(site = site, year = year,
+                                                              AB = AB, # Dominant - Subdominant
+                                                              BA = BA, # Subdominant - Dominant
+                                                              AA = AA, # Dominant - Dominant
+                                                              BB = BB, # Subdominant - Subdominant
+                                                              ABA = ABA, # Dominant - Subdominant - Dominant
+                                                              BAB = BAB)) # Subdominant - Dominant - Subdominant
 
       }
     }
 
 # Save temp_result to detailed_summary
 # Renaming temp_result columns names to ensure they match up with detailed_summary
-colnames(temp_result) <- c("Site", "Year", "T1", "T2", "T3", "T4")
-colnames(detailed_summary) <- c("Site", "Year", "T1", "T2", "T3", "T4")
+colnames(temp_result) <- c("Site", "Year", "AB", "BA", "AA", "BB", "ABA", "BAB")
+colnames(detailed_summary) <- c("Site", "Year", "AB", "BA", "AA", "BB", "ABA", "BAB")
 detailed_summary <- rbind(detailed_summary, temp_result)
 
 }
@@ -211,112 +254,154 @@ if (isTRUE(NROW(detailed_summary) == 0)){
 }
 
 
-# Convert T1, T2, T3, T4 columns to numeric
-detailed_summary$T1 <- as.numeric(detailed_summary$T1)
-detailed_summary$T2 <- as.numeric(detailed_summary$T2)
-detailed_summary$T3 <- as.numeric(detailed_summary$T3)
-detailed_summary$T4 <- as.numeric(detailed_summary$T4)
+# Convert AB, BA, AA, BB, ABA, BAB columns to numeric
+detailed_summary$AB <- as.numeric(detailed_summary$AB)
+detailed_summary$BA <- as.numeric(detailed_summary$BA)
+detailed_summary$AA <- as.numeric(detailed_summary$AA)
+detailed_summary$BB <- as.numeric(detailed_summary$BB)
+detailed_summary$ABA <- as.numeric(detailed_summary$ABA)
+detailed_summary$BAB <- as.numeric(detailed_summary$BAB)
+
 
 # Creating a dataframe for by site reporting
 all_sites <- data.frame(Site = unique(data[[site_col]]))
 
-# Taking the mean of T1-T4 for each site
+# Taking the mean of events for each site
 # Checking to see if there are observations to aggregate
 
-# Check if there are non-NA numeric values in T1
-if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))) {
+# Check if there are non-NA numeric values in AB
+if (any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric))) {
   # Perform aggregation only if there are non-NA numeric values
-  site_means_T1 <- aggregate(T1 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  site_means_AB <- aggregate(AB ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
-  site_summary <- merge(all_sites, site_means_T1, by = "Site", all.x = TRUE)
+  site_summary <- merge(all_sites, site_means_AB, by = "Site", all.x = TRUE)
 }
 # Warning if there are NAs
-if (!any(is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric))){
-  warning("No T1 interaction events occurred. Cannot calculate a mean for this event.")
+if (!any(is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric))){
+  warning("No AB interaction events occurred. Cannot calculate a mean for this event.")
 }
 
-# Check if there are non-NA numeric values in T2
-if (any(!is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric))) {
+# Check if there are non-NA numeric values in BA
+if (any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric))) {
   # Perform aggregation only if there are non-NA numeric values
-  site_means_T2 <- aggregate(T2 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  site_means_BA <- aggregate(BA ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_T2, by = "Site", all.x = TRUE)
+  site_summary <- merge(site_summary, site_means_BA, by = "Site", all.x = TRUE)
 }
 # Warning if there are NAs
-if (!any(!is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)))  {
-  warning("No T2 interaction events occurred. Cannot calculate a mean for this event.")
+if (!any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)))  {
+  warning("No BA interaction events occurred. Cannot calculate a mean for this event.")
 }
 
-# Check if there are non-NA numeric values in T3
-if (any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
+# Check if there are non-NA numeric values in AA
+if (any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric))) {
   # Perform aggregation only if there are non-NA numeric values
-  site_means_T3 <- aggregate(T3 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  site_means_AA <- aggregate(AA ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
   # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_T3, by = "Site", all.x = TRUE)
-}
-
-# Warning if there are NAs
-if (!any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric))) {
-  warning("No T3 interaction events occurred. Cannot calculate a mean for this event.")
-}
-
-
-# Check if there are non-NA numeric values in T4
-if (any(!is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
-  # Perform aggregation only if there are non-NA numeric values
-  site_means_T4 <- aggregate(T4 ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
-  # Adding means to site summary
-  site_summary <- merge(site_summary, site_means_T4, by = "Site", all.x = TRUE)
+  site_summary <- merge(site_summary, site_means_AA, by = "Site", all.x = TRUE)
 }
 
 # Warning if there are NAs
-if (!any(!is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))){
-  warning("No T4 interaction events occurred. Cannot calculate a mean for this event.")
+if (!any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric))) {
+  warning("No AA interaction events occurred. Cannot calculate a mean for this event.")
 }
 
+
+# Check if there are non-NA numeric values in BB
+if (any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric))) {
+  # Perform aggregation only if there are non-NA numeric values
+  site_means_BB <- aggregate(BB ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_BB, by = "Site", all.x = TRUE)
+}
+
+# Warning if there are NAs
+if (!any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric))){
+  warning("No BB interaction events occurred. Cannot calculate a mean for this event.")
+}
+
+# Check if there are non-NA numeric values in ABA
+if (any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric))) {
+  # Perform aggregation only if there are non-NA numeric values
+  site_means_ABA <- aggregate(ABA ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_ABA, by = "Site", all.x = TRUE)
+}
+
+# Warning if there are NAs
+if (!any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric))){
+  warning("No ABA interaction events occurred. Cannot calculate a mean for this event.")
+}
+
+# Check if there are non-NA numeric values in BAB
+if (any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric))) {
+  # Perform aggregation only if there are non-NA numeric values
+  site_means_BAB <- aggregate(BAB ~ Site, data = detailed_summary, FUN = mean, na.rm = TRUE)
+  # Adding means to site summary
+  site_summary <- merge(site_summary, site_means_BAB, by = "Site", all.x = TRUE)
+}
+
+# Warning if there are NAs
+if (!any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric))){
+  warning("No BAB interaction events occurred. Cannot calculate a mean for this event.")
+}
 
 # Site summary ratios
-# Will only calculate ratios if there is a mean for T1 & T2 or T3 & T4
-if (any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric)) &&
-    any(!is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)) ||
-    any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric)) &&
-    any(!is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
+# Will only calculate ratios if there is a mean for "AB", "BA", "AA", "BB", "ABA", "BAB"
+if (
+    any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) &&
+    any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
 
-  # Calculate T2/T1 and T4/T3 ratios by site
-  site_summary$T2_over_T1 <- with(site_summary, T2 / T1)
-  site_summary$T4_over_T3 <- with(site_summary, T4 / T3)
+    any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric)) &&
+    any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric)) ||
 
-  colnames(site_summary) <- c("Site", "T1", "T2", "T3", "T4", "T2/T1", "T4/T3")
+    any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric)) &&
+    any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric))
+    ) {
+
+  # Calculate AB/BA, BA/AB, BAB/AA, ABA/BB ratios by site
+  site_summary$AB_over_BA <- with(site_summary, AB / BA)
+  site_summary$BA_over_AB <- with(site_summary, BA / AB)
+  site_summary$BAB_over_AA <- with(site_summary, BAB / AA)
+  site_summary$ABA_over_BB <- with(site_summary, ABA / BB)
+
+  colnames(site_summary) <- c("Site", "AB", "BA", "AA", "BB", "ABA", "BAB",
+                              "AB/BA", "BA/AB", "BAB/AA", "ABA/BB")
 
 }
 
-# Error message for when there is no mean for T1 & T2 or T3 & T4
-if (!any(!is.na(detailed_summary$T1)) && any(sapply(detailed_summary$T1, is.numeric)) ||
-    !any(!is.na(detailed_summary$T2)) && any(sapply(detailed_summary$T2, is.numeric)) ||
-    !any(!is.na(detailed_summary$T3)) && any(sapply(detailed_summary$T3, is.numeric)) ||
-    !any(!is.na(detailed_summary$T4)) && any(sapply(detailed_summary$T4, is.numeric))) {
+# Error message for when there is no mean for "AB", "BA", "AA", "BB", "ABA", "BAB"
+if (!any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) ||
+    !any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
+    !any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric)) ||
+    !any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric)) ||
+    !any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric)) ||
+    !any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric))) {
 
   # Warning message
-  warning("Unable to calculate site summary Avoidance-Attraction Ratios due to lack of event occurances.")
+  warning("Unable to calculate site summary for some or all Avoidance-Attraction Ratios due to lack of event occurances.")
 }
 
 
 # To not get scientific numbers in event_summery output
 options(scipen = 999)
 
-# Event summaries T1-4
-summary_T1 <- as.matrix(summary(detailed_summary$T1))
-summary_T2 <- as.matrix(summary(detailed_summary$T2))
-summary_T3 <- as.matrix(summary(detailed_summary$T3))
-summary_T4 <- as.matrix(summary(detailed_summary$T4))
+# Event summaries "AB", "BA", "AA", "BB", "ABA", "BAB"
+summary_AB <- as.matrix(summary(detailed_summary$AB))
+summary_BA <- as.matrix(summary(detailed_summary$BA))
+summary_AA <- as.matrix(summary(detailed_summary$AA))
+summary_BB <- as.matrix(summary(detailed_summary$BB))
+summary_ABA <- as.matrix(summary(detailed_summary$ABA))
+summary_BAB <- as.matrix(summary(detailed_summary$BAB))
 
-# Create a data frame with columns T1, T2, T3, T4
+# Create a data frame with columns "AB", "BA", "AA", "BB", "ABA", "BAB"
 event_summary <- data.frame(
-  T1 = summary_T1[-7], # not including NA's
-  T2 = summary_T2[-7],
-  T3 = summary_T3[-7],
-  T4 = summary_T4[-7]
-)
+  AB = summary_AB[-7], # not including NA's
+  BA = summary_BA[-7],
+  AA = summary_AA[-7],
+  BB = summary_BB[-7],
+  ABA = summary_ABA[-7],
+  BAB = summary_BAB[-7])
 
 # Replace NaN with NA in each column
 event_summary[] <- lapply(event_summary, function(x) replace(x, is.nan(x), NA))
@@ -325,32 +410,47 @@ event_summary[] <- lapply(event_summary, function(x) replace(x, is.nan(x), NA))
 rownames(event_summary) = c("Min", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max")
 
 # Calculate the event counts
-event_count_T1 <- sum(!is.na(detailed_summary$T1))
-event_count_T2 <- sum(!is.na(detailed_summary$T2))
-event_count_T3 <- sum(!is.na(detailed_summary$T3))
-event_count_T4 <- sum(!is.na(detailed_summary$T4))
+event_count_AB <- sum(!is.na(detailed_summary$AB))
+event_count_BA <- sum(!is.na(detailed_summary$BA))
+event_count_AA <- sum(!is.na(detailed_summary$AA))
+event_count_BB <- sum(!is.na(detailed_summary$BB))
+event_count_ABA <- sum(!is.na(detailed_summary$ABA))
+event_count_BAB <- sum(!is.na(detailed_summary$BAB))
 
 # Combining all event counts into a single output
-event_counts <- c(T1 = event_count_T1, T2 = event_count_T2, T3 = event_count_T3, T4 = event_count_T4)
+event_counts <- c(AB = event_count_AB, BA = event_count_BA, AA = event_count_AA, BB = event_count_BB,
+                  ABA = event_count_ABA, BAB = event_count_BAB)
 
 # Total summary
 total_summary <- colMeans(detailed_summary[, -c(1, 2)], na.rm = TRUE)
 
 # Total summary ratios
-# Will only calculate ratios if there is a mean for T1 & T2 or T3 & T4
-if (any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) &&
-    any(!is.na(total_summary[2])) && any(sapply(total_summary[2], is.numeric)) ||
-    any(!is.na(total_summary[3])) && any(sapply(total_summary[3], is.numeric)) &&
-    any(!is.na(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
+# Will only calculate ratios if there is a mean for "AB", "BA", "AA", "BB", "ABA", "BAB"
+if (
+  any(!is.na(detailed_summary$AB)) && any(sapply(detailed_summary$AB, is.numeric)) &&
+  any(!is.na(detailed_summary$BA)) && any(sapply(detailed_summary$BA, is.numeric)) ||
+
+  any(!is.na(detailed_summary$AA)) && any(sapply(detailed_summary$AA, is.numeric)) &&
+  any(!is.na(detailed_summary$BAB)) && any(sapply(detailed_summary$BAB, is.numeric)) ||
+
+  any(!is.na(detailed_summary$BB)) && any(sapply(detailed_summary$BB, is.numeric)) &&
+  any(!is.na(detailed_summary$ABA)) && any(sapply(detailed_summary$ABA, is.numeric))
+
+    ) {
 
   # Calculate T2/T1 and T4/T3 ratios from total means
   total_summary <- c(total_summary,
-                     T2_over_T1 = total_summary[2] / total_summary[1],
-                     T4_over_T3 = total_summary[4] / total_summary[3])
+                     AB_over_BA = total_summary[1] / total_summary[2],
+                     BA_over_AB = total_summary[2] / total_summary[1],
+                     BAB_over_AA = total_summary[6] / total_summary[3],
+                     ABA_over_BB = total_summary[5] / total_summary[4]
+                     )
 
   # Renaming ratio columns
-  names(total_summary)[5] <- "T2/T1"
-  names(total_summary)[6] <- "T4/T3"
+  names(total_summary)[7] <- "AB/BA"
+  names(total_summary)[8] <- "BA/AB"
+  names(total_summary)[9] <- "BAB/AA"
+  names(total_summary)[10] <- "ABA/BB"
 
   # Replace NaN with NA
   total_summary <- replace(total_summary, is.nan(total_summary), NA)
@@ -364,7 +464,7 @@ if (!any(!is.na(total_summary[1])) && any(sapply(total_summary[1], is.numeric)) 
       !any(!is.na(total_summary[4])) && any(sapply(total_summary[4], is.numeric))) {
 
   # Warning message
-  warning("Unable to calculate total summary Avoidance-Attraction Ratios due to lack of event occurances.")
+  warning("Unable to calculate total summary for some or all Avoidance-Attraction Ratios due to lack of event occurances.")
 
   # Replace NaN with NA
   total_summary <- replace(total_summary, is.nan(total_summary), NA)
