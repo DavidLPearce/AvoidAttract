@@ -127,107 +127,76 @@ AAR <- function(data, speciesA, speciesB, species_col, datetime_col, site_col, u
 
       # Interactions
       for (row in 1:(nrow(year_data) - 1)) {
-        # Getting current, next and third species names
+
+        # Initialize interaction variables to NA
+        AB <- NA
+        BA <- NA
+        AA <- NA
+        BB <- NA
+        ABA <- NA
+        BAB <- NA
+
+        # Getting current and next species names
         current_species <- year_data[[species_col]][row]
         next_species <- year_data[[species_col]][row + 1]
-        third_species <- year_data[[species_col]][row + 2]
 
-        # Times of current, next and third species
+
+        # Times of current and next species
         current_species_time <- year_data[[datetime_col]][row]
         next_species_time <- year_data[[datetime_col]][row + 1]
-        third_species_time <- year_data[[datetime_col]][row + 2]
 
-        ### AB Events: Species A detection followed by Species B ###
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-            current_species == speciesA && next_species == speciesB)) {
 
-                    # Calculate the time difference
+        # Initialize third_species only if it exists to avoid out of range errors
+        if (row + 2 <= nrow(year_data)) {
+          third_species <- year_data[[species_col]][row + 2]
+          third_species_time <- year_data[[datetime_col]][row + 2]
+        } else {
+          third_species <- NA
+          third_species_time <- NA
+        }
+
+
+        ### AB Event: Species A detection followed by Species B ###
+        if (!is.na(current_species) && !is.na(next_species) &&
+            current_species == speciesA && next_species == speciesB) {
+          # Calculate the time difference
           AB <- difftime(next_species_time, current_species_time, units = unitTime)
-
         }
 
-        # If AB event condition is not met set to NA
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-                   (current_species != speciesA || next_species != speciesB))) {
-          # Set to NA
-          AB <- NA
-        }
 
-        ### BA Events Species B detection followed by species A ###
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-            current_species == speciesB && next_species == speciesA)) {
-
+        ### BA Event: Species B detection followed by species A ###
+        if (!is.na(current_species) && !is.na(next_species) &&
+            current_species == speciesB && next_species == speciesA) {
           # Calculate the time difference
           BA <- difftime(next_species_time, current_species_time, units = unitTime)
         }
 
-        # If BA event condition is not met set to NA
-        if (isTRUE(!is.na(current_species) && !is.na(next_species)  &&
-            current_species != speciesB || next_species != speciesA)){
-          # Set to NA
-          BA <- NA
-        }
-
-        ### AA Events Species A detection followed by species A detection ###
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-            current_species == speciesA && next_species == speciesA)) {
-
+        ### AA Event: Species A detection followed by species A detection ###
+        if (!is.na(current_species) && !is.na(next_species) &&
+            current_species == speciesA && next_species == speciesA) {
           # Calculate the time difference
           AA <- difftime(next_species_time, current_species_time, units = unitTime)
-
         }
 
-        # If AA event condition is not met set to NA
+        ### BB Event: Species B detection followed by species B detection ###
         if (!is.na(current_species) && !is.na(next_species) &&
-            current_species != speciesA || next_species != speciesA) {
-            # Set to NA
-            AA <- NA
-        }
-
-        ### BB Events Species B detection followed by species B detection ###
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) &&
-                   current_species == speciesB && next_species == speciesB)) {
-
+            current_species == speciesB && next_species == speciesB) {
           # Calculate the time difference
           BB <- difftime(next_species_time, current_species_time, units = unitTime)
-
         }
 
-        # If BB event condition is not met set to NA
-        if (!is.na(current_species) && !is.na(next_species) &&
-            current_species != speciesB || next_species != speciesB) {
-          # Set to NA
-          BB <- NA
-        }
-
-        ### ABA Events Species A detection followed by species B followed by species A detection ###
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species == speciesA && next_species == speciesB && third_species == speciesA)) {
-
+        ### ABA Event: Species A detection followed by species B followed by species A detection ###
+        if (!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
+            current_species == speciesA && next_species == speciesB && third_species == speciesA) {
           # Calculate the time difference
           ABA <- difftime(third_species_time, current_species_time, units = unitTime)
         }
 
-        # If ABA event condition is not met set to NA
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-            current_species != speciesA || next_species != speciesB || third_species != speciesA)) {
-          # Set to NA
-          ABA <- NA
-        }
-
-        ### BAB Events Species B detection followed by species A followed by species B detection ###
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-                   current_species == speciesB && next_species == speciesA && third_species == speciesB)) {
-
+        ### BAB Event: Species B detection followed by species A followed by species B detection ###
+        if (!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
+            current_species == speciesB && next_species == speciesA && third_species == speciesB) {
           # Calculate the time difference
           BAB <- difftime(third_species_time, current_species_time, units = unitTime)
-        }
-
-        # If BAB event condition is not met set to NA
-        if (isTRUE(!is.na(current_species) && !is.na(next_species) && !is.na(third_species) &&
-                   current_species == speciesB && next_species == speciesA && third_species == speciesB)) {
-          # Set to NA
-          BAB <- NA
         }
 
 # Saving interactions
