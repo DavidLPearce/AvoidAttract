@@ -65,7 +65,7 @@ You can install the development version of AvoidAttract from [GitHub](https://gi
 install.packages("devtools")
 
 # Install AvoidAttract
-devtools::install_github("dpearcetamu/AvoidAttract")
+devtools::install_github("DavidLPearce/AvoidAttract")
 ```
 
 ### Example
