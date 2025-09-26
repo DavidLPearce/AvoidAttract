@@ -6,6 +6,8 @@
 
 Avoidance-Attraction Ratios in Program R
 
+This R package is operational; however, method is not the best. Suggest reading this manuscript on why AAR is not really any good: **https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecy.70134**
+
 ## Introduction
 
 Investigates the temporal avoidance or attraction of species using the time between detections of species A and species B.
